@@ -1,0 +1,458 @@
+{
+  "loc #::AIR": {
+    "source_col_normalized": "loc #",
+    "target_format": "AIR",
+    "canonical": "LocationID",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "named insured::AIR": {
+    "source_col_normalized": "named insured",
+    "target_format": "AIR",
+    "canonical": "InsuredName",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "community name::AIR": {
+    "source_col_normalized": "community name",
+    "target_format": "AIR",
+    "canonical": "LocationName",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "street::AIR": {
+    "source_col_normalized": "street",
+    "target_format": "AIR",
+    "canonical": "Street",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "city::AIR": {
+    "source_col_normalized": "city",
+    "target_format": "AIR",
+    "canonical": "City",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "state::AIR": {
+    "source_col_normalized": "state",
+    "target_format": "AIR",
+    "canonical": "Area",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "zip code::AIR": {
+    "source_col_normalized": "zip code",
+    "target_format": "AIR",
+    "canonical": "PostalCode",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "county::AIR": {
+    "source_col_normalized": "county",
+    "target_format": "AIR",
+    "canonical": "County",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "construction code::AIR": {
+    "source_col_normalized": "construction code",
+    "target_format": "AIR",
+    "canonical": "ConstructionCode",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "occupancy::AIR": {
+    "source_col_normalized": "occupancy",
+    "target_format": "AIR",
+    "canonical": "OccupancyCode",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "# of buildings::AIR": {
+    "source_col_normalized": "# of buildings",
+    "target_format": "AIR",
+    "canonical": "RiskCount",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "year built::AIR": {
+    "source_col_normalized": "year built",
+    "target_format": "AIR",
+    "canonical": "YearBuilt",
+    "confirmed_count": 11,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "# stories::AIR": {
+    "source_col_normalized": "# stories",
+    "target_format": "AIR",
+    "canonical": "NumberOfStories",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "gla::AIR": {
+    "source_col_normalized": "gla",
+    "target_format": "AIR",
+    "canonical": "GrossArea",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "sprinklered::AIR": {
+    "source_col_normalized": "sprinklered",
+    "target_format": "AIR",
+    "canonical": "SprinklerSystem",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "building::AIR": {
+    "source_col_normalized": "building",
+    "target_format": "AIR",
+    "canonical": "BuildingValue",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "contents::AIR": {
+    "source_col_normalized": "contents",
+    "target_format": "AIR",
+    "canonical": "ContentsValue",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "rents::AIR": {
+    "source_col_normalized": "rents",
+    "target_format": "AIR",
+    "canonical": "TimeElementValue",
+    "confirmed_count": 9,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "wall type::AIR": {
+    "source_col_normalized": "wall type",
+    "target_format": "AIR",
+    "canonical": "WallType",
+    "confirmed_count": 11,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "roof type::AIR": {
+    "source_col_normalized": "roof type",
+    "target_format": "AIR",
+    "canonical": "RoofGeometry",
+    "confirmed_count": 11,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "foundation type::AIR": {
+    "source_col_normalized": "foundation type",
+    "target_format": "AIR",
+    "canonical": "FoundationType",
+    "confirmed_count": 11,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "soft story::AIR": {
+    "source_col_normalized": "soft story",
+    "target_format": "AIR",
+    "canonical": "SoftStory",
+    "confirmed_count": 11,
+    "first_confirmed": "2026-04-02T08:25:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  "site name::AIR": {
+    "source_col_normalized": "site name",
+    "target_format": "AIR",
+    "canonical": "LocationName",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "business name::AIR": {
+    "source_col_normalized": "business name",
+    "target_format": "AIR",
+    "canonical": "InsuredName",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "address::AIR": {
+    "source_col_normalized": "address",
+    "target_format": "AIR",
+    "canonical": "FullAddress",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "utility::AIR": {
+    "source_col_normalized": "utility",
+    "target_format": "AIR",
+    "canonical": "OccupancyCode",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "structure type::AIR": {
+    "source_col_normalized": "structure type",
+    "target_format": "AIR",
+    "canonical": "ConstructionCode",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "sprinkler::AIR": {
+    "source_col_normalized": "sprinkler",
+    "target_format": "AIR",
+    "canonical": "SprinklerSystem",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "no. of buildings::AIR": {
+    "source_col_normalized": "no. of buildings",
+    "target_format": "AIR",
+    "canonical": "RiskCount",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "no. of stories::AIR": {
+    "source_col_normalized": "no. of stories",
+    "target_format": "AIR",
+    "canonical": "NumberOfStories",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "floor area (sqft)::AIR": {
+    "source_col_normalized": "floor area (sqft)",
+    "target_format": "AIR",
+    "canonical": "GrossArea",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "real property::AIR": {
+    "source_col_normalized": "real property",
+    "target_format": "AIR",
+    "canonical": "BuildingValue",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "equipment::AIR": {
+    "source_col_normalized": "equipment",
+    "target_format": "AIR",
+    "canonical": "ContentsValue",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "bi value (usd)::AIR": {
+    "source_col_normalized": "bi value (usd)",
+    "target_format": "AIR",
+    "canonical": "TimeElementValue",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-02T09:48:39+00:00",
+    "last_confirmed": "2026-04-02T13:47:03+00:00"
+  },
+  "loc #::RMS": {
+    "source_col_normalized": "loc #",
+    "target_format": "RMS",
+    "canonical": "LOCNUM",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "community name::RMS": {
+    "source_col_normalized": "community name",
+    "target_format": "RMS",
+    "canonical": "LOCNAME",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "street::RMS": {
+    "source_col_normalized": "street",
+    "target_format": "RMS",
+    "canonical": "STREETNAME",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "city::RMS": {
+    "source_col_normalized": "city",
+    "target_format": "RMS",
+    "canonical": "CITY",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "state::RMS": {
+    "source_col_normalized": "state",
+    "target_format": "RMS",
+    "canonical": "STATECODE",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "zip code::RMS": {
+    "source_col_normalized": "zip code",
+    "target_format": "RMS",
+    "canonical": "POSTALCODE",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "county::RMS": {
+    "source_col_normalized": "county",
+    "target_format": "RMS",
+    "canonical": "COUNTY",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "construction code::RMS": {
+    "source_col_normalized": "construction code",
+    "target_format": "RMS",
+    "canonical": "BLDGCLASS",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "occupancy::RMS": {
+    "source_col_normalized": "occupancy",
+    "target_format": "RMS",
+    "canonical": "OCCTYPE",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "# of buildings::RMS": {
+    "source_col_normalized": "# of buildings",
+    "target_format": "RMS",
+    "canonical": "NUMBLDGS",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "year built::RMS": {
+    "source_col_normalized": "year built",
+    "target_format": "RMS",
+    "canonical": "YEARBUILT",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "# stories::RMS": {
+    "source_col_normalized": "# stories",
+    "target_format": "RMS",
+    "canonical": "NUMSTORIES",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "gla::RMS": {
+    "source_col_normalized": "gla",
+    "target_format": "RMS",
+    "canonical": "FLOORAREA",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "sprinklered::RMS": {
+    "source_col_normalized": "sprinklered",
+    "target_format": "RMS",
+    "canonical": "SPRINKLER",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "building::RMS": {
+    "source_col_normalized": "building",
+    "target_format": "RMS",
+    "canonical": "EQCV1VAL",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "contents::RMS": {
+    "source_col_normalized": "contents",
+    "target_format": "RMS",
+    "canonical": "EQCV2VAL",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "rents::RMS": {
+    "source_col_normalized": "rents",
+    "target_format": "RMS",
+    "canonical": "EQCV3VAL",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "wall type::RMS": {
+    "source_col_normalized": "wall type",
+    "target_format": "RMS",
+    "canonical": "WALLTYPE",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "roof type::RMS": {
+    "source_col_normalized": "roof type",
+    "target_format": "RMS",
+    "canonical": "ROOFGEOM",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "foundation type::RMS": {
+    "source_col_normalized": "foundation type",
+    "target_format": "RMS",
+    "canonical": "FOUNDATION",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "soft story::RMS": {
+    "source_col_normalized": "soft story",
+    "target_format": "RMS",
+    "canonical": "SOFTSTORY",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-02T10:08:42+00:00",
+    "last_confirmed": "2026-04-02T10:08:42+00:00"
+  },
+  "tiv::AIR": {
+    "source_col_normalized": "tiv",
+    "target_format": "AIR",
+    "canonical": "TIV",
+    "confirmed_count": 2,
+    "first_confirmed": "2026-04-03T14:07:16+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  },
+  " combinedaddress::AIR": {
+    "source_col_normalized": " combinedaddress",
+    "target_format": "AIR",
+    "canonical": "FullAddress",
+    "confirmed_count": 1,
+    "first_confirmed": "2026-04-07T10:05:03+00:00",
+    "last_confirmed": "2026-04-07T10:05:03+00:00"
+  }
+}

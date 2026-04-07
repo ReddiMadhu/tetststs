@@ -1,0 +1,16 @@
+{
+  "_comment": "Complete ISO Fire Class → AIR mapping. Source: user-provided authoritative reference (2026-04-01).",
+  "iso_to_air": {
+    "0": { "air_class": "100", "isf_class": "0", "iso_label": "Unknown",                         "iso_abbr": "",    "description": "Unknown Construction",               "aliases": ["unknown","unk","tbd","0"] },
+    "1": { "air_class": "101", "isf_class": "1", "iso_label": "Frame (F)",                        "iso_abbr": "F",   "description": "Wood Frame",                         "aliases": ["1","F","FRAME","WD FRAME","WOOD FRAME","FRAME (F)","FRAME F"] },
+    "2": { "air_class": "119", "isf_class": "2", "iso_label": "Joisted Masonry (JM)",             "iso_abbr": "JM",  "description": "Joisted Masonry: masonry walls with combustible roof/floor joists", "aliases": ["2","JM","JOISTED MASONRY","JOISTED MAS","ORDINARY","JOISTED","JOISTED MASONRRY"] },
+    "3": { "air_class": "152", "isf_class": "3", "iso_label": "Non-Combustible (NC)",             "iso_abbr": "NC",  "description": "Non-Combustible: non-combustible walls and roof, no masonry", "aliases": ["3","NC","NON COMBUSTIBLE","NON-COMBUSTIBLE","NONCOMBUSTIBLE","NON COMB"] },
+    "4": { "air_class": "111", "isf_class": "4", "iso_label": "Masonry Non-Combustible (MNC)",    "iso_abbr": "MNC", "description": "Masonry Non-Combustible: masonry walls, non-combustible roof", "aliases": ["4","MNC","MASONRY NON-COMBUSTIBLE","MASONRY NC","MASONRY NON COMB","MAS NC"] },
+    "5": { "air_class": "151", "isf_class": "5", "iso_label": "Modified Fire Resistive (MFR)",    "iso_abbr": "MFR", "description": "Modified Fire Resistive: at least 1 hr fire resistance rating", "aliases": ["5","MFR","MODIFIED FIRE RESISTIVE","MOD FIRE RES","MODIFIED FR","MOD FR"] },
+    "6": { "air_class": "131", "isf_class": "6", "iso_label": "Fire Resistive (FR)",              "iso_abbr": "FR",  "description": "Fire Resistive: at least 2 hr fire resistance rating",          "aliases": ["6","FR","FIRE RESISTIVE","FIRE RES","FIRE RESIST","FIRERESISTIVE"] },
+    "7": { "air_class": "104", "isf_class": "7", "iso_label": "Heavy Timber JM (HTJM)",           "iso_abbr": "HT",  "description": "Heavy Timber Joisted Masonry: heavy timber framing",            "aliases": ["7","HT","HTJM","HEAVY TIMBER","HEAVY TIMBER JM","MILL CONSTRUCTION","HVY TIMBER","GLULAM"] },
+    "8": { "air_class": "116", "isf_class": "8", "iso_label": "Superior Non-Combustible (SNC)",   "iso_abbr": "SNC", "description": "Superior Non-Combustible: steel with concrete encasement",       "aliases": ["8","SNC","SUPERIOR NON COMB","SUPERIOR NON-COMBUSTIBLE","SUPERIOR NC"] },
+    "9": { "air_class": "116", "isf_class": "9", "iso_label": "Superior Masonry Non-Comb (SMNC)", "iso_abbr": "SMNC","description": "Superior Masonry Non-Combustible: masonry,concrete encased steel","aliases": ["9","SMNC","SUPERIOR MASONRY NC","SUPERIOR MASONRY NON-COMB","SUP MAS NC"] }
+  },
+  "_note_bldgscheme": "When BLDGSCHEME=FIRE, BLDGCLASS contains the ISF class number (0-9). This scheme applies for ISO/Fire rated inputs like Non-Combustible, Joisted Masonry, Fire Resistive, Heavy Timber, MNC, MFR."
+}

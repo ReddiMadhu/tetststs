@@ -1,0 +1,607 @@
+{
+  "301": {
+    "description": "General Residential",
+    "keywords": [
+      "general residential",
+      "residential",
+      "dwelling unspecified"
+    ]
+  },
+  "302": {
+    "description": "Permanent Dwelling: Single Family",
+    "keywords": [
+      "single family",
+      "single-family",
+      "house",
+      "home",
+      "detached",
+      "sfr",
+      "sfh",
+      "residential dwelling",
+      "single family home",
+      "detached house",
+      "permanent dwelling: single family"
+    ]
+  },
+  "303": {
+    "description": "Permanent Dwelling: Multi Family",
+    "keywords": [
+      "multi family",
+      "multifamily",
+      "duplex",
+      "triplex",
+      "fourplex",
+      "multi-family dwelling",
+      "4plex",
+      "multiple family",
+      "apartment",
+      "permanent dwelling: multi family"
+    ]
+  },
+  "304": {
+    "description": "Temporary Lodging",
+    "keywords": [
+      "hotel",
+      "motel",
+      "inn",
+      "lodge",
+      "temporary lodging",
+      "accommodation",
+      "bed and breakfast",
+      "hostel",
+      "guest house"
+    ]
+  },
+  "305": {
+    "description": "Group Institutional Housing",
+    "keywords": [
+      "dormitory",
+      "barracks",
+      "group housing",
+      "nursing home",
+      "assisted living",
+      "group institutional",
+      "senior living",
+      "care home",
+      "group institutional housing"
+    ]
+  },
+  "306": {
+    "description": "Apartments/Condominiums",
+    "keywords": [
+      "apartment",
+      "condo",
+      "condominium",
+      "flat",
+      "unit",
+      "apartments condominiums",
+      "apartments/condominiums"
+    ]
+  },
+  "307": {
+    "description": "Terraced Housing",
+    "keywords": [
+      "terraced",
+      "townhouse",
+      "rowhouse",
+      "row house",
+      "attached home",
+      "terrace",
+      "terraced housing"
+    ]
+  },
+  "311": {
+    "description": "General Commercial",
+    "keywords": [
+      "commercial",
+      "business",
+      "general commercial",
+      "mixed use",
+      "office building",
+      "commercial building"
+    ]
+  },
+  "312": {
+    "description": "Retail Trade",
+    "keywords": [
+      "retail",
+      "store",
+      "shop",
+      "mall",
+      "shopping center",
+      "boutique",
+      "showroom",
+      "retail trade"
+    ]
+  },
+  "313": {
+    "description": "Wholesale Trade",
+    "keywords": [
+      "wholesale",
+      "distribution",
+      "wholesaler",
+      "distributor",
+      "wholesale trade"
+    ]
+  },
+  "314": {
+    "description": "Personal and Repair Services",
+    "keywords": [
+      "salon",
+      "repair",
+      "laundry",
+      "dry cleaning",
+      "personal service",
+      "barber",
+      "cleaners",
+      "service shop",
+      "personal and repair services"
+    ]
+  },
+  "315": {
+    "description": "Professional, Technical, and Business Services",
+    "keywords": [
+      "office",
+      "professional",
+      "technical",
+      "business services",
+      "law firm",
+      "accounting",
+      "consulting",
+      "professional services",
+      "tech office",
+      "professional, technical, and business services"
+    ]
+  },
+  "316": {
+    "description": "Health Care Services",
+    "keywords": [
+      "hospital",
+      "medical",
+      "clinic",
+      "health care",
+      "healthcare",
+      "pharmacy",
+      "medical center",
+      "surgery center",
+      "outpatient",
+      "health care services"
+    ]
+  },
+  "317": {
+    "description": "Entertainment and Recreation",
+    "keywords": [
+      "entertainment",
+      "recreation",
+      "gym",
+      "fitness",
+      "cinema",
+      "theater",
+      "swimming pool",
+      "recreation club",
+      "sports facility",
+      "aquatic",
+      "entertainment and recreation"
+    ]
+  },
+  "318": {
+    "description": "Parking",
+    "keywords": [
+      "parking",
+      "garage",
+      "car park",
+      "parking structure",
+      "parking lot"
+    ]
+  },
+  "319": {
+    "description": "Golf Courses",
+    "keywords": [
+      "golf",
+      "golf course",
+      "country club",
+      "golf courses"
+    ]
+  },
+  "321": {
+    "description": "General Industrial",
+    "keywords": [
+      "industrial",
+      "factory",
+      "manufacturing",
+      "plant",
+      "general industrial"
+    ]
+  },
+  "322": {
+    "description": "Heavy Fabrication and Assembly",
+    "keywords": [
+      "heavy fabrication",
+      "heavy industrial",
+      "heavy manufacturing",
+      "steel mill",
+      "foundry",
+      "smelter",
+      "forge",
+      "heavy fabrication and assembly"
+    ]
+  },
+  "323": {
+    "description": "Light Fabrication and Assembly",
+    "keywords": [
+      "light fabrication",
+      "light manufacturing",
+      "assembly plant",
+      "light industrial",
+      "light fabrication and assembly"
+    ]
+  },
+  "324": {
+    "description": "Food and Drug Processing",
+    "keywords": [
+      "food processing",
+      "beverage",
+      "drug processing",
+      "pharmaceutical",
+      "food plant",
+      "food facility",
+      "cannery",
+      "brewery",
+      "winery",
+      "food and drug processing"
+    ]
+  },
+  "325": {
+    "description": "Chemical Processing",
+    "keywords": [
+      "chemical",
+      "chemical plant",
+      "chemical processing",
+      "refinery",
+      "chemical facility",
+      "petrochemical"
+    ]
+  },
+  "326": {
+    "description": "Metal and Minerals Processing",
+    "keywords": [
+      "metal",
+      "mining processing",
+      "minerals processing",
+      "ore processing",
+      "metal and minerals processing"
+    ]
+  },
+  "327": {
+    "description": "High Technology",
+    "keywords": [
+      "high tech",
+      "technology",
+      "semiconductor",
+      "data center",
+      "tech campus",
+      "server farm",
+      "lab",
+      "r&d",
+      "high technology"
+    ]
+  },
+  "328": {
+    "description": "Construction",
+    "keywords": [
+      "construction",
+      "builder",
+      "contractor",
+      "construction yard",
+      "building supply"
+    ]
+  },
+  "329": {
+    "description": "Petroleum",
+    "keywords": [
+      "petroleum",
+      "oil",
+      "oil refinery",
+      "fuel terminal",
+      "petroleum storage"
+    ]
+  },
+  "330": {
+    "description": "Mining",
+    "keywords": [
+      "mine",
+      "mining",
+      "quarry",
+      "excavation",
+      "mineral extraction"
+    ]
+  },
+  "331": {
+    "description": "Restaurants",
+    "keywords": [
+      "restaurant",
+      "cafe",
+      "diner",
+      "food service",
+      "bar",
+      "pub",
+      "eatery",
+      "fast food",
+      "cafeteria",
+      "food court",
+      "restaurants"
+    ]
+  },
+  "335": {
+    "description": "Gasoline Stations",
+    "keywords": [
+      "gas station",
+      "gasoline station",
+      "petrol station",
+      "fuel station",
+      "service station",
+      "filling station",
+      "gasoline stations"
+    ]
+  },
+  "336": {
+    "description": "Automotive Repair Services",
+    "keywords": [
+      "auto repair",
+      "car repair",
+      "mechanic",
+      "automotive service",
+      "body shop",
+      "auto shop",
+      "automotive repair services"
+    ]
+  },
+  "341": {
+    "description": "Religion and Non-Profit",
+    "keywords": [
+      "religion",
+      "nonprofit",
+      "non-profit",
+      "charity",
+      "religious organization",
+      "foundation",
+      "ng\u043e",
+      "religion and non-profit"
+    ]
+  },
+  "342": {
+    "description": "Church",
+    "keywords": [
+      "church",
+      "temple",
+      "mosque",
+      "synagogue",
+      "place of worship",
+      "chapel",
+      "cathedral",
+      "religious building"
+    ]
+  },
+  "343": {
+    "description": "General Services",
+    "keywords": [
+      "government",
+      "general services",
+      "municipal",
+      "city hall",
+      "public building"
+    ]
+  },
+  "344": {
+    "description": "Emergency Services",
+    "keywords": [
+      "emergency services",
+      "fire station",
+      "police station",
+      "ambulance",
+      "first responder",
+      "dispatch center"
+    ]
+  },
+  "345": {
+    "description": "Universities, Colleges, and Technical Schools",
+    "keywords": [
+      "university",
+      "college",
+      "technical school",
+      "campus",
+      "higher education",
+      "universities, colleges, and technical schools"
+    ]
+  },
+  "346": {
+    "description": "Primary and Secondary Schools",
+    "keywords": [
+      "school",
+      "elementary school",
+      "high school",
+      "primary school",
+      "secondary school",
+      "k-12",
+      "middle school",
+      "primary and secondary schools"
+    ]
+  },
+  "351": {
+    "description": "Highway, Transportation",
+    "keywords": [
+      "highway",
+      "road",
+      "transportation hub",
+      "transit station",
+      "bus terminal",
+      "highway, transportation"
+    ]
+  },
+  "352": {
+    "description": "Railroad, Track, and Rail Terminals",
+    "keywords": [
+      "railroad",
+      "railway",
+      "train station",
+      "rail terminal",
+      "freight yard",
+      "railroad, track, and rail terminals"
+    ]
+  },
+  "353": {
+    "description": "Air Transportation",
+    "keywords": [
+      "airport",
+      "air transportation",
+      "aviation facility",
+      "terminal"
+    ]
+  },
+  "354": {
+    "description": "Sea and Inland Waterways; Docks, Ships, Boats",
+    "keywords": [
+      "port",
+      "dock",
+      "waterway",
+      "ship terminal",
+      "marina",
+      "harbor",
+      "sea and inland waterways; docks, ships, boats"
+    ]
+  },
+  "355": {
+    "description": "Airplane Hangars",
+    "keywords": [
+      "hangar",
+      "airplane hangar",
+      "aircraft hangar",
+      "aviation hangar",
+      "airplane hangars"
+    ]
+  },
+  "356": {
+    "description": "Aircraft at Ramps or Boarding Gates",
+    "keywords": [
+      "aircraft ramp",
+      "boarding gate",
+      "aircraft at gate",
+      "aircraft at ramps or boarding gates"
+    ]
+  },
+  "361": {
+    "description": "Electrical Utilities",
+    "keywords": [
+      "electric",
+      "power plant",
+      "electrical utility",
+      "substation",
+      "power station",
+      "utility",
+      "power",
+      "electrical utilities"
+    ]
+  },
+  "362": {
+    "description": "Water Utilities",
+    "keywords": [
+      "water utility",
+      "water treatment",
+      "water plant",
+      "pumping station",
+      "water",
+      "water utilities"
+    ]
+  },
+  "363": {
+    "description": "Sanitary Sewer and Waste Disposal",
+    "keywords": [
+      "sewer",
+      "waste disposal",
+      "wastewater",
+      "sewage treatment",
+      "sanitary sewer and waste disposal"
+    ]
+  },
+  "364": {
+    "description": "Natural Gas Distribution",
+    "keywords": [
+      "natural gas",
+      "gas distribution",
+      "gas utility",
+      "pipeline facility",
+      "natural gas distribution"
+    ]
+  },
+  "365": {
+    "description": "Telephone and Telegraph",
+    "keywords": [
+      "telephone",
+      "telecom",
+      "communication utility",
+      "telephone exchange",
+      "telephone and telegraph"
+    ]
+  },
+  "366": {
+    "description": "Warehouse",
+    "keywords": [
+      "warehouse",
+      "storage",
+      "distribution center",
+      "logistics",
+      "storage facility"
+    ]
+  },
+  "371": {
+    "description": "Communication",
+    "keywords": [
+      "communication",
+      "media",
+      "broadcasting",
+      "radio tower",
+      "tv station"
+    ]
+  },
+  "372": {
+    "description": "Flood Control",
+    "keywords": [
+      "flood control",
+      "dam",
+      "levee",
+      "flood barrier"
+    ]
+  },
+  "373": {
+    "description": "Agriculture",
+    "keywords": [
+      "agriculture",
+      "farm",
+      "farming",
+      "crop",
+      "agricultural building",
+      "barn",
+      "grain elevator"
+    ]
+  },
+  "374": {
+    "description": "Green Houses",
+    "keywords": [
+      "greenhouse",
+      "nursery",
+      "plant growing",
+      "hothouse",
+      "green houses"
+    ]
+  },
+  "375": {
+    "description": "Forestry",
+    "keywords": [
+      "forestry",
+      "forest",
+      "timber",
+      "logging",
+      "sawmill"
+    ]
+  }
+}

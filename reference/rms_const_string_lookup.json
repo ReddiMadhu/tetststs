@@ -1,0 +1,1690 @@
+{
+  "lookup": {
+    "rc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "reinforced concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "r/c": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "reinf conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "cast in place": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete frame": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "cip": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "cast in place concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "conc & stl": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete and steel": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "steel & conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "steel and concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "rc frame": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "reinforced concrete frame": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "post tension": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "post-tensioned concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "pt conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "pt slab": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "post-tensioned slab": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "flat slab": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "flat slab concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "waffle slab": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "waffle slab concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "prestressed": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "prestressed concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "prestress conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "high rise conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "high rise concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "conc deck": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete deck structure": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "retrofit conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "retrofit reinforced concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "tunnel conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "tunnel form concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "shear wall": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "shear wall concrete": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "conc shear wall": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete shear wall": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "conc parking": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete parking structure": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "parking garage conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete parking garage": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "port conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "port concrete structure": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "bridge conc": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "concrete bridge": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.93
+    },
+    "fr": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "fire resistive": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "fire res": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "fire resist": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "fireproof steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "fireproofed steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "sprayed fire resistive": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "spray-applied fire resistive": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "intumescent": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "intumescent coated steel": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "fireproof conc": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "fireproof concrete": {
+      "bldgclass": "6",
+      "bldgscheme": "FIRE",
+      "final_category": "Fire Resistive",
+      "confidence": 0.93
+    },
+    "wd": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "wood": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "wod frm": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "wood frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "frm": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "wood frm": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "timber": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "lt wt frm": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "light wood frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "light frm": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "light frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "low rise wood": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "low rise wood frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "mid rise wood": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "mid rise wood frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "pole barn": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "pole barn construction": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "post frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "post frame construction": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "wood truss": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "wood truss system": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "sip": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "structural insulated panel": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "struct ins panel": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "modular wood": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "modular wood construction": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "adobe": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "adobe construction": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "ht": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "heavy timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "hvy timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "glulam": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "glulam timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "mass timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "mass timber construction": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "clt": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "cross laminated timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "cross lam timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "lam timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "laminated timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "post & beam": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "post and beam timber": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "cmu": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "concrete masonry unit": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "jm": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "joisted masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "brick": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "brick masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "block": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "block masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "reinf masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "reinforced masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "unreinf masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "unreinforced masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "urm": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "stone masonry": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "masonry shear": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "masonry shear wall": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "mnc": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "masonry non-combustible": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "masonry nc": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "masonry non comb": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "block & steel": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "masonry and steel": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "cmu & stl": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "cmu and steel": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "tilt conc & steel": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "tilt-up concrete and steel": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.92
+    },
+    "metal bldg": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "metal building": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "pemb": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "pre-engineered metal": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "pre-engineered metal building": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "pre eng metal": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "preeng metal": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "pre engineered metal": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "seismic retrofit": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.8
+    },
+    "seismically retrofitted": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.8
+    },
+    "mfr": {
+      "bldgclass": "5",
+      "bldgscheme": "FIRE",
+      "final_category": "Modified Fire Resistive",
+      "confidence": 0.93
+    },
+    "modified fire resistive": {
+      "bldgclass": "5",
+      "bldgscheme": "FIRE",
+      "final_category": "Modified Fire Resistive",
+      "confidence": 0.93
+    },
+    "mod fire res": {
+      "bldgclass": "5",
+      "bldgscheme": "FIRE",
+      "final_category": "Modified Fire Resistive",
+      "confidence": 0.93
+    },
+    "mod fr": {
+      "bldgclass": "5",
+      "bldgscheme": "FIRE",
+      "final_category": "Modified Fire Resistive",
+      "confidence": 0.93
+    },
+    "nc": {
+      "bldgclass": "3",
+      "bldgscheme": "FIRE",
+      "final_category": "Non-Combustible",
+      "confidence": 0.95
+    },
+    "non-combustible": {
+      "bldgclass": "3",
+      "bldgscheme": "FIRE",
+      "final_category": "Non-Combustible",
+      "confidence": 0.95
+    },
+    "non comb": {
+      "bldgclass": "3",
+      "bldgscheme": "FIRE",
+      "final_category": "Non-Combustible",
+      "confidence": 0.95
+    },
+    "noncomb": {
+      "bldgclass": "3",
+      "bldgscheme": "FIRE",
+      "final_category": "Non-Combustible",
+      "confidence": 0.95
+    },
+    "precast": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "precast concrete": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "pre cast": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "precast conc": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "panelized conc": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "panelized concrete": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "precast panel": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "hollow core": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "hollow core concrete": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "double tee": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "double tee precast": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "double-t": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "prefab conc": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "prefabricated concrete": {
+      "bldgclass": "3B",
+      "bldgscheme": "RMS",
+      "final_category": "Precast Concrete",
+      "confidence": 0.9
+    },
+    "stl": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "stl frm": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel frm": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "metal frm": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "metal frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel struct": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel structure": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "light gauge steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "light gauge steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "lgs": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel stud": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel stud frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel joist": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel joist frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "open web steel joist": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "owsj": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "struct steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "structural steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "struct steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "structural steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "glass & steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "glass curtain wall with steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "curtain wall": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "curtain wall system": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "glazed tower": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "glass tower structure": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "high rise steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel truss": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel truss system": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "modular steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "modular steel construction": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "prefab steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "prefabricated steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel deck": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel deck structure": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "braced frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "braced steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "moment frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel moment frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "glass tower": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "glass and steel tower": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "ind steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "industrial steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "parking garage steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel parking garage": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "marine steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "marine steel structure": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "bridge steel": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "steel bridge": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "tilt up": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.92
+    },
+    "tilt-up concrete": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.92
+    },
+    "tilt-up": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.92
+    },
+    "tiltup": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.92
+    },
+    "tilt panel": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.92
+    },
+    "tilt wall": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.92
+    },
+    "unk": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "unknown": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "tbd": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "to be determined": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "commercial bldg": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "commercial building": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "bldg": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "building": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "structure": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "truss roof only": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "earthen": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "earthen construction": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "rammed earth": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "roof steel only": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "steel roof only": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "metal roof only": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "shingle roof only": {
+      "bldgclass": "0",
+      "bldgscheme": "RMS",
+      "final_category": "Unknown",
+      "confidence": 0.5
+    },
+    "timber frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.92
+    },
+    "stick frame": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.92
+    },
+    "wood frame / brick siding": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.9
+    },
+    "wood frame with brick siding": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.9
+    },
+    "wood frame / brick veneer": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.9
+    },
+    "frame over 2-story concrete podium": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.88
+    },
+    "frame over concrete podium": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.88
+    },
+    "wood frame with concrete podium": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.88
+    },
+    "5-story wood over concrete podium": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.85
+    },
+    "wood over concrete podium": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.88
+    },
+    "non combustible": {
+      "bldgclass": "3",
+      "bldgscheme": "FIRE",
+      "final_category": "Non-Combustible",
+      "confidence": 0.97
+    },
+    "noncombustible": {
+      "bldgclass": "3",
+      "bldgscheme": "FIRE",
+      "final_category": "Non-Combustible",
+      "confidence": 0.97
+    },
+    "tilt up concrete": {
+      "bldgclass": "3B4",
+      "bldgscheme": "RMS",
+      "final_category": "Tilt-Up Concrete",
+      "confidence": 0.97
+    },
+    "light metal": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "mobile home": {
+      "bldgclass": "5",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "manufactured home": {
+      "bldgclass": "5",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.95
+    },
+    "steel frame with masonry infill walls": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.93
+    },
+    "cmu walls with wood roof joists": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "concrete frame with glass curtain wall": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.92
+    },
+    "tilt-up concrete walls with steel roof deck": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.93
+    },
+    "wood frame with brick veneer": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.93
+    },
+    "steel frame with wood mezzanine": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.92
+    },
+    "precast walls with steel frame": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.9
+    },
+    "concrete podium with wood upper floors": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.9
+    },
+    "heavy timber with masonry walls": {
+      "bldgclass": "7",
+      "bldgscheme": "FIRE",
+      "final_category": "Heavy Timber",
+      "confidence": 0.92
+    },
+    "metal building with masonry front facade": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.92
+    },
+    "concrete shear walls with steel roof truss": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.91
+    },
+    "steel frame retrofitted with concrete infill": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.9
+    },
+    "unreinforced masonry with steel roof": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "cmu lower level with wood upper level": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.91
+    },
+    "steel warehouse with attached wood office": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.88
+    },
+    "pre-engineered metal warehouse with interior wood office": {
+      "bldgclass": "4B",
+      "bldgscheme": "RMS",
+      "final_category": "Metal Building",
+      "confidence": 0.9
+    },
+    "concrete parking garage attached to steel office": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.88
+    },
+    "steel moment frame with precast panels": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.92
+    },
+    "masonry exterior with steel interior framing": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.9
+    },
+    "wood truss roof over masonry walls": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.93
+    },
+    "steel frame high-rise with concrete core": {
+      "bldgclass": "4",
+      "bldgscheme": "RMS",
+      "final_category": "Steel Frame",
+      "confidence": 0.9
+    },
+    "concrete building with steel canopy": {
+      "bldgclass": "3",
+      "bldgscheme": "RMS",
+      "final_category": "Concrete Frame",
+      "confidence": 0.92
+    },
+    "brick exterior unknown frame": {
+      "bldgclass": "2",
+      "bldgscheme": "FIRE",
+      "final_category": "Joisted Masonry",
+      "confidence": 0.88
+    },
+    "metal building with partial masonry addition": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.88
+    },
+    "wood framing with reinforced concrete foundation": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Frame",
+      "confidence": 0.9
+    },
+    "reinforced concrete lower floors wood penthouse": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.88
+    },
+    "steel warehouse with concrete block office extension": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.88
+    },
+    "cmu walls reinforced with steel columns": {
+      "bldgclass": "4",
+      "bldgscheme": "FIRE",
+      "final_category": "Masonry Non-Combustible",
+      "confidence": 0.88
+    },
+    "concrete tilt-up with wood interior framing": {
+      "bldgclass": "1",
+      "bldgscheme": "RMS",
+      "final_category": "Mixed Construction",
+      "confidence": 0.88
+    }
+  }
+}

@@ -1,0 +1,541 @@
+{
+  "100": {
+    "description": "Unknown Construction",
+    "keywords": [
+      "unknown",
+      "unspecified",
+      "undefined",
+      "unknown construction"
+    ]
+  },
+  "101": {
+    "description": "Wood Frame (Modern)",
+    "keywords": [
+      "wood frame",
+      "modern wood",
+      "lumber frame",
+      "stick frame",
+      "light frame",
+      "wf",
+      "wood frame modern",
+      "platform frame modern",
+      "wood frame (modern)"
+    ]
+  },
+  "102": {
+    "description": "Light Wood Frame",
+    "keywords": [
+      "light wood frame",
+      "light wood",
+      "platform frame",
+      "lwf"
+    ]
+  },
+  "103": {
+    "description": "Masonry Veneer",
+    "keywords": [
+      "masonry veneer",
+      "brick veneer",
+      "stone veneer",
+      "veneer construction"
+    ]
+  },
+  "104": {
+    "description": "Heavy Timber",
+    "keywords": [
+      "heavy timber",
+      "post and beam",
+      "mill construction",
+      "heavy wood",
+      "post beam",
+      "timber frame"
+    ]
+  },
+  "107": {
+    "description": "Lightweight Cladding",
+    "keywords": [
+      "lightweight cladding",
+      "metal cladding",
+      "light metal building",
+      "pre-engineered metal"
+    ]
+  },
+  "108": {
+    "description": "Hale Construction",
+    "keywords": [
+      "hale construction",
+      "hale"
+    ]
+  },
+  "111": {
+    "description": "Masonry",
+    "keywords": [
+      "masonry",
+      "brick",
+      "block",
+      "concrete block",
+      "brick masonry",
+      "cmu",
+      "concrete masonry unit"
+    ]
+  },
+  "112": {
+    "description": "Adobe",
+    "keywords": [
+      "adobe",
+      "earth brick",
+      "mud brick",
+      "earthen"
+    ]
+  },
+  "113": {
+    "description": "Rubble Stone Masonry",
+    "keywords": [
+      "rubble stone",
+      "stone masonry",
+      "fieldstone",
+      "random rubble",
+      "rubble stone masonry"
+    ]
+  },
+  "114": {
+    "description": "Unreinforced Masonry - Bearing Wall",
+    "keywords": [
+      "urm",
+      "unreinforced masonry",
+      "unreinforced masonry bearing wall",
+      "unconfined masonry",
+      "plain masonry bearing wall",
+      "unreinforced masonry - bearing wall"
+    ]
+  },
+  "115": {
+    "description": "Unreinforced Masonry - Bearing Frame",
+    "keywords": [
+      "unreinforced masonry bearing frame",
+      "urm frame",
+      "urm with frame",
+      "unreinforced masonry - bearing frame"
+    ]
+  },
+  "116": {
+    "description": "Reinforced Masonry",
+    "keywords": [
+      "reinforced masonry",
+      "rm",
+      "reinforced brick",
+      "reinforced block",
+      "reinforced concrete masonry"
+    ]
+  },
+  "117": {
+    "description": "Reinforced Masonry Shear Wall (with MRF)",
+    "keywords": [
+      "reinforced masonry shear wall mrf",
+      "rm shear wall with mrf",
+      "reinforced masonry moment frame",
+      "reinforced masonry shear wall (with mrf)"
+    ]
+  },
+  "118": {
+    "description": "Reinforced Masonry Shear Wall (without MRF)",
+    "keywords": [
+      "reinforced masonry shear wall",
+      "rm shear wall",
+      "rm without mrf",
+      "reinforced masonry shear wall (without mrf)"
+    ]
+  },
+  "119": {
+    "description": "Joisted Masonry",
+    "keywords": [
+      "joisted masonry",
+      "ordinary construction",
+      "joist masonry",
+      "masonry walls wood joists"
+    ]
+  },
+  "120": {
+    "description": "Confined Masonry",
+    "keywords": [
+      "confined masonry",
+      "cm",
+      "confined brick"
+    ]
+  },
+  "121": {
+    "description": "Cavity Double Brick",
+    "keywords": [
+      "cavity brick",
+      "double brick",
+      "cavity double brick",
+      "hollow brick"
+    ]
+  },
+  "131": {
+    "description": "Reinforced Concrete",
+    "keywords": [
+      "reinforced concrete",
+      "rc",
+      "concrete frame",
+      "rcc",
+      "reinforced concrete frame",
+      "concrete construction"
+    ]
+  },
+  "132": {
+    "description": "Reinforced Concrete Shear Wall (with MRF)",
+    "keywords": [
+      "rc shear wall mrf",
+      "concrete shear wall mrf",
+      "rc sw mrf",
+      "reinforced concrete shear wall (with mrf)"
+    ]
+  },
+  "133": {
+    "description": "Reinforced Concrete Shear Wall (without MRF)",
+    "keywords": [
+      "rc shear wall",
+      "concrete shear wall",
+      "rc sw",
+      "shear wall concrete",
+      "reinforced concrete shear wall (without mrf)"
+    ]
+  },
+  "134": {
+    "description": "Reinforced Concrete MRF - Ductile",
+    "keywords": [
+      "rc mrf ductile",
+      "ductile concrete frame",
+      "ductile rc frame",
+      "special moment frame concrete",
+      "reinforced concrete mrf - ductile"
+    ]
+  },
+  "135": {
+    "description": "Reinforced Concrete MRF - Non-Ductile",
+    "keywords": [
+      "rc mrf non-ductile",
+      "non-ductile concrete frame",
+      "non-ductile rc",
+      "reinforced concrete mrf - non-ductile"
+    ]
+  },
+  "136": {
+    "description": "Tilt-Up",
+    "keywords": [
+      "tilt up",
+      "tilt-up",
+      "precast tilt",
+      "tilt wall concrete"
+    ]
+  },
+  "137": {
+    "description": "Pre-cast Concrete",
+    "keywords": [
+      "precast concrete",
+      "pre-cast",
+      "precast",
+      "pc",
+      "precast frame",
+      "pre-cast concrete"
+    ]
+  },
+  "138": {
+    "description": "Pre-cast Concrete with Shear Wall",
+    "keywords": [
+      "precast concrete shear wall",
+      "pc shear wall",
+      "pre-cast concrete with shear wall"
+    ]
+  },
+  "139": {
+    "description": "Reinforced Concrete MRF",
+    "keywords": [
+      "rc moment frame",
+      "concrete moment frame",
+      "rc mrf",
+      "ordinary rc mrf",
+      "reinforced concrete mrf"
+    ]
+  },
+  "140": {
+    "description": "Reinforced Concrete MRF with URM",
+    "keywords": [
+      "rc frame urm",
+      "concrete frame masonry",
+      "rc with urm infill",
+      "reinforced concrete mrf with urm"
+    ]
+  },
+  "141": {
+    "description": "RC Frame with 2nd Story Wood Frame or URM Addition",
+    "keywords": [
+      "rc frame wood frame",
+      "mixed rc wood",
+      "rc with wood addition",
+      "rc frame with 2nd story wood frame or urm addition"
+    ]
+  },
+  "151": {
+    "description": "Steel",
+    "keywords": [
+      "steel",
+      "structural steel",
+      "steel construction",
+      "steel frame",
+      "steel building"
+    ]
+  },
+  "152": {
+    "description": "Light Metal",
+    "keywords": [
+      "light metal",
+      "metal frame",
+      "light steel frame",
+      "light steel",
+      "metal building",
+      "pre-engineered steel"
+    ]
+  },
+  "153": {
+    "description": "Braced Steel Frame",
+    "keywords": [
+      "braced steel",
+      "steel bracing",
+      "eccentrically braced frame",
+      "special braced frame",
+      "steel cbf",
+      "braced steel frame"
+    ]
+  },
+  "154": {
+    "description": "Steel MRF - Perimeter",
+    "keywords": [
+      "steel mrf perimeter",
+      "perimeter moment frame",
+      "steel smrf perimeter",
+      "steel mrf - perimeter"
+    ]
+  },
+  "155": {
+    "description": "Steel MRF - Distributed",
+    "keywords": [
+      "steel mrf distributed",
+      "distributed moment frame",
+      "steel smrf",
+      "steel mrf - distributed"
+    ]
+  },
+  "156": {
+    "description": "Steel MRF",
+    "keywords": [
+      "steel moment frame",
+      "steel mrf",
+      "smrf",
+      "steel smf"
+    ]
+  },
+  "157": {
+    "description": "Steel Frame with URM",
+    "keywords": [
+      "steel urm",
+      "steel frame masonry",
+      "steel with urm infill",
+      "steel frame with urm"
+    ]
+  },
+  "158": {
+    "description": "Steel Frame with Concrete Shear Wall",
+    "keywords": [
+      "steel concrete shear wall",
+      "dual system steel concrete",
+      "steel frame with concrete shear wall"
+    ]
+  },
+  "159": {
+    "description": "Steel Reinforced Concrete",
+    "keywords": [
+      "src",
+      "steel reinforced concrete",
+      "composite construction",
+      "composite steel concrete"
+    ]
+  },
+  "160": {
+    "description": "Steel Long Span",
+    "keywords": [
+      "steel long span",
+      "long span steel",
+      "open web joist steel"
+    ]
+  },
+  "161": {
+    "description": "M: Fire-Resistant RC and Masonry Dwellings (Japan)",
+    "keywords": [
+      "m: fire-resistant rc and masonry dwellings (japan)"
+    ]
+  },
+  "162": {
+    "description": "T: Fire-Resistant Non-Apartment Dwellings (Japan)",
+    "keywords": [
+      "t: fire-resistant non-apartment dwellings (japan)"
+    ]
+  },
+  "163": {
+    "description": "H: Other Residential Dwellings (Japan)",
+    "keywords": [
+      "h: other residential dwellings (japan)"
+    ]
+  },
+  "164": {
+    "description": "1: Fire-Resistant RC and Masonry Buildings (Japan)",
+    "keywords": [
+      "1: fire-resistant rc and masonry buildings (japan)"
+    ]
+  },
+  "165": {
+    "description": "2: Semi-Fire-Resistant and Steel Buildings (Japan)",
+    "keywords": [
+      "2: semi-fire-resistant and steel buildings (japan)"
+    ]
+  },
+  "166": {
+    "description": "3: Other Commercial Dwellings (Japan)",
+    "keywords": [
+      "3: other commercial dwellings (japan)"
+    ]
+  },
+  "171": {
+    "description": "A: RC/Steel with Fire Insulation Dwellings (Japan)",
+    "keywords": [
+      "a: rc/steel with fire insulation dwellings (japan)"
+    ]
+  },
+  "172": {
+    "description": "B: General Steel Dwellings (Japan)",
+    "keywords": [
+      "b: general steel dwellings (japan)"
+    ]
+  },
+  "173": {
+    "description": "C: Wood Frame with Fire Insulation Dwellings (Japan)",
+    "keywords": [
+      "c: wood frame with fire insulation dwellings (japan)"
+    ]
+  },
+  "174": {
+    "description": "D: General Wood Dwellings (Japan)",
+    "keywords": [
+      "d: general wood dwellings (japan)"
+    ]
+  },
+  "175": {
+    "description": "SP: Reinforced Concrete Buildings (Japan)",
+    "keywords": [
+      "sp: reinforced concrete buildings (japan)"
+    ]
+  },
+  "176": {
+    "description": "1: Steel with Fire Insulation Buildings (Japan)",
+    "keywords": [
+      "1: steel with fire insulation buildings (japan)"
+    ]
+  },
+  "177": {
+    "description": "2: General Steel Buildings (Japan)",
+    "keywords": [
+      "2: general steel buildings (japan)"
+    ]
+  },
+  "178": {
+    "description": "3: Wood Frame with Fire Insulation Buildings (Japan)",
+    "keywords": [
+      "3: wood frame with fire insulation buildings (japan)"
+    ]
+  },
+  "179": {
+    "description": "4: General Wood Frame Buildings (Japan)",
+    "keywords": [
+      "4: general wood frame buildings (japan)"
+    ]
+  },
+  "181": {
+    "description": "Long Span",
+    "keywords": [
+      "long span",
+      "open web joist",
+      "warehouse joist"
+    ]
+  },
+  "182": {
+    "description": "Semi-Wind Resistive",
+    "keywords": [
+      "semi wind resistive",
+      "semi-resistive",
+      "semi wind resistant",
+      "semi-wind resistive"
+    ]
+  },
+  "183": {
+    "description": "Wind Resistive",
+    "keywords": [
+      "wind resistive",
+      "wind resistant",
+      "hurricane resistant"
+    ]
+  },
+  "185": {
+    "description": "Unknown Glass",
+    "keywords": [
+      "unknown glass"
+    ]
+  },
+  "186": {
+    "description": "Safety Glass",
+    "keywords": [
+      "safety glass"
+    ]
+  },
+  "187": {
+    "description": "Impact Resistance Glass",
+    "keywords": [
+      "impact resistance glass"
+    ]
+  },
+  "191": {
+    "description": "Mobile Home (unknown tie-down)",
+    "keywords": [
+      "mobile home",
+      "manufactured home",
+      "trailer",
+      "mobile home unknown",
+      "mobile home (unknown tie-down)"
+    ]
+  },
+  "192": {
+    "description": "Mobile Home with No Tie-Downs",
+    "keywords": [
+      "mobile home no tie down",
+      "unanchored mobile home",
+      "mobile home with no tie-downs"
+    ]
+  },
+  "193": {
+    "description": "Mobile Home with Partial Tie-Downs",
+    "keywords": [
+      "mobile home partial tie down",
+      "semi-anchored mobile home",
+      "mobile home with partial tie-downs"
+    ]
+  },
+  "194": {
+    "description": "Mobile Home with Full Tie-Downs",
+    "keywords": [
+      "mobile home full tie down",
+      "anchored mobile home",
+      "fully anchored mobile home",
+      "mobile home with full tie-downs"
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "iso_to_air": {
+    "0": {
+      "air_class": "100",
+      "iso_label": "Unknown",
+      "description": "Unknown Construction",
+      "aliases": ["unknown", "unk", "tbd"]
+    },
+    "1": {
+      "air_class": "101",
+      "iso_label": "Frame (F)",
+      "description": "Wood Frame",
+      "aliases": ["1", "F", "FRAME", "WD FRAME", "WOOD FRAME"]
+    },
+    "2": {
+      "air_class": "119",
+      "iso_label": "Joisted Masonry (JM)",
+      "description": "Joisted Masonry — masonry walls with combustible roof/floor joists",
+      "aliases": ["2", "JM", "JOISTED MASONRY", "JOISTED MAS", "ORDINARY"]
+    },
+    "3": {
+      "air_class": "152",
+      "iso_label": "Non-Combustible (NC)",
+      "description": "Non-Combustible — non-combustible walls and roof, no masonry",
+      "aliases": ["3", "NC", "NON COMBUSTIBLE", "NON-COMBUSTIBLE", "NONCOMBUSTIBLE"]
+    },
+    "4": {
+      "air_class": "111",
+      "iso_label": "Masonry Non-Combustible (MNC)",
+      "description": "Masonry Non-Combustible — masonry walls with non-combustible roof",
+      "aliases": ["4", "MNC", "MASONRY NON COMBUSTIBLE", "MASONRY NON-COMBUSTIBLE", "MAS NC"]
+    },
+    "5": {
+      "air_class": "151",
+      "iso_label": "Modified Fire Resistive (MFR)",
+      "description": "Modified Fire Resistive — steel with some fire protection",
+      "aliases": ["5", "MFR", "MODIFIED FIRE RESISTIVE", "MOD FR", "MOD FIRE RES"]
+    },
+    "6": {
+      "air_class": "131",
+      "iso_label": "Fire Resistive (FR)",
+      "description": "Fire Resistive — fully fire protected, typically reinforced concrete or protected steel",
+      "aliases": ["6", "FR", "FIRE RESISTIVE", "FIRE RES", "FIREPROOF", "FIREPROOF CONC", "INTUMESCENT"]
+    },
+    "7": {
+      "air_class": "104",
+      "iso_label": "Heavy Timber JM (HTJM)",
+      "description": "Heavy Timber — large section timber with masonry walls",
+      "aliases": ["7", "HTJM", "HEAVY TIMBER", "HT", "HVY TIMBER", "MILL CONSTRUCTION"]
+    },
+    "8": {
+      "air_class": "116",
+      "iso_label": "Superior Non-Combustible (SNC)",
+      "description": "Superior Non-Combustible / Reinforced Masonry",
+      "aliases": ["8", "SNC", "SUPERIOR NON COMBUSTIBLE", "SUPERIOR NC"]
+    },
+    "9": {
+      "air_class": "116",
+      "iso_label": "Superior Masonry Non-Combustible (SMNC)",
+      "description": "Superior Masonry Non-Combustible / Reinforced Masonry",
+      "aliases": ["9", "SMNC", "SUPERIOR MASONRY NC", "SUPERIOR MNC"]
+    }
+  },
+  "_meta": {
+    "source": "ISO Fire Class mapping — insurance industry standard",
+    "notes": "ISO 8 and 9 both map to AIR 116 (Reinforced Masonry). ISO 3 (NC) maps to AIR 152 (Light Metal) as closest non-combustible non-masonry code."
+  }
+}

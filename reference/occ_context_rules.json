@@ -1,0 +1,232 @@
+{
+  "rules": {
+    "shop": {
+      "default": { "air_code": "312", "atc": 5, "reasoning": "Retail shop / store" },
+      "contexts": [
+        {
+          "context_signals": ["county", "municipality", "municipal", "government", "city", "public works", "public", "department", "dept", "utilities"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "Shop building for county/municipality/government = General Services"
+        },
+        {
+          "context_signals": ["mechanic", "auto", "automotive", "repair", "body", "engine", "vehicle"],
+          "air_code": "314", "atc": 7,
+          "reasoning": "Mechanic/auto shop = Personal and Repair Services"
+        },
+        {
+          "context_signals": ["beauty", "hair", "nail", "barber", "salon"],
+          "air_code": "314", "atc": 7,
+          "reasoning": "Beauty/barber shop = Personal and Repair Services"
+        }
+      ]
+    },
+    "shop building": {
+      "default": { "air_code": "312", "atc": 5, "reasoning": "Retail shop building" },
+      "contexts": [
+        {
+          "context_signals": ["county", "municipality", "municipal", "government", "city"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "Shop building for county/municipality = General Services"
+        }
+      ]
+    },
+    "shelter": {
+      "default": { "air_code": "301", "atc": 1, "reasoning": "Residential shelter/dwelling" },
+      "contexts": [
+        {
+          "context_signals": ["municipality", "county", "emergency", "animal", "government"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "Municipal/emergency shelter = General Services"
+        }
+      ]
+    },
+    "pharmacy": {
+      "default": { "air_code": "312", "atc": 5, "reasoning": "Stand-alone pharmacy = Retail" },
+      "contexts": [
+        {
+          "context_signals": ["hospital", "clinic", "medical", "in a hospital", "in hospital", "health center", "healthcare"],
+          "air_code": "316", "atc": 9,
+          "reasoning": "Pharmacy inside hospital building = Health Care Services"
+        }
+      ]
+    },
+    "drug store": {
+      "default": { "air_code": "312", "atc": 5, "reasoning": "Stand-alone drug store = Retail Trade" }
+    },
+    "activity center": {
+      "default": { "air_code": "317", "atc": 10, "reasoning": "Recreation/entertainment activity center" },
+      "contexts": [
+        {
+          "context_signals": ["county", "municipality", "municipal", "government", "city", "public"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "Government/municipal activity center = General Services"
+        }
+      ]
+    },
+    "community center": {
+      "default": { "air_code": "343", "atc": 23, "reasoning": "General community/public services building" },
+      "contexts": [
+        {
+          "context_signals": ["recreation", "gym", "sports", "fitness", "athletic"],
+          "air_code": "317", "atc": 10,
+          "reasoning": "Recreation-focused community center = Entertainment and Recreation"
+        }
+      ]
+    },
+    "hall": {
+      "default": { "air_code": "317", "atc": 10, "reasoning": "General hall = Entertainment/venues" },
+      "contexts": [
+        {
+          "context_signals": ["band", "music", "school", "classroom", "rehearsal"],
+          "air_code": "346", "atc": 25,
+          "reasoning": "Band hall/music hall at school = Education Primary"
+        },
+        {
+          "context_signals": ["banquet", "wedding", "event", "reception"],
+          "air_code": "304", "atc": 3,
+          "reasoning": "Banquet hall = Temporary Lodging/event venue"
+        },
+        {
+          "context_signals": ["city", "town", "government", "municipal", "county"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "City/town hall = General Services"
+        },
+        {
+          "context_signals": ["fire", "police", "emergency"],
+          "air_code": "344", "atc": 24,
+          "reasoning": "Emergency services hall = Emergency Services"
+        }
+      ]
+    },
+    "office": {
+      "default": { "air_code": "315", "atc": 8, "reasoning": "Professional office = Professional/Technical/Business Services" },
+      "contexts": [
+        {
+          "context_signals": ["medical", "doctor", "physician", "dental", "clinic", "health"],
+          "air_code": "316", "atc": 9,
+          "reasoning": "Medical/dental office = Health Care Services"
+        },
+        {
+          "context_signals": ["government", "municipal", "city", "county", "federal", "state"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "Government office = General Services"
+        },
+        {
+          "context_signals": ["post office", "postal"],
+          "air_code": "343", "atc": 23,
+          "reasoning": "Post office = General Services"
+        }
+      ]
+    },
+    "warehouse": {
+      "default": { "air_code": "313", "atc": 6, "reasoning": "Warehouse = Wholesale Trade storage" },
+      "contexts": [
+        {
+          "context_signals": ["cold", "refrigerated", "frozen", "cool"],
+          "air_code": "313", "atc": 6,
+          "reasoning": "Cold/refrigerated warehouse = Wholesale Trade"
+        },
+        {
+          "context_signals": ["fulfillment", "amazon", "distribution", "logistics"],
+          "air_code": "313", "atc": 6,
+          "reasoning": "Fulfillment/distribution warehouse = Wholesale Trade"
+        }
+      ]
+    },
+    "school": {
+      "default": { "air_code": "346", "atc": 25, "reasoning": "School defaults to Primary/Secondary education" },
+      "contexts": [
+        {
+          "context_signals": ["university", "college", "higher", "graduate", "technical school"],
+          "air_code": "345", "atc": 54,
+          "reasoning": "Higher education school = University/College"
+        }
+      ]
+    },
+    "hotel": {
+      "default": { "air_code": "304", "atc": 3, "reasoning": "Hotel = Temporary Lodging" },
+      "contexts": [
+        {
+          "context_signals": ["large", "luxury", "resort hotel", "high-end", "five star", "5 star"],
+          "air_code": "304", "atc": 51,
+          "reasoning": "Large luxury hotel → ATC 51 for time-element modeling"
+        },
+        {
+          "context_signals": ["small", "motel", "budget", "roadside", "medium"],
+          "air_code": "304", "atc": 52,
+          "reasoning": "Small/medium hotel or motel → ATC 52 for time-element modeling"
+        }
+      ]
+    },
+    "plant": {
+      "default": { "air_code": "321", "atc": 38, "reasoning": "Industrial plant = General Industrial" },
+      "contexts": [
+        {
+          "context_signals": ["water", "treatment", "purification", "pumping"],
+          "air_code": "362", "atc": 31,
+          "reasoning": "Water treatment plant = Water Utilities"
+        },
+        {
+          "context_signals": ["chemical", "chemical processing"],
+          "air_code": "325", "atc": 15,
+          "reasoning": "Chemical plant = Chemical Processing"
+        },
+        {
+          "context_signals": ["food", "processing", "cannery", "packing"],
+          "air_code": "324", "atc": 14,
+          "reasoning": "Food processing plant = Food and Drug Processing"
+        },
+        {
+          "context_signals": ["power", "electric", "electrical", "generating"],
+          "air_code": "361", "atc": 30,
+          "reasoning": "Power plant = Electrical Utilities"
+        },
+        {
+          "context_signals": ["gas", "natural gas"],
+          "air_code": "364", "atc": 33,
+          "reasoning": "Gas plant = Natural Gas Distribution"
+        },
+        {
+          "context_signals": ["petroleum", "refining", "oil refinery"],
+          "air_code": "329", "atc": 19,
+          "reasoning": "Petroleum refining plant = Petroleum"
+        }
+      ]
+    }
+  },
+  "multi_use_resolution": {
+    "retail with apartments": {
+      "policy_type_residential": { "air_code": "306", "atc": 2 },
+      "policy_type_commercial":  { "air_code": "311", "atc": 37 },
+      "default":                 { "air_code": "306", "atc": 2, "reasoning": "Residential element conservatively primary for mixed-use" }
+    },
+    "office and retail": {
+      "default": { "air_code": "315", "atc": 8, "reasoning": "Office primary in office+retail mix" }
+    },
+    "office with warehouse": {
+      "default": { "air_code": "313", "atc": 6, "reasoning": "Warehouse is primary function" }
+    },
+    "retail and warehouse": {
+      "default": { "air_code": "313", "atc": 6, "reasoning": "Warehouse if combined with retail — wholesale trade primary" }
+    },
+    "office manufacturing": {
+      "default": { "air_code": "321", "atc": 38, "reasoning": "Manufacturing governs in office+manufacturing conflicts" }
+    }
+  },
+  "tenant_name_to_occ": {
+    "amazon fulfillment": { "air_code": "313", "atc": 6 },
+    "amazon warehouse":   { "air_code": "313", "atc": 6 },
+    "home depot":         { "air_code": "312", "atc": 5 },
+    "walmart":            { "air_code": "312", "atc": 5 },
+    "target":             { "air_code": "312", "atc": 5 },
+    "cvs pharmacy":       { "air_code": "312", "atc": 5 },
+    "walgreens":          { "air_code": "312", "atc": 5 },
+    "mcdonalds":          { "air_code": "331", "atc": 47 },
+    "starbucks":          { "air_code": "331", "atc": 47 },
+    "dominos":            { "air_code": "331", "atc": 47 }
+  },
+  "_meta": {
+    "source": "Occupancy normalization pipeline and disambiguation rules from Construction_Mapping reference data",
+    "notes": "Context signals are matched as substring presence in the full row description/account context, not just the occupancy field."
+  }
+}

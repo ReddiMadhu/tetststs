@@ -1,0 +1,253 @@
+{
+  "Res1": {
+    "description": "Single Family Dwelling",
+    "keywords": [
+      "single family",
+      "house",
+      "home",
+      "sfr",
+      "detached"
+    ]
+  },
+  "Res2": {
+    "description": "Mobile Home",
+    "keywords": [
+      "mobile home",
+      "manufactured home",
+      "trailer"
+    ]
+  },
+  "Res3": {
+    "description": "Multi-Family Dwelling (2-4 units)",
+    "keywords": [
+      "duplex",
+      "triplex",
+      "fourplex",
+      "multi family small"
+    ]
+  },
+  "Res4": {
+    "description": "Multi-Family Dwelling (5+ units)",
+    "keywords": [
+      "apartment",
+      "condominium",
+      "condo",
+      "multi family large"
+    ]
+  },
+  "Res5": {
+    "description": "Temporary Lodging",
+    "keywords": [
+      "hotel",
+      "motel",
+      "inn",
+      "lodge"
+    ]
+  },
+  "Res6": {
+    "description": "Institutional Dormitory",
+    "keywords": [
+      "dormitory",
+      "barracks",
+      "group housing",
+      "nursing home"
+    ]
+  },
+  "Com1": {
+    "description": "Retail Trade",
+    "keywords": [
+      "retail",
+      "store",
+      "shop",
+      "mall",
+      "shopping"
+    ]
+  },
+  "Com2": {
+    "description": "Wholesale Trade",
+    "keywords": [
+      "wholesale",
+      "distribution",
+      "distributor"
+    ]
+  },
+  "Com3": {
+    "description": "Personal and Repair Services",
+    "keywords": [
+      "salon",
+      "repair",
+      "laundry",
+      "personal service"
+    ]
+  },
+  "Com4": {
+    "description": "Professional/Technical Services",
+    "keywords": [
+      "office",
+      "professional",
+      "business services",
+      "consulting"
+    ]
+  },
+  "Com5": {
+    "description": "Banks/Financial",
+    "keywords": [
+      "bank",
+      "financial",
+      "insurance office",
+      "credit union"
+    ]
+  },
+  "Com6": {
+    "description": "Hospital",
+    "keywords": [
+      "hospital",
+      "medical center",
+      "health care"
+    ]
+  },
+  "Com7": {
+    "description": "Medical Office/Clinic",
+    "keywords": [
+      "clinic",
+      "medical office",
+      "outpatient",
+      "healthcare"
+    ]
+  },
+  "Com8": {
+    "description": "Entertainment & Recreation",
+    "keywords": [
+      "entertainment",
+      "recreation",
+      "gym",
+      "fitness",
+      "cinema",
+      "theater"
+    ]
+  },
+  "Com9": {
+    "description": "Parking",
+    "keywords": [
+      "parking",
+      "garage",
+      "car park"
+    ]
+  },
+  "Com10": {
+    "description": "General Commercial",
+    "keywords": [
+      "commercial",
+      "business",
+      "general commercial"
+    ]
+  },
+  "Ind1": {
+    "description": "Light Industrial",
+    "keywords": [
+      "light industrial",
+      "light manufacturing",
+      "assembly"
+    ]
+  },
+  "Ind2": {
+    "description": "Heavy Industrial",
+    "keywords": [
+      "heavy industrial",
+      "heavy manufacturing",
+      "factory",
+      "plant"
+    ]
+  },
+  "Ind3": {
+    "description": "Food/Drug/Chemical Processing",
+    "keywords": [
+      "food processing",
+      "chemical",
+      "pharmaceutical",
+      "drug processing"
+    ]
+  },
+  "Ind4": {
+    "description": "Metals/Mining",
+    "keywords": [
+      "metal",
+      "mining",
+      "minerals",
+      "foundry"
+    ]
+  },
+  "Ind5": {
+    "description": "High Technology",
+    "keywords": [
+      "high tech",
+      "semiconductor",
+      "data center",
+      "technology"
+    ]
+  },
+  "Ind6": {
+    "description": "Construction/Maintenance",
+    "keywords": [
+      "construction",
+      "contractor",
+      "maintenance"
+    ]
+  },
+  "Agr1": {
+    "description": "Agriculture",
+    "keywords": [
+      "agriculture",
+      "farm",
+      "farming",
+      "crop",
+      "barn"
+    ]
+  },
+  "Rel1": {
+    "description": "Church/Religious",
+    "keywords": [
+      "church",
+      "temple",
+      "mosque",
+      "synagogue",
+      "place of worship"
+    ]
+  },
+  "Gov1": {
+    "description": "General Government Services",
+    "keywords": [
+      "government",
+      "municipal",
+      "city hall",
+      "public"
+    ]
+  },
+  "Gov2": {
+    "description": "Emergency Response",
+    "keywords": [
+      "emergency",
+      "fire station",
+      "police station",
+      "ambulance"
+    ]
+  },
+  "Edu1": {
+    "description": "Schools (K-12)",
+    "keywords": [
+      "school",
+      "elementary",
+      "high school",
+      "k-12"
+    ]
+  },
+  "Edu2": {
+    "description": "Colleges/Universities",
+    "keywords": [
+      "university",
+      "college",
+      "campus",
+      "higher education"
+    ]
+  }
+}

@@ -1,0 +1,864 @@
+{
+  "constructionData": [
+    {
+      "scheme": "AIR",
+      "code": "100",
+      "description": "Unknown Construction"
+    },
+    {
+      "scheme": "AIR",
+      "code": "101",
+      "description": "Wood Frame (Modern)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "102",
+      "description": "Light Wood Frame"
+    },
+    {
+      "scheme": "AIR",
+      "code": "103",
+      "description": "Masonry Veneer"
+    },
+    {
+      "scheme": "AIR",
+      "code": "104",
+      "description": "Heavy Timber"
+    },
+    {
+      "scheme": "AIR",
+      "code": "107",
+      "description": "Lightweight Cladding"
+    },
+    {
+      "scheme": "AIR",
+      "code": "108",
+      "description": "Hale Construction"
+    },
+    {
+      "scheme": "AIR",
+      "code": "111",
+      "description": "Masonry"
+    },
+    {
+      "scheme": "AIR",
+      "code": "112",
+      "description": "Adobe"
+    },
+    {
+      "scheme": "AIR",
+      "code": "113",
+      "description": "Rubble Stone Masonry"
+    },
+    {
+      "scheme": "AIR",
+      "code": "114",
+      "description": "Unreinforced Masonry - Bearing Wall"
+    },
+    {
+      "scheme": "AIR",
+      "code": "115",
+      "description": "Unreinforced Masonry - Bearing Frame"
+    },
+    {
+      "scheme": "AIR",
+      "code": "116",
+      "description": "Reinforced Masonry"
+    },
+    {
+      "scheme": "AIR",
+      "code": "117",
+      "description": "Reinforced Masonry Shear Wall (with MRF)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "118",
+      "description": "Reinforced Masonry Shear Wall (without MRF)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "119",
+      "description": "Joisted Masonry"
+    },
+    {
+      "scheme": "AIR",
+      "code": "120",
+      "description": "Confined Masonry"
+    },
+    {
+      "scheme": "AIR",
+      "code": "121",
+      "description": "Cavity Double Brick"
+    },
+    {
+      "scheme": "AIR",
+      "code": "131",
+      "description": "Reinforced Concrete"
+    },
+    {
+      "scheme": "AIR",
+      "code": "132",
+      "description": "Reinforced Concrete Shear Wall (with MRF)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "133",
+      "description": "Reinforced Concrete Shear Wall (without MRF)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "134",
+      "description": "Reinforced Concrete MRF - Ductile"
+    },
+    {
+      "scheme": "AIR",
+      "code": "135",
+      "description": "Reinforced Concrete MRF - Non-Ductile"
+    },
+    {
+      "scheme": "AIR",
+      "code": "136",
+      "description": "Tilt-Up"
+    },
+    {
+      "scheme": "AIR",
+      "code": "137",
+      "description": "Pre-cast Concrete"
+    },
+    {
+      "scheme": "AIR",
+      "code": "138",
+      "description": "Pre-cast Concrete with Shear Wall"
+    },
+    {
+      "scheme": "AIR",
+      "code": "139",
+      "description": "Reinforced Concrete MRF"
+    },
+    {
+      "scheme": "AIR",
+      "code": "140",
+      "description": "Reinforced Concrete MRF with URM"
+    },
+    {
+      "scheme": "AIR",
+      "code": "141",
+      "description": "RC Frame with 2nd Story Wood Frame or URM Addition"
+    },
+    {
+      "scheme": "AIR",
+      "code": "151",
+      "description": "Steel"
+    },
+    {
+      "scheme": "AIR",
+      "code": "152",
+      "description": "Light Metal"
+    },
+    {
+      "scheme": "AIR",
+      "code": "153",
+      "description": "Braced Steel Frame"
+    },
+    {
+      "scheme": "AIR",
+      "code": "154",
+      "description": "Steel MRF - Perimeter"
+    },
+    {
+      "scheme": "AIR",
+      "code": "155",
+      "description": "Steel MRF - Distributed"
+    },
+    {
+      "scheme": "AIR",
+      "code": "156",
+      "description": "Steel MRF"
+    },
+    {
+      "scheme": "AIR",
+      "code": "157",
+      "description": "Steel Frame with URM"
+    },
+    {
+      "scheme": "AIR",
+      "code": "158",
+      "description": "Steel Frame with Concrete Shear Wall"
+    },
+    {
+      "scheme": "AIR",
+      "code": "159",
+      "description": "Steel Reinforced Concrete"
+    },
+    {
+      "scheme": "AIR",
+      "code": "160",
+      "description": "Steel Long Span"
+    },
+    {
+      "scheme": "AIR",
+      "code": "161",
+      "description": "M: Fire-Resistant RC and Masonry Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "162",
+      "description": "T: Fire-Resistant Non-Apartment Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "163",
+      "description": "H: Other Residential Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "164",
+      "description": "1: Fire-Resistant RC and Masonry Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "165",
+      "description": "2: Semi-Fire-Resistant and Steel Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "166",
+      "description": "3: Other Commercial Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "171",
+      "description": "A: RC/Steel with Fire Insulation Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "172",
+      "description": "B: General Steel Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "173",
+      "description": "C: Wood Frame with Fire Insulation Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "174",
+      "description": "D: General Wood Dwellings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "175",
+      "description": "SP: Reinforced Concrete Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "176",
+      "description": "1: Steel with Fire Insulation Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "177",
+      "description": "2: General Steel Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "178",
+      "description": "3: Wood Frame with Fire Insulation Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "179",
+      "description": "4: General Wood Frame Buildings (Japan)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "181",
+      "description": "Long Span"
+    },
+    {
+      "scheme": "AIR",
+      "code": "182",
+      "description": "Semi-Wind Resistive"
+    },
+    {
+      "scheme": "AIR",
+      "code": "183",
+      "description": "Wind Resistive"
+    },
+    {
+      "scheme": "AIR",
+      "code": "185",
+      "description": "Unknown Glass"
+    },
+    {
+      "scheme": "AIR",
+      "code": "186",
+      "description": "Safety Glass"
+    },
+    {
+      "scheme": "AIR",
+      "code": "187",
+      "description": "Impact Resistance Glass"
+    },
+    {
+      "scheme": "AIR",
+      "code": "191",
+      "description": "Mobile Home (unknown tie-down)"
+    },
+    {
+      "scheme": "AIR",
+      "code": "192",
+      "description": "Mobile Home with No Tie-Downs"
+    },
+    {
+      "scheme": "AIR",
+      "code": "193",
+      "description": "Mobile Home with Partial Tie-Downs"
+    },
+    {
+      "scheme": "AIR",
+      "code": "194",
+      "description": "Mobile Home with Full Tie-Downs"
+    }
+  ],
+  "occupancyData": [
+    {
+      "scheme": "AIR",
+      "code": "301",
+      "description": "General Residential"
+    },
+    {
+      "scheme": "AIR",
+      "code": "302",
+      "description": "Permanent Dwelling: Single Family"
+    },
+    {
+      "scheme": "AIR",
+      "code": "303",
+      "description": "Permanent Dwelling: Multi Family"
+    },
+    {
+      "scheme": "AIR",
+      "code": "304",
+      "description": "Temporary Lodging"
+    },
+    {
+      "scheme": "AIR",
+      "code": "305",
+      "description": "Group Institutional Housing"
+    },
+    {
+      "scheme": "AIR",
+      "code": "306",
+      "description": "Apartments/Condominiums"
+    },
+    {
+      "scheme": "AIR",
+      "code": "307",
+      "description": "Terraced Housing"
+    },
+    {
+      "scheme": "AIR",
+      "code": "311",
+      "description": "General Commercial"
+    },
+    {
+      "scheme": "AIR",
+      "code": "312",
+      "description": "Retail Trade"
+    },
+    {
+      "scheme": "AIR",
+      "code": "313",
+      "description": "Wholesale Trade"
+    },
+    {
+      "scheme": "AIR",
+      "code": "314",
+      "description": "Personal and Repair Services"
+    },
+    {
+      "scheme": "AIR",
+      "code": "315",
+      "description": "Professional, Technical, and Business Services"
+    },
+    {
+      "scheme": "AIR",
+      "code": "316",
+      "description": "Health Care Services"
+    },
+    {
+      "scheme": "AIR",
+      "code": "317",
+      "description": "Entertainment and Recreation"
+    },
+    {
+      "scheme": "AIR",
+      "code": "318",
+      "description": "Parking"
+    },
+    {
+      "scheme": "AIR",
+      "code": "319",
+      "description": "Golf Courses"
+    },
+    {
+      "scheme": "AIR",
+      "code": "321",
+      "description": "General Industrial"
+    },
+    {
+      "scheme": "AIR",
+      "code": "322",
+      "description": "Heavy Fabrication and Assembly"
+    },
+    {
+      "scheme": "AIR",
+      "code": "323",
+      "description": "Light Fabrication and Assembly"
+    },
+    {
+      "scheme": "AIR",
+      "code": "324",
+      "description": "Food and Drug Processing"
+    },
+    {
+      "scheme": "AIR",
+      "code": "325",
+      "description": "Chemical Processing"
+    },
+    {
+      "scheme": "AIR",
+      "code": "326",
+      "description": "Metal and Minerals Processing"
+    },
+    {
+      "scheme": "AIR",
+      "code": "327",
+      "description": "High Technology"
+    },
+    {
+      "scheme": "AIR",
+      "code": "328",
+      "description": "Construction"
+    },
+    {
+      "scheme": "AIR",
+      "code": "329",
+      "description": "Petroleum"
+    },
+    {
+      "scheme": "AIR",
+      "code": "330",
+      "description": "Mining"
+    },
+    {
+      "scheme": "AIR",
+      "code": "331",
+      "description": "Restaurants"
+    },
+    {
+      "scheme": "AIR",
+      "code": "335",
+      "description": "Gasoline Stations"
+    },
+    {
+      "scheme": "AIR",
+      "code": "336",
+      "description": "Automotive Repair Services"
+    },
+    {
+      "scheme": "AIR",
+      "code": "341",
+      "description": "Religion and Non-Profit"
+    },
+    {
+      "scheme": "AIR",
+      "code": "342",
+      "description": "Church"
+    },
+    {
+      "scheme": "AIR",
+      "code": "343",
+      "description": "General Services"
+    },
+    {
+      "scheme": "AIR",
+      "code": "344",
+      "description": "Emergency Services"
+    },
+    {
+      "scheme": "AIR",
+      "code": "345",
+      "description": "Universities, Colleges, and Technical Schools"
+    },
+    {
+      "scheme": "AIR",
+      "code": "346",
+      "description": "Primary and Secondary Schools"
+    },
+    {
+      "scheme": "AIR",
+      "code": "351",
+      "description": "Highway, Transportation"
+    },
+    {
+      "scheme": "AIR",
+      "code": "352",
+      "description": "Railroad, Track, and Rail Terminals"
+    },
+    {
+      "scheme": "AIR",
+      "code": "353",
+      "description": "Air Transportation"
+    },
+    {
+      "scheme": "AIR",
+      "code": "354",
+      "description": "Sea and Inland Waterways; Docks, Ships, Boats"
+    },
+    {
+      "scheme": "AIR",
+      "code": "355",
+      "description": "Airplane Hangars"
+    },
+    {
+      "scheme": "AIR",
+      "code": "356",
+      "description": "Aircraft at Ramps or Boarding Gates"
+    },
+    {
+      "scheme": "AIR",
+      "code": "361",
+      "description": "Electrical Utilities"
+    },
+    {
+      "scheme": "AIR",
+      "code": "362",
+      "description": "Water Utilities"
+    },
+    {
+      "scheme": "AIR",
+      "code": "363",
+      "description": "Sanitary Sewer and Waste Disposal"
+    },
+    {
+      "scheme": "AIR",
+      "code": "364",
+      "description": "Natural Gas Distribution"
+    },
+    {
+      "scheme": "AIR",
+      "code": "365",
+      "description": "Telephone and Telegraph"
+    },
+    {
+      "scheme": "AIR",
+      "code": "366",
+      "description": "Warehouse"
+    },
+    {
+      "scheme": "AIR",
+      "code": "371",
+      "description": "Communication"
+    },
+    {
+      "scheme": "AIR",
+      "code": "372",
+      "description": "Flood Control"
+    },
+    {
+      "scheme": "AIR",
+      "code": "373",
+      "description": "Agriculture"
+    },
+    {
+      "scheme": "AIR",
+      "code": "374",
+      "description": "Green Houses"
+    },
+    {
+      "scheme": "AIR",
+      "code": "375",
+      "description": "Forestry"
+    }
+  ],
+  "roofCoverTypes": [
+    {
+      "type": "Unknown/default",
+      "code": 0
+    },
+    {
+      "type": "Asphalt shingles",
+      "code": 1
+    },
+    {
+      "type": "Wooden shingles",
+      "code": 2
+    },
+    {
+      "type": "Clay/concrete tiles",
+      "code": 3
+    },
+    {
+      "type": "Light metal panels",
+      "code": 4
+    },
+    {
+      "type": "Slate",
+      "code": 5
+    },
+    {
+      "type": "Built-up roof with gravel",
+      "code": 6
+    },
+    {
+      "type": "Single ply membrane",
+      "code": 7
+    },
+    {
+      "type": "Standing seam metal roofs",
+      "code": 8
+    },
+    {
+      "type": "Built-up roof without gravel",
+      "code": 9
+    },
+    {
+      "type": "Single ply membrane ballasted",
+      "code": 10
+    },
+    {
+      "type": "Hurricane Wind-Rated Roof Coverings",
+      "code": 11
+    }
+  ],
+  "wallTypes": [
+    {
+      "type": "Unknown/default",
+      "code": 0
+    },
+    {
+      "type": "Wood frame",
+      "code": 1
+    },
+    {
+      "type": "Masonry",
+      "code": 2
+    },
+    {
+      "type": "Concrete",
+      "code": 3
+    },
+    {
+      "type": "Steel",
+      "code": 4
+    },
+    {
+      "type": "Stucco",
+      "code": 5
+    },
+    {
+      "type": "Vinyl siding",
+      "code": 6
+    },
+    {
+      "type": "Brick veneer",
+      "code": 7
+    },
+    {
+      "type": "Stone veneer",
+      "code": 8
+    },
+    {
+      "type": "Fiber cement",
+      "code": 9
+    }
+  ],
+  "foundationTypes": [
+    {
+      "type": "Unknown/default",
+      "code": 0
+    },
+    {
+      "type": "Masonry basement",
+      "code": 1
+    },
+    {
+      "type": "Concrete basement",
+      "code": 2
+    },
+    {
+      "type": "Masonry wall",
+      "code": 3
+    },
+    {
+      "type": "Crawl space cripple wall",
+      "code": 4
+    },
+    {
+      "type": "Crawl space masonry",
+      "code": 5
+    },
+    {
+      "type": "Post & pier",
+      "code": 6
+    },
+    {
+      "type": "Footing",
+      "code": 7
+    },
+    {
+      "type": "Mat / slab",
+      "code": 8
+    },
+    {
+      "type": "Pile",
+      "code": 9
+    },
+    {
+      "type": "No basement",
+      "code": 10
+    },
+    {
+      "type": "Engineering foundation",
+      "code": 11
+    },
+    {
+      "type": "Crawlspace – raised (wood)",
+      "code": 12
+    }
+  ],
+  "softStoryTypes": [
+    {
+      "type": "Unknown/default",
+      "code": 0
+    },
+    {
+      "type": "No",
+      "code": 1
+    },
+    {
+      "type": "Yes",
+      "code": 2
+    }
+  ],
+  "businessTypeOccupMapping": [
+    {
+      "key": "house",
+      "value": "302"
+    },
+    {
+      "key": "home",
+      "value": "302"
+    },
+    {
+      "key": "apartment",
+      "value": "303"
+    },
+    {
+      "key": "condo",
+      "value": "306"
+    },
+    {
+      "key": "residential",
+      "value": "301"
+    },
+    {
+      "key": "office",
+      "value": "315"
+    },
+    {
+      "key": "store",
+      "value": "312"
+    },
+    {
+      "key": "shop",
+      "value": "312"
+    },
+    {
+      "key": "retail",
+      "value": "312"
+    },
+    {
+      "key": "restaurant",
+      "value": "331"
+    },
+    {
+      "key": "hotel",
+      "value": "304"
+    },
+    {
+      "key": "motel",
+      "value": "304"
+    },
+    {
+      "key": "parking",
+      "value": "318"
+    },
+    {
+      "key": "commercial",
+      "value": "311"
+    },
+    {
+      "key": "factory",
+      "value": "321"
+    },
+    {
+      "key": "manufacturing",
+      "value": "321"
+    },
+    {
+      "key": "warehouse",
+      "value": "366"
+    },
+    {
+      "key": "industrial",
+      "value": "321"
+    },
+    {
+      "key": "school",
+      "value": "346"
+    },
+    {
+      "key": "university",
+      "value": "345"
+    },
+    {
+      "key": "college",
+      "value": "345"
+    },
+    {
+      "key": "church",
+      "value": "342"
+    },
+    {
+      "key": "hospital",
+      "value": "316"
+    },
+    {
+      "key": "utility",
+      "value": "361"
+    },
+    {
+      "key": "power",
+      "value": "361"
+    },
+    {
+      "key": "water",
+      "value": "362"
+    },
+    {
+      "key": "farm",
+      "value": "373"
+    },
+    {
+      "key": "agriculture",
+      "value": "373"
+    },
+    {
+      "key": "greenhouse",
+      "value": "374"
+    }
+  ]
+}

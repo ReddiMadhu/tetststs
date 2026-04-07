@@ -1,0 +1,128 @@
+{
+  "W1": {
+    "description": "Wood Light Frame",
+    "keywords": [
+      "wood frame",
+      "light frame",
+      "stick frame",
+      "wf"
+    ]
+  },
+  "W2": {
+    "description": "Wood Post and Beam",
+    "keywords": [
+      "post and beam",
+      "heavy timber",
+      "timber frame"
+    ]
+  },
+  "S1": {
+    "description": "Steel Moment Frame",
+    "keywords": [
+      "steel moment frame",
+      "smrf",
+      "steel mrf"
+    ]
+  },
+  "S2": {
+    "description": "Steel Braced Frame",
+    "keywords": [
+      "braced steel",
+      "steel bracing",
+      "cbf"
+    ]
+  },
+  "S3": {
+    "description": "Steel Light Frame",
+    "keywords": [
+      "light metal",
+      "light steel",
+      "metal building",
+      "pre-engineered"
+    ]
+  },
+  "S4": {
+    "description": "Steel Frame with Concrete Shear Wall",
+    "keywords": [
+      "steel concrete shear wall",
+      "dual system"
+    ]
+  },
+  "S5": {
+    "description": "Steel Frame with URM Infill",
+    "keywords": [
+      "steel urm",
+      "steel masonry infill"
+    ]
+  },
+  "C1": {
+    "description": "Concrete Moment Frame",
+    "keywords": [
+      "concrete moment frame",
+      "rc mrf",
+      "reinforced concrete frame"
+    ]
+  },
+  "C2": {
+    "description": "Concrete Shear Wall",
+    "keywords": [
+      "concrete shear wall",
+      "rc shear wall"
+    ]
+  },
+  "C3": {
+    "description": "Concrete Frame with URM Infill",
+    "keywords": [
+      "concrete urm",
+      "rc frame masonry"
+    ]
+  },
+  "PC1": {
+    "description": "Precast Concrete Tilt-Up",
+    "keywords": [
+      "tilt-up",
+      "tilt up",
+      "precast tilt"
+    ]
+  },
+  "PC2": {
+    "description": "Precast Concrete Frame",
+    "keywords": [
+      "precast concrete",
+      "pre-cast frame",
+      "precast frame"
+    ]
+  },
+  "RM1": {
+    "description": "Reinforced Masonry Bearing Wall (Flexible Diaphragm)",
+    "keywords": [
+      "reinforced masonry",
+      "rm",
+      "reinforced brick"
+    ]
+  },
+  "RM2": {
+    "description": "Reinforced Masonry Bearing Wall (Stiff Diaphragm)",
+    "keywords": [
+      "reinforced masonry stiff",
+      "rm stiff"
+    ]
+  },
+  "URM": {
+    "description": "Unreinforced Masonry",
+    "keywords": [
+      "unreinforced masonry",
+      "urm",
+      "unconfined masonry",
+      "plain masonry"
+    ]
+  },
+  "MH": {
+    "description": "Mobile Home",
+    "keywords": [
+      "mobile home",
+      "manufactured home",
+      "trailer"
+    ]
+  }
+}

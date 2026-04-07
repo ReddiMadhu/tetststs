@@ -1,0 +1,116 @@
+{
+  "_comment": "Complete RMS Construction Code → AIR Class mapping. Source: user-provided authoritative reference (2026-04-01). Covers basic types, infrastructure, tanks, equipment, advanced structural, and special codes.",
+
+  "basic": {
+    "0":  { "rms_desc": "Unknown",             "air_class": "100", "air_desc": "Unknown",       "keywords": ["unknown","unspecified","tbd","unclassified","na"] },
+    "1":  { "rms_desc": "Wood",                "air_class": "101", "air_desc": "Wood Frame",     "keywords": ["wood","frame","wood frame","stick frame","timber frame","light frame","light wood frame","post frame","pole barn","adobe","sip","wf","structural insulated panel","modular wood","wood truss","platform frame"] },
+    "2":  { "rms_desc": "Masonry",             "air_class": "111", "air_desc": "Masonry",        "keywords": ["masonry","brick","cmu","block","joisted masonry","jm","unreinforced masonry","urm","stone masonry","concrete block","masonry bearing","brick masonry","concrete masonry unit"] },
+    "3":  { "rms_desc": "Reinforced Concrete", "air_class": "131", "air_desc": "Reinforced Concrete", "keywords": ["reinforced concrete","concrete","rc","cast in place","cip","post tension","flat slab","waffle slab","prestressed concrete","concrete frame","shear wall","concrete shear wall","rcc"] },
+    "4":  { "rms_desc": "Steel",               "air_class": "151", "air_desc": "Steel",          "keywords": ["steel","steel frame","structural steel","metal frame","light gauge steel","lgs","steel stud","steel joist","braced frame","moment frame","steel deck","stl","stl frm"] },
+    "5":  { "rms_desc": "Mobile Homes",        "air_class": "191", "air_desc": "Mobile Homes",   "keywords": ["mobile home","manufactured home","trailer","mobile"] }
+  },
+
+  "infrastructure": {
+    "6":  { "rms_desc": "Conventional - Multiple Span Bridges", "air_class": "201", "air_desc": "Multiple Span Bridges",    "keywords": ["multiple span bridge","multi span","multi-span bridge"] },
+    "7":  { "rms_desc": "Conventional - Continuous Bridges",    "air_class": "202", "air_desc": "Continuous Bridges",       "keywords": ["continuous bridge","continuous span","continuous beam bridge"] },
+    "8":  { "rms_desc": "Major Bridges",                        "air_class": "203", "air_desc": "Major Bridges",            "keywords": ["major bridge","suspension bridge","cable bridge","major span"] },
+    "9":  { "rms_desc": "Underground Pipelines",                "air_class": "227", "air_desc": "Underground Pipelines",   "keywords": ["underground pipeline","buried pipeline","subsurface pipeline"] },
+    "10": { "rms_desc": "At Grade Pipelines",                   "air_class": "228", "air_desc": "At Grade Pipelines",      "keywords": ["at grade pipeline","surface pipeline","above ground pipeline"] },
+    "11": { "rms_desc": "Concrete Dams",                        "air_class": "211", "air_desc": "Concrete Dams",           "keywords": ["concrete dam","dam concrete","gravity dam"] },
+    "12": { "rms_desc": "Earthfill Dams",                       "air_class": "212", "air_desc": "Earthfill Dams",          "keywords": ["earthfill dam","earth dam","embankment dam"] },
+    "13": { "rms_desc": "Alluvium Tunnels",                     "air_class": "213", "air_desc": "Alluvium Tunnels",        "keywords": ["alluvium tunnel","soft ground tunnel","soil tunnel"] },
+    "14": { "rms_desc": "Rock Tunnels",                         "air_class": "214", "air_desc": "Rock Tunnels",            "keywords": ["rock tunnel","hard rock tunnel","bore tunnel"] },
+    "15": { "rms_desc": "Cut and Cover Tunnels",                "air_class": "215", "air_desc": "Cut and Cover Tunnels",   "keywords": ["cut and cover","cut cover tunnel","cut-and-cover"] },
+    "22": { "rms_desc": "Railroads",                            "air_class": "204", "air_desc": "Railroads",               "keywords": ["railroad","railway","rail","train track"] },
+    "23": { "rms_desc": "Highways",                             "air_class": "205", "air_desc": "Highways",                "keywords": ["highway","freeway","motorway","expressway","roadway"] },
+    "24": { "rms_desc": "Runways",                              "air_class": "206", "air_desc": "Runways",                 "keywords": ["runway","airstrip","tarmac","aircraft runway"] }
+  },
+
+  "tanks": {
+    "16": { "rms_desc": "Underground Liquid Tanks", "air_class": "221", "air_desc": "Underground Liquid Tanks", "keywords": ["underground liquid tank","buried liquid tank","ult"] },
+    "17": { "rms_desc": "Underground Solid Tanks",  "air_class": "222", "air_desc": "Underground Solid Tanks",  "keywords": ["underground solid tank","buried solid tank"] },
+    "18": { "rms_desc": "On Ground Liquid Tanks",   "air_class": "223", "air_desc": "On Ground Liquid Tanks",  "keywords": ["on ground liquid tank","above ground liquid tank","surface liquid tank"] },
+    "19": { "rms_desc": "On Ground Solid Tanks",    "air_class": "224", "air_desc": "On Ground Solid Tanks",   "keywords": ["on ground solid tank","surface solid tank"] },
+    "20": { "rms_desc": "Elevated Liquid Tanks",    "air_class": "225", "air_desc": "Elevated Liquid Tanks",   "keywords": ["elevated liquid tank","water tower","elevated storage tank"] },
+    "21": { "rms_desc": "Elevated Solid Tanks",     "air_class": "226", "air_desc": "Elevated Solid Tanks",    "keywords": ["elevated solid tank","elevated silo"] }
+  },
+
+  "chimneys": {
+    "25": { "rms_desc": "Masonry Chimneys",  "air_class": "231", "air_desc": "Masonry Chimneys",  "keywords": ["masonry chimney","brick chimney","chimney masonry"] },
+    "26": { "rms_desc": "Concrete Chimneys", "air_class": "232", "air_desc": "Concrete Chimneys", "keywords": ["concrete chimney","rc chimney","chimney concrete"] },
+    "27": { "rms_desc": "Steel Chimneys",    "air_class": "233", "air_desc": "Steel Chimneys",    "keywords": ["steel chimney","metal chimney","chimney steel"] }
+  },
+
+  "industrial_towers": {
+    "30": { "rms_desc": "Electrical Transmission - Conventional", "air_class": "234", "air_desc": "Electrical Transmission - Conventional", "keywords": ["electrical transmission conventional","transmission line","power line conventional"] },
+    "31": { "rms_desc": "Electrical Transmission - Major",        "air_class": "235", "air_desc": "Electrical Transmission - Major",        "keywords": ["electrical transmission major","major transmission","ehv transmission"] },
+    "32": { "rms_desc": "Broadcast Towers",                       "air_class": "236", "air_desc": "Broadcast Towers",                       "keywords": ["broadcast tower","tv tower","radio tower","telecommunications tower"] },
+    "33": { "rms_desc": "Observation Towers",                     "air_class": "237", "air_desc": "Observation Towers",                     "keywords": ["observation tower","lookout tower","viewing tower"] },
+    "34": { "rms_desc": "Offshore Towers",                        "air_class": "238", "air_desc": "Offshore Towers",                        "keywords": ["offshore tower","oil platform","offshore structure","marine tower"] }
+  },
+
+  "equipment": {
+    "28": { "rms_desc": "Cranes",                   "air_class": "253", "air_desc": "Cranes",                   "keywords": ["crane","overhead crane","gantry crane","tower crane"] },
+    "29": { "rms_desc": "Conveyor Systems",          "air_class": "254", "air_desc": "Conveyor Systems",          "keywords": ["conveyor","conveyor system","conveyor belt","material handling"] },
+    "35": { "rms_desc": "Canals",                   "air_class": "255", "air_desc": "Canals",                   "keywords": ["canal","waterway","aqueduct"] },
+    "36": { "rms_desc": "Earth Retaining Structures","air_class": "256", "air_desc": "Earth Retaining Structures","keywords": ["earth retaining","retaining wall","sheet pile","earth retention"] },
+    "37": { "rms_desc": "Waterfront Structures",    "air_class": "257", "air_desc": "Waterfront Structures",    "keywords": ["waterfront","pier","wharf","quay","jetty","dock structure"] },
+    "38": { "rms_desc": "Residential Equipment",    "air_class": "241", "air_desc": "Residential Equipment",    "keywords": ["residential equipment","home appliance","hvac residential"] },
+    "39": { "rms_desc": "Office Equipment",         "air_class": "242", "air_desc": "Office Equipment",         "keywords": ["office equipment","office machinery","photocopier","printer"] },
+    "40": { "rms_desc": "Electrical Equipment",     "air_class": "243", "air_desc": "Electrical Equipment",     "keywords": ["electrical equipment","electrical machinery","transformer","switchgear"] },
+    "41": { "rms_desc": "Mechanical Equipment",     "air_class": "244", "air_desc": "Mechanical Equipment",     "keywords": ["mechanical equipment","machinery","pump","compressor","turbine"] },
+    "42": { "rms_desc": "High Technology Equipment","air_class": "245", "air_desc": "High Technology Equipment", "keywords": ["high technology","semiconductor equipment","data center equipment","server"] },
+    "43": { "rms_desc": "Trains, Trucks, Airplanes etc.", "air_class": "246", "air_desc": "Trains/Trucks/Aircraft", "keywords": ["train","truck","airplane","aircraft","rolling stock","locomotive"] },
+    "44": { "rms_desc": "Automobiles - Personal",   "air_class": "261", "air_desc": "Automobiles",              "keywords": ["automobile","personal vehicle","car","passenger vehicle"] },
+    "45": { "rms_desc": "Automobiles - Dealers",    "air_class": "261", "air_desc": "Automobiles",              "keywords": ["automobile dealer","dealership","car dealer","dealer inventory"] }
+  },
+
+  "industrial_facilities": {
+    "46":  { "rms_desc": "Petrochemical Facilities", "air_class": "100", "air_desc": "Unknown", "keywords": ["petrochemical","petroleum facility"] },
+    "46A": { "rms_desc": "Oil Refineries",           "air_class": "100", "air_desc": "Unknown", "keywords": ["oil refinery","refinery","petroleum refinery","crude oil processing"] },
+    "46B": { "rms_desc": "Petrochemical Facilities", "air_class": "100", "air_desc": "Unknown", "keywords": ["petrochemical facility","chemical plant","petrochemical plant"] },
+    "46C": { "rms_desc": "Pumping Stations",         "air_class": "251", "air_desc": "Pumping Stations",       "keywords": ["pumping station","pump station","water pumping"] },
+    "48A": { "rms_desc": "Compressor Stations",      "air_class": "252", "air_desc": "Compressor Stations",    "keywords": ["compressor station","gas compressor","compression station"] },
+    "53":  { "rms_desc": "Golf Country Club",        "air_class": "100", "air_desc": "Unknown",                "keywords": ["golf","country club","golf course"] }
+  },
+
+  "special_unknown": {
+    "54": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["boat","vessel","marine vessel","watercraft"] },
+    "55": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["boat small","dinghy","rowboat"] },
+    "56": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["sailboat","sailing vessel"] },
+    "57": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["motorboat","powerboat"] },
+    "58": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["tug boat","tugboat"] },
+    "59": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["barge","cargo barge"] },
+    "60": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["ferry","passenger ferry"] },
+    "61": { "rms_desc": "Boats (all types)", "air_class": "100", "air_desc": "Unknown", "keywords": ["ship","cargo ship","ocean vessel"] },
+    "63": { "rms_desc": "Aircraft - Small",  "air_class": "100", "air_desc": "Unknown", "keywords": ["small aircraft","light aircraft","propeller plane","cessna"] },
+    "64": { "rms_desc": "Aircraft - Medium", "air_class": "100", "air_desc": "Unknown", "keywords": ["medium aircraft","regional jet","turboprop"] },
+    "65": { "rms_desc": "Aircraft - Large",  "air_class": "100", "air_desc": "Unknown", "keywords": ["large aircraft","commercial aircraft","widebody","jumbo jet"] }
+  },
+
+  "advanced_structural": {
+    "2B":  { "rms_desc": "Unreinforced Masonry (URM)",        "air_class": "114", "air_desc": "URM Bearing Wall",            "keywords": ["unreinforced masonry","urm","unconfined masonry","plain masonry","urm walls","unreinforced brick"] },
+    "2C":  { "rms_desc": "Structural Masonry",                "air_class": "116", "air_desc": "Reinforced Masonry",          "keywords": ["structural masonry","reinforced masonry","rm","reinforced brick","reinforced block","reinforced concrete masonry"] },
+    "2C1": { "rms_desc": "Reinforced Masonry Shear Wall",     "air_class": "118", "air_desc": "RM Shear Wall (Without MRF)", "keywords": ["reinforced masonry shear wall","rm shear wall","rm without mrf","reinforced masonry bearing"] },
+    "3A":  { "rms_desc": "Cast-in-place RC with Concrete Roof","air_class": "131", "air_desc": "Reinforced Concrete",        "keywords": ["cast in place concrete","cip concrete","cast-in-place","rc concrete roof","in situ concrete"] },
+    "3A1": { "rms_desc": "RC Moment Resisting Frame (RCMRF)", "air_class": "134", "air_desc": "RC MRF - Ductile",           "keywords": ["rc moment resisting frame","rcmrf","concrete moment frame","ductile rc","concrete mrf","rc mrf ductile"] },
+    "3A2": { "rms_desc": "RC MRF with Shear Walls",           "air_class": "132", "air_desc": "RC Shear Wall (With MRF)",   "keywords": ["rc mrf with shear walls","concrete dual system","rc shear mrf","dual system concrete"] },
+    "3A3": { "rms_desc": "RC MRF with URM Infill",            "air_class": "135", "air_desc": "RC MRF - Non-Ductile",      "keywords": ["rc mrf urm infill","non-ductile concrete","concrete frame masonry infill","rc urm"] },
+    "3A4": { "rms_desc": "RC Shear Wall",                     "air_class": "133", "air_desc": "RC Shear Wall (Without MRF)","keywords": ["rc shear wall","concrete shear wall","rc sw","shear wall concrete","concrete wall"] },
+    "3A5": { "rms_desc": "Waffle / Flat Slab",                "air_class": "135", "air_desc": "RC MRF - Non-Ductile",      "keywords": ["waffle slab","flat slab","flat plate","waffle","two way slab"] },
+    "3A6": { "rms_desc": "Steel + RC Composite Frame",        "air_class": "134", "air_desc": "RC MRF - Ductile",           "keywords": ["steel rc composite","composite frame","src frame","composite steel concrete","src","steel reinforced concrete"] },
+    "3A10":{ "rms_desc": "RC Frame with Wood Upper Floors",   "air_class": "131", "air_desc": "Reinforced Concrete",        "keywords": ["rc frame wood upper","concrete wood hybrid","podium wood upper","concrete podium wood","rc with wood"] },
+    "3B":  { "rms_desc": "Precast RC Roof Deck",              "air_class": "137", "air_desc": "Precast Concrete",           "keywords": ["precast concrete","precast","pre-cast","precast panel","hollow core","double tee","prefab concrete","precast roof deck","double-t"] },
+    "3B4": { "rms_desc": "Tilt-Up",                           "air_class": "136", "air_desc": "Tilt-Up",                    "keywords": ["tilt-up","tilt up","tilt wall","tilt panel","tiltup","precast tilt","tilt-up concrete"] },
+    "3B6": { "rms_desc": "Lift Slab",                         "air_class": "135", "air_desc": "RC MRF - Non-Ductile",      "keywords": ["lift slab","jacking slab","raised slab construction"] },
+    "3C":  { "rms_desc": "RC with Wood/Metal Roof",           "air_class": "131", "air_desc": "Reinforced Concrete",        "keywords": ["rc wood roof","concrete wood roof","rc metal roof","concrete with wood roof","rc light roof"] },
+    "4A":  { "rms_desc": "Steel Frame + Concrete Roof",       "air_class": "151", "air_desc": "Steel",                      "keywords": ["steel frame concrete roof","steel concrete roof","steel with concrete deck"] },
+    "4A1": { "rms_desc": "Steel MRF",                         "air_class": "155", "air_desc": "Steel MRF - Distributed",   "keywords": ["steel mrf","steel moment resisting frame","smrf","steel special moment frame","steel distributed mrf"] },
+    "4A4": { "rms_desc": "Concentrically Braced Frame",       "air_class": "153", "air_desc": "Braced Steel Frame",         "keywords": ["concentrically braced frame","cbf","concentric brace","steel cbf","braced steel frame"] },
+    "4A5": { "rms_desc": "Eccentrically Braced Frame",        "air_class": "153", "air_desc": "Braced Steel Frame",         "keywords": ["eccentrically braced frame","ebf","eccentric brace","steel ebf"] },
+    "4B":  { "rms_desc": "Light Metal Frame",                 "air_class": "152", "air_desc": "Light Metal",                "keywords": ["light metal frame","light metal","metal building","pre-engineered metal","pemb","metal bldg","prefab metal","light steel frame","pre-engineered steel"] },
+    "4C":  { "rms_desc": "Steel Frame with Wood/Metal Roof",  "air_class": "151", "air_desc": "Steel",                      "keywords": ["steel frame wood roof","steel frame metal roof","steel with wood roof","steel light roof"] },
+    "5A":  { "rms_desc": "Mobile Home Without Tie Downs",     "air_class": "192", "air_desc": "No Tie Down",                "keywords": ["mobile home without tie downs","unanchored mobile home","manufactured home no tie down"] },
+    "5B":  { "rms_desc": "Mobile Home With Tie Downs",        "air_class": "193", "air_desc": "Partial/Full Tie Down",      "keywords": ["mobile home with tie downs","anchored mobile home","manufactured home tie down","semi-anchored mobile"] }
+  }
+}
