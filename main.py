@@ -807,7 +807,7 @@ def slip_summary(upload_id: str):
 # â”€â”€ Download â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @app.get("/download/{upload_id}", tags=["Output"])
-def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|tsv|txt)$")):
+def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|txt)$")):
     session = _get_session_or_404(upload_id)
     _require_stage(session, "normalization", "/download")
 
@@ -817,9 +817,9 @@ def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|tsv|txt
     target = session.get("target_format", "AIR")
     short_id = upload_id[:8]
 
-    if format in ("tsv", "txt"):
+    if format == "txt":
         buf = build_tsv(final_rows, unmapped_cols, target)
-        filename = f"cat_output_{short_id}.tsv"
+        filename = f"cat_output_{short_id}.txt"
         media_type = "text/tab-separated-values"
     else:
         buf = build_xlsx(final_rows, unmapped_cols, flags, target, upload_id)
@@ -830,8 +830,8 @@ def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|tsv|txt
 
 
 @app.get("/download-account/{upload_id}", tags=["Output"])
-def download_account(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|tsv)$")):
-    """Download the account file output as XLSX or TSV."""
+def download_account(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|txt)$")):
+    """Download the account file output as XLSX or TXT."""
     session = _get_session_or_404(upload_id)
     _require_stage(session, "normalization", "/download-account")
 
@@ -839,9 +839,9 @@ def download_account(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx
     target = session.get("target_format", "AIR")
     short_id = upload_id[:8]
 
-    if format == "tsv":
+    if format == "txt":
         buf = build_account_tsv(final_rows, target)
-        filename = f"account_output_{short_id}.tsv"
+        filename = f"account_output_{short_id}.txt"
         media_type = "text/tab-separated-values"
     else:
         buf = build_account_xlsx(final_rows, target)

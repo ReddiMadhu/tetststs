@@ -218,6 +218,11 @@ def _get_account_rows(rows: List[Dict[str, Any]], target_format: str) -> Tuple[L
             acc = r.get("ACCNTNUM")
             if acc and acc not in unique_accounts:
                 unique_accounts[acc] = True
+        
+        # Fallback if no account numbers were mapped or found
+        if not unique_accounts:
+            unique_accounts["ACC_1"] = True
+
         acc_rows: List[Dict[str, Any]] = []
         for acc in unique_accounts:
             acc_rows.extend([
@@ -237,6 +242,11 @@ def _get_account_rows(rows: List[Dict[str, Any]], target_format: str) -> Tuple[L
             iname = r.get("InsuredName")
             if cid and cid not in unique_contracts:
                 unique_contracts[cid] = iname or ""
+                
+        # Fallback if no contract IDs were found
+        if not unique_contracts:
+            unique_contracts["CONT_1"] = "Unknown Insured"
+
         acc_rows = []
         for cid, iname in unique_contracts.items():
             acc_rows.extend([
