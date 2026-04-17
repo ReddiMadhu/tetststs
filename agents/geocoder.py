@@ -1,4 +1,4 @@
-﻿"""
+"""
 geocoder.py â€” Geoapify geocoding with LRU cache and ISO 3166 state validation.
 """
 import httpx
@@ -74,7 +74,7 @@ def assemble_address(row: dict, target_format: str = "AIR") -> Optional[str]:
                 return str(v).strip()
         return ""
 
-    full = val("FullAddress")
+    full = val("_CombinedAddress", "FullAddress", "Address")
     if full:
         return full
 
@@ -237,37 +237,37 @@ def _validate_state_code(code: str) -> str:
     return "INVALID_FORMAT"
 
 
-# â”€â”€ Row-level geocoding decision â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Row-level geocoding decision ───────────────────────────────────────────────
 
 def process_row_geocoding(row: dict, column_map: dict,
                            target_format: str = "AIR") -> dict:
     """
     Apply the geocoding decision tree to one row.
-    1. Clean all address fields via address_normalizer.
-    2. If valid coordinates already present, trust them.
-    3. Otherwise assemble address string and geocode via Geoapify.
+    1. If valid coordinates already present, trust them and normalize.
+    2. Otherwise assemble address string and geocode via Geoapify.
+    3. Normalize the extracted Geoapify components via address_normalizer.
     Returns a dict of geo fields to merge into the row.
     """
     row_idx = row.get("_row_index", 0)
 
-    # â”€â”€ Step 1: Normalize address fields â€” clean before geocoding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    row, _addr_flags = normalize_address_fields(row, row_idx, target_format)
-    # (flags returned here are already collected by the caller in normalize_all_rows;
-    #  pass-through flags can optionally be merged if needed)
-
     lat = row.get("Latitude")
     lon = row.get("Longitude")
 
-    # â”€â”€ Step 2: Valid coordinates already present â€” trust them â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ── Step 1: Valid coordinates already present — trust them ────────────────
     if _is_valid_lat(lat) and _is_valid_lon(lon):
-        return {
+        res = {
             "Latitude":        float(lat),
             "Longitude":       float(lon),
             "Geosource":       "Provided",
             "GeocodingStatus": "PROVIDED",
         }
+        final_res, _addr_flags = normalize_address_fields({**row, **res}, row_idx, target_format)
+        output_keys = ["Latitude", "Longitude", "Street", "City", "Area", "PostalCode", "CountryISO", 
+                       "STREETNAME", "CITY", "STATECODE", "POSTALCODE", "CNTRYCODE", 
+                       "Geosource", "GeocodingStatus", "Geo_Confidence", "StateCodeValidation"]
+        return {k: v for k, v in final_res.items() if k in output_keys}
 
-    # â”€â”€ Step 3: Assemble cleaned address and geocode â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ── Step 2: Assemble address and geocode ───────────────────────────
     address_raw = assemble_address(row, target_format)
     if not address_raw:
         return {
@@ -285,19 +285,19 @@ def process_row_geocoding(row: dict, column_map: dict,
         }
         # In AIR, if only FullAddress was given and API fails, copy it to Street so the schema is not empty
         if target_format == "AIR" and not row.get("Street"):
-            res["Street"] = row.get("FullAddress", "")
+            res["Street"] = row.get("FullAddress", "") or row.get("_CombinedAddress", "") or row.get("Address", "")
         return res
 
-    # â”€â”€ Step 4: Map Geoapify result back to canonical key names â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ── Step 3: Map Geoapify result back to canonical key names ───────────────
     if target_format == "AIR":
         # Determine isolated street if geocoder didn't return a specific one
         final_street = result["street"]
         if not final_street:
             # Fallback: clean the input string of city/postcode
-            raw_in = row.get("Street") or row.get("FullAddress", "")
+            raw_in = row.get("Street") or row.get("FullAddress", "") or row.get("_CombinedAddress", "") or row.get("Address", "")
             final_street = _clean_street_fallback(raw_in, result["city"], result["postcode"])
 
-        return {
+        res = {
             "Latitude":          result["latitude"],
             "Longitude":         result["longitude"],
             "Street":            final_street,
@@ -313,10 +313,10 @@ def process_row_geocoding(row: dict, column_map: dict,
     else:  # RMS
         final_street = result["street"]
         if not final_street:
-            raw_in = row.get("STREETNAME") or row.get("FullAddress", "")
+            raw_in = row.get("STREETNAME") or row.get("FullAddress", "") or row.get("_CombinedAddress", "") or row.get("Address", "")
             final_street = _clean_street_fallback(raw_in, result["city"], result["postcode"])
 
-        return {
+        res = {
             "Latitude":          result["latitude"],
             "Longitude":         result["longitude"],
             "STREETNAME":        final_street,
@@ -329,6 +329,16 @@ def process_row_geocoding(row: dict, column_map: dict,
             "Geo_Confidence":    result["confidence"],
             "StateCodeValidation": result["state_code_validation"],
         }
+
+    # ── Step 4: Run Address Normalization strictly on the cleanly extracted fields ───
+    final_res, _addr_flags = normalize_address_fields({**row, **res}, row_idx, target_format)
+    
+    # We only want to return the newly generated geo fields and cleaned address fields.
+    output_keys = ["Latitude", "Longitude", "Street", "City", "Area", "PostalCode", "CountryISO", 
+                   "STREETNAME", "CITY", "STATECODE", "POSTALCODE", "CNTRYCODE", 
+                   "Geosource", "GeocodingStatus", "Geo_Confidence", "StateCodeValidation"]
+    
+    return {k: v for k, v in final_res.items() if k in output_keys}
 
 
 def _is_valid_lat(v) -> bool:

@@ -184,12 +184,12 @@ def build_xlsx(
     return buf
 
 
-def build_csv(
+def build_tsv(
     rows: List[Dict[str, Any]],
     unmapped_cols: List[str],
     target_format: str = "AIR",
 ) -> io.BytesIO:
-    """Build a CSV output in the canonical column order. Returns BytesIO."""
+    """Build a TSV (tab-separated) output in the canonical column order. Returns BytesIO."""
     base_cols = AIR_OUTPUT_COLUMNS if target_format == "AIR" else RMS_OUTPUT_COLUMNS
     # Only output the canonical schema columns
     final_cols = base_cols
@@ -200,7 +200,7 @@ def build_csv(
 
     buf = io.StringIO()
     writer = csv.DictWriter(buf, fieldnames=final_cols, extrasaction="ignore",
-                             lineterminator="\n")
+                             lineterminator="\n", delimiter="\t")
     writer.writeheader()
     for row in rows:
         writer.writerow({col: row.get(col, "") for col in final_cols})
@@ -209,6 +209,92 @@ def build_csv(
     return io.BytesIO(raw)
 
 
+def _get_account_rows(rows: List[Dict[str, Any]], target_format: str) -> Tuple[List[str], List[Dict[str, Any]]]:
+    """Generate the Account File headers and rows for AIR or RMS."""
+    if target_format == "RMS":
+        headers = ["ACCNTNUM", "ACCNTNAME", "POLICYNUM", "POLICYTYPE"]
+        unique_accounts: Dict[str, bool] = {}
+        for r in rows:
+            acc = r.get("ACCNTNUM")
+            if acc and acc not in unique_accounts:
+                unique_accounts[acc] = True
+        acc_rows: List[Dict[str, Any]] = []
+        for acc in unique_accounts:
+            acc_rows.extend([
+                {"ACCNTNUM": acc, "ACCNTNAME": acc, "POLICYNUM": "EQ",  "POLICYTYPE": "1"},
+                {"ACCNTNUM": acc, "ACCNTNAME": acc, "POLICYNUM": "HU",  "POLICYTYPE": "2"},
+                {"ACCNTNUM": acc, "ACCNTNAME": acc, "POLICYNUM": "SCS", "POLICYTYPE": "3"},
+                {"ACCNTNUM": acc, "ACCNTNAME": acc, "POLICYNUM": "FL",  "POLICYTYPE": "4"},
+                {"ACCNTNUM": acc, "ACCNTNAME": acc, "POLICYNUM": "FR",  "POLICYTYPE": "5"},
+                {"ACCNTNUM": acc, "ACCNTNAME": acc, "POLICYNUM": "TR",  "POLICYTYPE": "6"},
+            ])
+        return headers, acc_rows
+    else:  # AIR
+        headers = ["ContractID", "InsuredName", "LayerID", "LayerPerils"]
+        unique_contracts: Dict[str, str] = {}
+        for r in rows:
+            cid = r.get("PolicyID") or r.get("ContractID")
+            iname = r.get("InsuredName")
+            if cid and cid not in unique_contracts:
+                unique_contracts[cid] = iname or ""
+        acc_rows = []
+        for cid, iname in unique_contracts.items():
+            acc_rows.extend([
+                {"ContractID": cid, "InsuredName": iname, "LayerID": "1", "LayerPerils": "PEA"},
+                {"ContractID": cid, "InsuredName": iname, "LayerID": "2", "LayerPerils": "PSH"},
+                {"ContractID": cid, "InsuredName": iname, "LayerID": "3", "LayerPerils": "PWX"},
+                {"ContractID": cid, "InsuredName": iname, "LayerID": "4", "LayerPerils": "PFL"},
+                {"ContractID": cid, "InsuredName": iname, "LayerID": "5", "LayerPerils": "PWB"},
+                {"ContractID": cid, "InsuredName": iname, "LayerID": "6", "LayerPerils": "PWB"},
+            ])
+        return headers, acc_rows
+
+
+def build_account_xlsx(rows: List[Dict[str, Any]], target_format: str = "AIR") -> io.BytesIO:
+    """Build the Account output as an XLSX file."""
+    headers, acc_rows = _get_account_rows(rows, target_format)
+    wb = Workbook(write_only=True)
+    ws = wb.create_sheet("Account")
+
+    # Styled header row
+    header_cells = []
+    for col_name in headers:
+        from openpyxl.cell.cell import WriteOnlyCell
+        cell = WriteOnlyCell(ws, value=col_name)
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_FILL
+        cell.alignment = HEADER_ALIGN
+        header_cells.append(cell)
+    ws.append(header_cells)
+
+    # Data rows
+    for i, row in enumerate(acc_rows):
+        data_cells = []
+        for col_name in headers:
+            from openpyxl.cell.cell import WriteOnlyCell
+            cell = WriteOnlyCell(ws, value=row.get(col_name, ""))
+            if i % 2 == 1:
+                cell.fill = ALT_ROW_FILL
+            data_cells.append(cell)
+        ws.append(data_cells)
+
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    return buf
+
+
+def build_account_tsv(rows: List[Dict[str, Any]], target_format: str = "AIR") -> io.BytesIO:
+    """Build the Account output as a TSV file."""
+    headers, acc_rows = _get_account_rows(rows, target_format)
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=headers, extrasaction="ignore",
+                             lineterminator="\n", delimiter="\t")
+    writer.writeheader()
+    for row in acc_rows:
+        writer.writerow(row)
+    raw = buf.getvalue().encode("utf-8-sig")  # BOM for Excel compatibility
+    return io.BytesIO(raw)
 
 
 def _clone_rms_perils(rows: List[Dict]) -> None:

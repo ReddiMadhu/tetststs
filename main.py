@@ -30,7 +30,7 @@ from models import (
     ReviewResponse, FlagEntry, CorrectRequest, CorrectResponse,
     SessionInfoResponse,
 )
-from output_builder import build_xlsx, build_csv
+from output_builder import build_xlsx, build_tsv, build_account_xlsx, build_account_tsv
 
 # Agents
 import agents.geocoder as geocoder
@@ -60,7 +60,7 @@ def dispatch_event(upload_id: str, agent_id: str, event: str, message: str = "",
         for q in _event_queues[upload_id]:
             q.put_nowait(data)
 
-# â”€â”€ Lifespan: pre-build TF-IDF and start TTL cleanup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â”€â”€ Lifespan: pre-build TF-IDF and 8RN6JojL-pjXIGh76Oa5QL0yyx5c-j start TTL vOOhXGfgaw4V3PQ cleanup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -196,12 +196,14 @@ async def upload(
 
     headers = list(df.columns)
     raw_rows = df.to_dict(orient="records")
-    sample = raw_rows[:5]
+    # Provide the full dataset as the sample to display in the frontend immediately
+    sample = raw_rows
 
     upload_id = session_store.create_session({
         "target_format": target_format,
         "rules_config": rules.model_dump(),
         "raw_rows": raw_rows,
+        "original_raw_rows": raw_rows,   # immutable snapshot for diffs
         "headers": headers,
         "sample": sample,
         "column_map": {},
@@ -209,6 +211,7 @@ async def upload(
         "geo_rows": [],
         "code_map": {},
         "final_rows": [],
+        "stages_complete": {"upload": True},
     })
 
     return UploadResponse(
@@ -223,17 +226,29 @@ async def upload(
 # â”€â”€ Internal helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _apply_column_map(raw_rows: List[Dict], column_map: Dict[str, Optional[str]]) -> List[Dict]:
-    canonical_claimed_by: Dict[str, str] = {}
+    """
+    Rename source columns to canonical names while PRESERVING all other columns.
+    Columns that are mapped get renamed (src_col key removed, canonical key added).
+    Columns with no mapping are kept under their original key.
+    """
+    canonical_claimed_by: Dict[str, str] = {}  # canonical -> src_col
     for src_col, canonical in column_map.items():
-        if canonical is None: continue
+        if canonical is None:
+            continue
         if canonical not in canonical_claimed_by:
-             canonical_claimed_by[canonical] = src_col
+            canonical_claimed_by[canonical] = src_col
+    # Build reverse: src_col -> canonical (so we know which src keys to drop)
+    src_to_canonical = {v: k for k, v in canonical_claimed_by.items()}
 
     result = []
     for row in raw_rows:
-        new_row: Dict[str, Any] = {}
-        for canonical, src_col in canonical_claimed_by.items():
-            new_row[canonical] = row.get(src_col)
+        new_row: Dict[str, Any] = dict(row)          # start with ALL existing columns
+        for src_col, canonical in src_to_canonical.items():
+            if src_col in new_row:
+                if canonical not in new_row or new_row[canonical] is None:
+                    new_row[canonical] = new_row[src_col]  # write under canonical key
+                if src_col != canonical:                   # remove old key only if different
+                    del new_row[src_col]
         result.append(new_row)
     return result
 
@@ -246,9 +261,9 @@ def _find_code_columns(column_map: Dict, field_type: str, target: str):
         scheme_options = ["ConstructionCodeType"] if target == "AIR" else ["BLDGSCHEME"]
         value_options  = ["ConstructionCode"]  if target == "AIR" else ["BLDGCLASS"]
 
-    mapped_vals = set(v for v in column_map.values() if v)
-    scheme_col = next((c for c in scheme_options if c in mapped_vals), "")
-    value_col  = next((c for c in value_options  if c in mapped_vals), "")
+    canonical_to_src = {v: k for k, v in column_map.items() if v}
+    scheme_col = next((canonical_to_src[c] for c in scheme_options if c in canonical_to_src), "")
+    value_col  = next((canonical_to_src[c] for c in value_options  if c in canonical_to_src), "")
     return scheme_col, value_col
 
 
@@ -283,48 +298,39 @@ async def message_stream(upload_id: str, request: Request):
 
 # â”€â”€ Step 2: Address Normalization â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-@app.post("/normalize/{upload_id}", tags=["Pipeline"])
-async def run_address_normalization(upload_id: str):
-    """Normalize raw addresses before geocoding."""
-    session = _get_session_or_404(upload_id)
-    from agents.address_normalizer import normalize_addresses
-    
-    dispatch_event(upload_id, "address_normalizer", "start")
-    dispatch_event(upload_id, "address_normalizer", "log", "Agent starting... Loading rows.")
-    
-    rows = session["raw_rows"]
-    
-    # Run the normalizer (we adapt it directly here, skipping the SSE integration in the tool for brevity)
-    normalized, flags = normalize_addresses(rows)
-    
-    dispatch_event(upload_id, "address_normalizer", "log", f"Normalized {len(rows)} addresses.")
-    dispatch_event(upload_id, "address_normalizer", "done", result={"flags_added": len(flags)})
-
-    headers = session.get("headers", [])
-    if normalized and "_CombinedAddress" in normalized[0] and "_CombinedAddress" not in headers:
-        headers.append("_CombinedAddress")
-
-    session_store.update_session(upload_id, {"raw_rows": normalized, "headers": headers})
-    session_store.append_flags(upload_id, flags)
-    session_store.session_mark_stage(upload_id, "upload") # reuse stage marker
-    
-    return NormalizeResponse(
-        upload_id=upload_id,
-        total_rows=len(rows),
-        flags_added=len(flags),
-        sample=normalized[:10],
-        headers=headers,
-        normalization_summary={"flags": len(flags)}
-    )
-
 
 # â”€â”€ Step 2a: Suggest columns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-@app.get("/suggest-columns/{upload_id}", response_model=SuggestColumnsResponse, tags=["Pipeline"])
-def suggest_columns_endpoint(upload_id: str):
+@app.get("/session/{upload_id}/status", tags=["Pipeline"])
+def session_status(upload_id: str):
+    """Return pipeline stage completion flags for frontend hydration."""
     session = _get_session_or_404(upload_id)
-    raw_rows = session["raw_rows"]
-    headers = session["headers"]
+    return {
+        "upload_id": upload_id,
+        "target_format": session.get("target_format", "AIR"),
+        "stages_complete": session.get("stages_complete", {}),
+        "row_count": len(session.get("raw_rows", [])),
+        "headers": session.get("headers", []),
+        "sample": session.get("sample", []),
+    }
+
+
+@app.get("/suggest-columns/{upload_id}", response_model=SuggestColumnsResponse, tags=["Pipeline"])
+def suggest_columns_endpoint(upload_id: str, target_format: Optional[str] = Query(None, pattern="^(AIR|RMS)$")):
+    session = _get_session_or_404(upload_id)
+    
+    if target_format and target_format != session.get("target_format"):
+        session["target_format"] = target_format
+        session_store.update_session(upload_id, {"target_format": target_format})
+
+    # Use geo_rows headers post-geocoding so the mapper sees geocoded columns
+    geo_rows = session.get("geo_rows", [])
+    if geo_rows:
+        raw_rows = geo_rows
+        headers = list(geo_rows[0].keys()) if geo_rows else session["headers"]
+    else:
+        raw_rows = session["raw_rows"]
+        headers = session["headers"]
 
     sample_values: Dict[str, List[Any]] = {}
     for col in headers:
@@ -443,9 +449,16 @@ async def geocode_endpoint(upload_id: str):
         elif status == "OK": geocoded_count += 1
         else: failed_count += 1
 
-    session_store.update_session(upload_id, {"geo_rows": geo_rows})
+    # Update headers to include any new geocoded columns
+    existing_headers = session.get("headers", [])
+    existing_header_set = set(existing_headers)
+    new_geo_cols = [k for k in (geo_rows[0].keys() if geo_rows else []) if k not in existing_header_set]
+    updated_headers = existing_headers + new_geo_cols
+
+    session_store.update_session(upload_id, {"geo_rows": geo_rows, "headers": updated_headers})
     session_store.append_flags(upload_id, new_flags)
     session_store.session_mark_stage(upload_id, "geocoding")
+    dispatch_event(upload_id, "pipeline", "stage_complete", "geocoding")
 
     result = {
         "geocoded": geocoded_count,
@@ -471,6 +484,7 @@ async def geocode_endpoint(upload_id: str):
 async def map_codes_endpoint(upload_id: str):
     session = _get_session_or_404(upload_id)
     _require_stage(session, "geocoding", "/map-codes")
+    _require_stage(session, "column_map", "/map-codes")
 
     geo_rows = session["geo_rows"]
     column_map = session["column_map"]
@@ -559,6 +573,7 @@ async def map_codes_endpoint(upload_id: str):
     })
     session_store.append_flags(upload_id, new_flags)
     session_store.session_mark_stage(upload_id, "code_mapping")
+    dispatch_event(upload_id, "pipeline", "stage_complete", "code_mapping")
 
     unique_occ = len([k for k in code_map if k.startswith("occ|")])
     unique_const = len([k for k in code_map if k.startswith("const|")])
@@ -608,6 +623,7 @@ async def normalize_endpoint(upload_id: str):
     session_store.update_session(upload_id, {"final_rows": normalized})
     session_store.append_flags(upload_id, new_flags)
     session_store.session_mark_stage(upload_id, "normalization")
+    dispatch_event(upload_id, "pipeline", "stage_complete", "normalization")
 
     summary = {
         "year_flags": sum(1 for f in new_flags if "year" in f.get("issue", "")),
@@ -617,9 +633,14 @@ async def normalize_endpoint(upload_id: str):
         "currency_flags": sum(1 for f in new_flags if "currency" in f.get("issue", "")),
     }
 
+    sample_rows = normalized[:10]
+    headers_out = list(normalized[0].keys()) if normalized else []
+
     result = {
         "total_rows": len(normalized),
         "flags_added": len(new_flags),
+        "sample": sample_rows,
+        "headers": headers_out,
         "normalization_summary": summary
     }
 
@@ -632,7 +653,10 @@ async def normalize_endpoint(upload_id: str):
 
 def _safe_float(v) -> float:
     if v is None: return 0.0
-    s = str(v).strip().replace(",", "").replace("$", "").replace("Â£", "").replace("â‚¬", "").replace("Â¥", "").replace("â‚¹", "")
+    if isinstance(v, (int, float)): return float(v)
+    s = str(v).strip().replace(",", "")
+    for sym in ["$", "£", "€", "¥", "₹"]:
+        s = s.replace(sym, "")
     try: return float(s)
     except (ValueError, TypeError): return 0.0
 
@@ -642,9 +666,9 @@ def _bucket_year(year_val) -> str:
         y = int(float(s))
         if y <= 0: return "Unknown"
         if y < 1995: return "Pre 1995"
-        if y <= 2001: return "1995 â€“ 2001"
-        if y <= 2010: return "2002 â€“ 2010"
-        if y <= 2017: return "2011 â€“ 2017"
+        if y <= 2001: return "1995 – 2001"
+        if y <= 2010: return "2002 – 2010"
+        if y <= 2017: return "2011 – 2017"
         return "Post 2017"
     except (ValueError, TypeError): return "Unknown"
 
@@ -654,18 +678,27 @@ def _bucket_stories(stories_val) -> str:
         n = int(float(s))
         if n <= 0: return "Unknown"
         if n == 1: return "1"
-        if n <= 3: return "2â€“3"
-        if n <= 7: return "4â€“7"
+        if n <= 3: return "2–3"
+        if n <= 7: return "4–7"
         return "7+"
     except (ValueError, TypeError): return "Unknown"
 
 @app.get("/summary/{upload_id}", tags=["Output"])
 def slip_summary(upload_id: str):
     session = _get_session_or_404(upload_id)
-    _require_stage(session, "normalization", "/summary")
 
     target = session.get("target_format", "AIR")
-    final_rows = session.get("final_rows", [])
+
+    # Prefer the most-normalized rows available:
+    # final_rows (CatAI full pipeline) → geo_rows (geocoded + address-normalized) → raw_rows
+    final_rows = session.get("final_rows") or []
+    if not final_rows:
+        final_rows = session.get("geo_rows") or []
+    if not final_rows:
+        final_rows = session.get("raw_rows") or []
+
+    if not final_rows:
+        raise HTTPException(status_code=422, detail="No processed rows available. Run the pipeline first.")
 
     if target == "AIR":
         bldg_col, cont_col, bi_col, tiv_col = "BuildingValue", "ContentsValue", "TimeElementValue", "TIV"
@@ -679,6 +712,31 @@ def slip_summary(upload_id: str):
         year_col, stories_col = "YEARBUILT", "NUMSTORIES"
         country_col, state_col, city_col, street_col, zip_col = "CNTRYCODE", "STATECODE", "CITY", "STREETNAME", "POSTALCODE"
         loc_id_col = "LOCNUM"
+
+    # If geo_rows are being used (not yet CatAI mapped), dynamically resolve column names
+    # from actual keys in the first row so we don't silently miss all data.
+    if final_rows:
+        sample_keys = set(final_rows[0].keys())
+
+        def _resolve(preferred, *fallbacks):
+            if preferred in sample_keys:
+                return preferred
+            for fb in fallbacks:
+                if fb in sample_keys:
+                    return fb
+            return preferred   # keep original so result is just empty, not an error
+
+        bldg_col     = _resolve(bldg_col, "BuildingValue", "BLDG_VALUE", "BldgValue", "Floor Area (sqft)")
+        cont_col     = _resolve(cont_col, "ContentsValue", "CONT_VALUE", "ContValue")
+        bi_col       = _resolve(bi_col, "TimeElementValue", "BI_VALUE", "BIValue")
+        tiv_col      = _resolve(tiv_col, "TIV", "TotalInsuredValue", "Total Value")
+        year_col     = _resolve(year_col, "YearBuilt", "YEARBUILT", "Year Built", "year_built")
+        stories_col  = _resolve(stories_col, "NumberOfStories", "NUMSTORIES", "Floors", "Stories", "num_stories")
+        country_col  = _resolve(country_col, "CountryISO", "CNTRYCODE", "Country")
+        state_col    = _resolve(state_col, "Area", "STATECODE", "State", "Province")
+        city_col     = _resolve(city_col, "City", "CITY", "Town")
+        street_col   = _resolve(street_col, "Street", "STREETNAME", "Address", "_CombinedAddress")
+        zip_col      = _resolve(zip_col, "PostalCode", "POSTALCODE", "Zip", "ZipCode", "Postal")
 
     total_bldg = total_cont = total_bi = total_tiv_col = 0.0
     country_state_map: Dict[str, Dict] = {}
@@ -728,10 +786,10 @@ def slip_summary(upload_id: str):
     top_locs = sorted(loc_rows, key=lambda r: r["tiv"], reverse=True)[:10]
     cs_list = sorted(country_state_map.values(), key=lambda r: r["tiv"], reverse=True)
 
-    year_order = ["Unknown", "Pre 1995", "1995 â€“ 2001", "2002 â€“ 2010", "2011 â€“ 2017", "Post 2017"]
+    year_order = ["Unknown", "Pre 1995", "1995 – 2001", "2002 – 2010", "2011 – 2017", "Post 2017"]
     year_dist  = [{"label": k, "tiv": year_map.get(k, 0.0)} for k in year_order if k in year_map]
 
-    story_order = ["Unknown", "1", "2â€“3", "4â€“7", "7+"]
+    story_order = ["Unknown", "1", "2–3", "4–7", "7+"]
     story_dist  = [{"label": k, "tiv": story_map.get(k, 0.0)} for k in story_order if k in story_map]
 
     return {
@@ -749,7 +807,7 @@ def slip_summary(upload_id: str):
 # â”€â”€ Download â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @app.get("/download/{upload_id}", tags=["Output"])
-def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|csv)$")):
+def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|tsv|txt)$")):
     session = _get_session_or_404(upload_id)
     _require_stage(session, "normalization", "/download")
 
@@ -759,10 +817,10 @@ def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|csv)$")
     target = session.get("target_format", "AIR")
     short_id = upload_id[:8]
 
-    if format == "csv":
-        buf = build_csv(final_rows, unmapped_cols, target)
-        filename = f"cat_output_{short_id}.csv"
-        media_type = "text/csv"
+    if format in ("tsv", "txt"):
+        buf = build_tsv(final_rows, unmapped_cols, target)
+        filename = f"cat_output_{short_id}.tsv"
+        media_type = "text/tab-separated-values"
     else:
         buf = build_xlsx(final_rows, unmapped_cols, flags, target, upload_id)
         filename = f"cat_output_{short_id}.xlsx"
@@ -770,9 +828,237 @@ def download(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|csv)$")
 
     return StreamingResponse(buf, media_type=media_type, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
-# â”€â”€ Entry point â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+@app.get("/download-account/{upload_id}", tags=["Output"])
+def download_account(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx|tsv)$")):
+    """Download the account file output as XLSX or TSV."""
+    session = _get_session_or_404(upload_id)
+    _require_stage(session, "normalization", "/download-account")
+
+    final_rows = session.get("final_rows", [])
+    target = session.get("target_format", "AIR")
+    short_id = upload_id[:8]
+
+    if format == "tsv":
+        buf = build_account_tsv(final_rows, target)
+        filename = f"account_output_{short_id}.tsv"
+        media_type = "text/tab-separated-values"
+    else:
+        buf = build_account_xlsx(final_rows, target)
+        filename = f"account_output_{short_id}.xlsx"
+        media_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+    logger.info(f"Session {upload_id}: account download requested ({format}), {len(final_rows)} source rows")
+    return StreamingResponse(buf, media_type=media_type, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
+# ── Pipeline Diff ──────────────────────────────────────────────────────────────────
+
+@app.get("/session-diff/{upload_id}", tags=["Pipeline"])
+def session_diff(upload_id: str, step: str = Query(..., pattern="^(geocode|map-codes|normalize|normalize-address)$")):
+    """
+    Return before/after table data for a specific pipeline step, capped at 100 rows.
+    Includes all columns that appear in the final Excel output.
+    Also returns a `pairs` list: [{before_col, after_col, label}] so the UI can
+    render old → new columns adjacently.
+    """
+    session = _get_session_or_404(upload_id)
+    target = session.get("target_format", "AIR")
+
+    column_map = session.get("column_map", {})
+    raw_rows = session.get("raw_rows", [])
+
+    # Reverse map: canonical → source column name
+    canonical_to_src: Dict[str, str] = {}
+    
+    if step == "map-codes":
+        _require_stage(session, "code_mapping", f"/session-diff (step={step})")
+        for src, can in column_map.items():
+            if can and can not in canonical_to_src:
+                canonical_to_src[can] = src
+    elif step == "normalize":
+        _require_stage(session, "normalization", f"/session-diff (step={step})")
+        for src, can in column_map.items():
+            if can and can not in canonical_to_src:
+                canonical_to_src[can] = src
+
+    def get_source_cols(canonicals: set) -> List[str]:
+        return [src for src, can in column_map.items() if can in canonicals]
+
+    # pairs = [{"label": str, "before": src_col | None, "after": canonical_col | None}]
+    pairs: List[Dict] = []
+    after_rows: List[Dict] = []
+
+    if step == "geocode":
+        _require_stage(session, "geocoding", f"/session-diff (step={step})")
+        after_rows = session.get("geo_rows", [])
+        # Use normalized rows (pre-geocode) as the before-state
+        raw_rows = session.get("raw_rows", [])
+
+        # In multiagent, Address Normalization runs BEFORE geocoding and generates "_CombinedAddress".
+        headers = session.get("headers", [])
+        full_addr_src = "_CombinedAddress" if "_CombinedAddress" in headers else None
+        
+        # Fallback to other address fields if somehow _CombinedAddress is absent
+        if not full_addr_src:
+            for h in headers:
+                if "address" in h.lower() or "street" in h.lower():
+                    full_addr_src = h
+                    break
+                    
+        full_address_mode = bool(full_addr_src)
+
+        if target == "AIR":
+            addr_fields = [
+                ("Street",      "Street"),
+                ("City",        "City"),
+                ("Area",        "Area"),
+                ("PostalCode",  "PostalCode"),
+                ("CountryISO",  "CountryISO"),
+                ("Latitude",    "Latitude"),
+                ("Longitude",   "Longitude"),
+            ]
+        else:
+            addr_fields = [
+                ("STREETNAME",  "STREETNAME"),
+                ("CITY",        "CITY"),
+                ("STATECODE",   "STATECODE"),
+                ("POSTALCODE",  "POSTALCODE"),
+                ("CNTRYCODE",   "CNTRYCODE"),
+                ("Latitude",    "Latitude"),
+                ("Longitude",   "Longitude"),
+            ]
+
+        if full_address_mode:
+            # Single input → many extracted outputs.
+            for canonical, after_col in addr_fields:
+                pairs.append({
+                    "label": after_col,
+                    "before": full_addr_src,    # always the same source column
+                    "after":  after_col,
+                    "before_is_full_address": True,  # hint for the UI
+                })
+        else:
+            # Fallback if no initial address was provided
+            for canonical, after_col in addr_fields:
+                pairs.append({"label": canonical, "before": None, "after": after_col})
+
+        # Geocoding-only outputs (no source equivalent)
+        pairs.append({"label": "GeocodingStatus", "before": None, "after": "GeocodingStatus"})
+        pairs.append({"label": "Geosource",       "before": None, "after": "Geosource"})
+
+    elif step == "map-codes":
+        _require_stage(session, "code_mapping", f"/session-diff (step={step})")
+        after_rows = session.get("final_rows", session.get("geo_rows", []))
+
+        if target == "AIR":
+            code_pairs = [
+                ("OccupancyCodeType",    "OccupancyCodeType",    "Occupancy_Code",         "Occ Code"),
+                ("OccupancyCode",        "OccupancyCode",        "Occupancy_Description",  "Occ Description"),
+                (None,                   None,                   "Occupancy_Method",       "Occ Method"),
+                ("ConstructionCodeType", "ConstructionCodeType", "Construction_Code",      "Const Code"),
+                ("ConstructionCode",     "ConstructionCode",     "Construction_Description","Const Description"),
+                (None,                   None,                   "Construction_Method",    "Const Method"),
+            ]
+        else:
+            code_pairs = [
+                ("OCCSCHEME",  "OCCSCHEME",  "Occupancy_Code",         "Occ Code"),
+                ("OCCTYPE",    "OCCTYPE",    "Occupancy_Description",  "Occ Description"),
+                (None,         None,         "Occupancy_Method",       "Occ Method"),
+                ("BLDGSCHEME", "BLDGSCHEME", "Construction_Code",      "Const Code"),
+                ("BLDGCLASS",  "BLDGCLASS",  "Construction_Description","Const Description"),
+                (None,         None,         "Construction_Method",    "Const Method"),
+            ]
+
+        for canonical, _, after_col, label in code_pairs:
+            src = canonical_to_src.get(canonical) if canonical else None
+            pairs.append({"label": label, "before": src, "after": after_col})
+
+    elif step == "normalize":
+        _require_stage(session, "normalization", f"/session-diff (step={step})")
+        after_rows = session.get("final_rows", [])
+
+        if target == "AIR":
+            norm_pairs = [
+                ("YearBuilt",        "YearBuilt"),
+                ("YearRetrofitted",  "YearRetrofitted"),
+                ("NumberOfStories",  "NumberOfStories"),
+                ("RiskCount",        "RiskCount"),
+                ("GrossArea",        "GrossArea"),
+                ("BuildingValue",    "BuildingValue"),
+                ("ContentsValue",    "ContentsValue"),
+                ("TimeElementValue", "TimeElementValue"),
+                ("Currency",         "Currency"),
+                ("LineOfBusiness",   "LineOfBusiness"),
+                ("SprinklerSystem",  "SprinklerSystem"),
+                ("RoofGeometry",     "RoofGeometry"),
+                ("FoundationType",   "FoundationType"),
+                ("WallSiding",       "WallSiding"),
+                ("WallType",         "WallType"),
+                ("SoftStory",        "SoftStory"),
+            ]
+        else:
+            norm_pairs = [
+                ("YEARBUILT",   "YEARBUILT"),
+                ("YEARUPGRAD",  "YEARUPGRAD"),
+                ("NUMSTORIES",  "NUMSTORIES"),
+                ("NUMBLDGS",    "NUMBLDGS"),
+                ("FLOORAREA",   "FLOORAREA"),
+                ("EQCV1VAL",    "EQCV1VAL"),
+                ("EQCV2VAL",    "EQCV2VAL"),
+                ("EQCV3VAL",    "EQCV3VAL"),
+                ("EQCV1LCUR",   "EQCV1LCUR"),
+                ("SPRINKLER",   "SPRINKLER"),
+                ("ROOFGEOM",    "ROOFGEOM"),
+                ("FOUNDATION",  "FOUNDATION"),
+                ("CLADDING",    "CLADDING"),
+                ("WALLTYPE",    "WALLTYPE"),
+                ("SOFTSTORY",   "SOFTSTORY"),
+            ]
+
+        for canonical, after_col in norm_pairs:
+            src = canonical_to_src.get(canonical)
+            pairs.append({"label": canonical, "before": src, "after": after_col})
+
+    else:
+        raise HTTPException(status_code=400, detail="Invalid step")
+
+    # Derive flat before/after column lists from pairs (deduplicated, preserving order)
+    seen_before: set = set()
+    before_cols = []
+    for p in pairs:
+        c = p.get("before")
+        if c and c not in seen_before:
+            seen_before.add(c)
+            before_cols.append(c)
+    after_cols = [p["after"] for p in pairs if p.get("after")]
+
+    # Detect full_address_mode from pairs metadata
+    full_address_mode = any(p.get("before_is_full_address") for p in pairs)
+    full_address_src  = next((p["before"] for p in pairs if p.get("before_is_full_address")), None)
+
+    limit = 100
+    rows_data = []
+
+    for i in range(min(len(raw_rows), len(after_rows))):
+        before_data = {c: raw_rows[i].get(c) for c in before_cols}
+        after_data  = {c: after_rows[i].get(c)  for c in after_cols}
+        # Only include row if it has some relevant data on either side
+        if any(v is not None and str(v).strip() != "" for v in list(before_data.values()) + list(after_data.values())):
+            rows_data.append({"before": before_data, "after": after_data})
+
+    return {
+        "step": step,
+        "columns": {"before": before_cols, "after": after_cols},
+        "pairs": pairs,
+        "full_address_mode": full_address_mode,
+        "full_address_src":  full_address_src,
+        "rows": rows_data[:limit],
+        "total": len(rows_data)
+    }
+
+# ── Entry point ───────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-
