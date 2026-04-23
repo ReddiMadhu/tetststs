@@ -201,10 +201,10 @@ CONSTRUCTION-SPECIFIC DISAMBIGUATION RULES:
   CONST-10: "Heavy Timber" / "HT" / "Glulam" â†’ FIRE class 7 (BLDGSCHEME=FIRE, BLDGCLASS=7)
 
 IMPORTANT CONSTRAINTS:
-  - Only output codes from the provided code list â€” NEVER invent or guess codes
-  - Maximum confidence is 0.95 â€” never output 1.0
+  - Only output codes from the provided code list — NEVER invent or guess codes
+  - Maximum confidence is 0.95 — never output 1.0
   - If two codes are equally plausible, lower confidence to 0.65-0.70
-  - Abbreviations in raw values reduce certainty â€” lower confidence by 0.05-0.10
+  - Abbreviations in raw values reduce certainty — lower confidence by 0.05-0.10
 """
 
 
@@ -229,12 +229,15 @@ def _build_gemini_model(valid_codes: List[str]) -> None:
     logger.info("Gemini model initialized with temperature=0, structured JSON mode.")
 
 
-# â”€â”€ Startup loader â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Startup loader ────────────────────────────────────────────────────────────────
 
 def build_tfidf_indexes() -> None:
     """Load all reference JSON, TF-IDF pickle files, and ISO/RMS maps at startup."""
     global _occ_codes, _const_codes, _rms_occ_codes, _rms_const_codes
     global _abbreviations, _iso_map, _rms_to_air_map
+
+    # Import dynamically to avoid circular dependency
+    from ontology_router import _load_with_overrides
 
     def load_json(name: str) -> dict:
         p = _REF_DIR / name
@@ -243,8 +246,8 @@ def build_tfidf_indexes() -> None:
         logger.warning(f"Reference file not found: {p}")
         return {}
 
-    _occ_codes = load_json("air_occ_codes.json")
-    _const_codes = load_json("air_const_codes.json")
+    _occ_codes = _load_with_overrides("occupancy", "AIR")
+    _const_codes = _load_with_overrides("construction", "AIR")
     _abbreviations = load_json("abbreviations.json")
 
     # â”€â”€ Build RMS occupancy registry from atc_to_air_occ_map.json â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -259,7 +262,23 @@ def build_tfidf_indexes() -> None:
             "keywords":    [meta.get("description", "").lower()],
             "air_code":    meta.get("air_code", ""),
         }
-    logger.info(f"RMS occ registry built from atc_to_air_occ_map: {len(_rms_occ_codes)} codes")
+    
+    # Merge RMS specific overrides (e.g., native RMS codes like Res1, Com1)
+    _rms_occ_overrides = _load_with_overrides("occupancy", "RMS")
+    for code, meta in _rms_occ_overrides.items():
+        if code.startswith("_"): continue
+        if code in _rms_occ_codes:
+            existing = _rms_occ_codes[code].get("keywords", [])
+            _rms_occ_codes[code]["keywords"] = list(dict.fromkeys(existing + meta.get("keywords", [])))
+            if meta.get("description"):
+                _rms_occ_codes[code]["description"] = meta["description"]
+        else:
+            _rms_occ_codes[code] = {
+                "description": meta.get("description", ""),
+                "keywords": meta.get("keywords", []),
+                "air_code": "",
+            }
+    logger.info(f"RMS occ registry built from atc_to_air_occ_map + overrides: {len(_rms_occ_codes)} codes")
 
     # â”€â”€ Build RMS construction registry from rms_to_air_const_map.json â”€â”€â”€â”€â”€â”€â”€
     # Keys are RMS numeric/alpha-numeric codes ("1", "2B", "3A1", "4A", â€¦).
@@ -277,7 +296,24 @@ def build_tfidf_indexes() -> None:
                     "air_code":    meta.get("air_class", ""),
                     "category":    category,
                 }
-    logger.info(f"RMS const registry built from rms_to_air_const_map: {len(_rms_const_codes)} codes")
+                
+    # Merge RMS specific overrides (e.g., native RMS codes like W1, S1)
+    _rms_const_overrides = _load_with_overrides("construction", "RMS")
+    for code, meta in _rms_const_overrides.items():
+        if code.startswith("_"): continue
+        if code in _rms_const_codes:
+            existing = _rms_const_codes[code].get("keywords", [])
+            _rms_const_codes[code]["keywords"] = list(dict.fromkeys(existing + meta.get("keywords", [])))
+            if meta.get("description"):
+                _rms_const_codes[code]["description"] = meta["description"]
+        else:
+            _rms_const_codes[code] = {
+                "description": meta.get("description", ""),
+                "keywords": meta.get("keywords", []),
+                "air_code": "",
+                "category": "override",
+            }
+    logger.info(f"RMS const registry built from rms_to_air_const_map + overrides: {len(_rms_const_codes)} codes")
 
     # Load new reference maps
     iso_data = load_json("iso_fire_class_map.json")

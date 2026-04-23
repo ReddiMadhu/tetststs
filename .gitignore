@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+env/
+myenv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment variables
+.env
+
+# Temporary / Data files
+*.tmp
+*.xlsx
+*.csv
+mapping_memory.json
+test_rms.json
+clean.py
+patch_norm.py

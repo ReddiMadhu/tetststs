@@ -55,6 +55,7 @@ class GeocodeResponse(BaseModel):
     flags_added: int
     sample: List[Dict[str, Any]] = []
     headers: List[str] = []
+    diff_data: Optional[Dict[str, Any]] = None
 
 
 # ── Code Mapping ───────────────────────────────────────────────────────────────
@@ -76,6 +77,8 @@ class MapCodesResponse(BaseModel):
     occ_by_method: Dict[str, int]
     const_by_method: Dict[str, int]
     flags_added: int
+    summary_text: Optional[str] = None
+    diff_data: Optional[Dict[str, Any]] = None
 
 
 # ── Normalization ──────────────────────────────────────────────────────────────
@@ -87,6 +90,8 @@ class NormalizeResponse(BaseModel):
     sample: List[Dict[str, Any]] = []
     headers: List[str] = []
     normalization_summary: Dict[str, Any] = {}
+    summary_text: Optional[str] = None
+    diff_data: Optional[Dict[str, Any]] = None
 
 
 # ── Review & Corrections ───────────────────────────────────────────────────────

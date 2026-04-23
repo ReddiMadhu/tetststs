@@ -124,5 +124,805 @@
       "manufactured home",
       "trailer"
     ]
+  },
+  "0": {
+    "description": "Unknown",
+    "keywords": [
+      "unknown",
+      "unspecified",
+      "tbd",
+      "unclassified",
+      "na"
+    ]
+  },
+  "1": {
+    "description": "Wood",
+    "keywords": [
+      "wood",
+      "frame",
+      "wood frame",
+      "stick frame",
+      "timber frame",
+      "light frame",
+      "light wood frame",
+      "post frame",
+      "pole barn",
+      "adobe",
+      "sip",
+      "wf",
+      "structural insulated panel",
+      "modular wood",
+      "wood truss",
+      "platform frame"
+    ]
+  },
+  "2": {
+    "description": "Masonry",
+    "keywords": [
+      "masonry",
+      "brick",
+      "cmu",
+      "block",
+      "joisted masonry",
+      "jm",
+      "unreinforced masonry",
+      "urm",
+      "stone masonry",
+      "concrete block",
+      "masonry bearing",
+      "brick masonry",
+      "concrete masonry unit"
+    ]
+  },
+  "3": {
+    "description": "Reinforced Concrete",
+    "keywords": [
+      "reinforced concrete",
+      "concrete",
+      "rc",
+      "cast in place",
+      "cip",
+      "post tension",
+      "flat slab",
+      "waffle slab",
+      "prestressed concrete",
+      "concrete frame",
+      "shear wall",
+      "concrete shear wall",
+      "rcc"
+    ]
+  },
+  "4": {
+    "description": "Steel",
+    "keywords": [
+      "steel",
+      "steel frame",
+      "structural steel",
+      "metal frame",
+      "light gauge steel",
+      "lgs",
+      "steel stud",
+      "steel joist",
+      "braced frame",
+      "moment frame",
+      "steel deck",
+      "stl",
+      "stl frm"
+    ]
+  },
+  "5": {
+    "description": "Mobile Homes",
+    "keywords": [
+      "mobile home",
+      "manufactured home",
+      "trailer",
+      "mobile"
+    ]
+  },
+  "6": {
+    "description": "Conventional - Multiple Span Bridges",
+    "keywords": [
+      "multiple span bridge",
+      "multi span",
+      "multi-span bridge"
+    ]
+  },
+  "7": {
+    "description": "Conventional - Continuous Bridges",
+    "keywords": [
+      "continuous bridge",
+      "continuous span",
+      "continuous beam bridge"
+    ]
+  },
+  "8": {
+    "description": "Major Bridges",
+    "keywords": [
+      "major bridge",
+      "suspension bridge",
+      "cable bridge",
+      "major span"
+    ]
+  },
+  "9": {
+    "description": "Underground Pipelines",
+    "keywords": [
+      "underground pipeline",
+      "buried pipeline",
+      "subsurface pipeline"
+    ]
+  },
+  "10": {
+    "description": "At Grade Pipelines",
+    "keywords": [
+      "at grade pipeline",
+      "surface pipeline",
+      "above ground pipeline"
+    ]
+  },
+  "11": {
+    "description": "Concrete Dams",
+    "keywords": [
+      "concrete dam",
+      "dam concrete",
+      "gravity dam"
+    ]
+  },
+  "12": {
+    "description": "Earthfill Dams",
+    "keywords": [
+      "earthfill dam",
+      "earth dam",
+      "embankment dam"
+    ]
+  },
+  "13": {
+    "description": "Alluvium Tunnels",
+    "keywords": [
+      "alluvium tunnel",
+      "soft ground tunnel",
+      "soil tunnel"
+    ]
+  },
+  "14": {
+    "description": "Rock Tunnels",
+    "keywords": [
+      "rock tunnel",
+      "hard rock tunnel",
+      "bore tunnel"
+    ]
+  },
+  "15": {
+    "description": "Cut and Cover Tunnels",
+    "keywords": [
+      "cut and cover",
+      "cut cover tunnel",
+      "cut-and-cover"
+    ]
+  },
+  "22": {
+    "description": "Railroads",
+    "keywords": [
+      "railroad",
+      "railway",
+      "rail",
+      "train track"
+    ]
+  },
+  "23": {
+    "description": "Highways",
+    "keywords": [
+      "highway",
+      "freeway",
+      "motorway",
+      "expressway",
+      "roadway"
+    ]
+  },
+  "24": {
+    "description": "Runways",
+    "keywords": [
+      "runway",
+      "airstrip",
+      "tarmac",
+      "aircraft runway"
+    ]
+  },
+  "16": {
+    "description": "Underground Liquid Tanks",
+    "keywords": [
+      "underground liquid tank",
+      "buried liquid tank",
+      "ult"
+    ]
+  },
+  "17": {
+    "description": "Underground Solid Tanks",
+    "keywords": [
+      "underground solid tank",
+      "buried solid tank"
+    ]
+  },
+  "18": {
+    "description": "On Ground Liquid Tanks",
+    "keywords": [
+      "on ground liquid tank",
+      "above ground liquid tank",
+      "surface liquid tank"
+    ]
+  },
+  "19": {
+    "description": "On Ground Solid Tanks",
+    "keywords": [
+      "on ground solid tank",
+      "surface solid tank"
+    ]
+  },
+  "20": {
+    "description": "Elevated Liquid Tanks",
+    "keywords": [
+      "elevated liquid tank",
+      "water tower",
+      "elevated storage tank"
+    ]
+  },
+  "21": {
+    "description": "Elevated Solid Tanks",
+    "keywords": [
+      "elevated solid tank",
+      "elevated silo"
+    ]
+  },
+  "25": {
+    "description": "Masonry Chimneys",
+    "keywords": [
+      "masonry chimney",
+      "brick chimney",
+      "chimney masonry"
+    ]
+  },
+  "26": {
+    "description": "Concrete Chimneys",
+    "keywords": [
+      "concrete chimney",
+      "rc chimney",
+      "chimney concrete"
+    ]
+  },
+  "27": {
+    "description": "Steel Chimneys",
+    "keywords": [
+      "steel chimney",
+      "metal chimney",
+      "chimney steel"
+    ]
+  },
+  "30": {
+    "description": "Electrical Transmission - Conventional",
+    "keywords": [
+      "electrical transmission conventional",
+      "transmission line",
+      "power line conventional"
+    ]
+  },
+  "31": {
+    "description": "Electrical Transmission - Major",
+    "keywords": [
+      "electrical transmission major",
+      "major transmission",
+      "ehv transmission"
+    ]
+  },
+  "32": {
+    "description": "Broadcast Towers",
+    "keywords": [
+      "broadcast tower",
+      "tv tower",
+      "radio tower",
+      "telecommunications tower"
+    ]
+  },
+  "33": {
+    "description": "Observation Towers",
+    "keywords": [
+      "observation tower",
+      "lookout tower",
+      "viewing tower"
+    ]
+  },
+  "34": {
+    "description": "Offshore Towers",
+    "keywords": [
+      "offshore tower",
+      "oil platform",
+      "offshore structure",
+      "marine tower"
+    ]
+  },
+  "28": {
+    "description": "Cranes",
+    "keywords": [
+      "crane",
+      "overhead crane",
+      "gantry crane",
+      "tower crane"
+    ]
+  },
+  "29": {
+    "description": "Conveyor Systems",
+    "keywords": [
+      "conveyor",
+      "conveyor system",
+      "conveyor belt",
+      "material handling"
+    ]
+  },
+  "35": {
+    "description": "Canals",
+    "keywords": [
+      "canal",
+      "waterway",
+      "aqueduct"
+    ]
+  },
+  "36": {
+    "description": "Earth Retaining Structures",
+    "keywords": [
+      "earth retaining",
+      "retaining wall",
+      "sheet pile",
+      "earth retention"
+    ]
+  },
+  "37": {
+    "description": "Waterfront Structures",
+    "keywords": [
+      "waterfront",
+      "pier",
+      "wharf",
+      "quay",
+      "jetty",
+      "dock structure"
+    ]
+  },
+  "38": {
+    "description": "Residential Equipment",
+    "keywords": [
+      "residential equipment",
+      "home appliance",
+      "hvac residential"
+    ]
+  },
+  "39": {
+    "description": "Office Equipment",
+    "keywords": [
+      "office equipment",
+      "office machinery",
+      "photocopier",
+      "printer"
+    ]
+  },
+  "40": {
+    "description": "Electrical Equipment",
+    "keywords": [
+      "electrical equipment",
+      "electrical machinery",
+      "transformer",
+      "switchgear"
+    ]
+  },
+  "41": {
+    "description": "Mechanical Equipment",
+    "keywords": [
+      "mechanical equipment",
+      "machinery",
+      "pump",
+      "compressor",
+      "turbine"
+    ]
+  },
+  "42": {
+    "description": "High Technology Equipment",
+    "keywords": [
+      "high technology",
+      "semiconductor equipment",
+      "data center equipment",
+      "server"
+    ]
+  },
+  "43": {
+    "description": "Trains, Trucks, Airplanes etc.",
+    "keywords": [
+      "train",
+      "truck",
+      "airplane",
+      "aircraft",
+      "rolling stock",
+      "locomotive"
+    ]
+  },
+  "44": {
+    "description": "Automobiles - Personal",
+    "keywords": [
+      "automobile",
+      "personal vehicle",
+      "car",
+      "passenger vehicle"
+    ]
+  },
+  "45": {
+    "description": "Automobiles - Dealers",
+    "keywords": [
+      "automobile dealer",
+      "dealership",
+      "car dealer",
+      "dealer inventory"
+    ]
+  },
+  "46": {
+    "description": "Petrochemical Facilities",
+    "keywords": [
+      "petrochemical",
+      "petroleum facility"
+    ]
+  },
+  "46A": {
+    "description": "Oil Refineries",
+    "keywords": [
+      "oil refinery",
+      "refinery",
+      "petroleum refinery",
+      "crude oil processing"
+    ]
+  },
+  "46B": {
+    "description": "Petrochemical Facilities",
+    "keywords": [
+      "petrochemical facility",
+      "chemical plant",
+      "petrochemical plant"
+    ]
+  },
+  "46C": {
+    "description": "Pumping Stations",
+    "keywords": [
+      "pumping station",
+      "pump station",
+      "water pumping"
+    ]
+  },
+  "48A": {
+    "description": "Compressor Stations",
+    "keywords": [
+      "compressor station",
+      "gas compressor",
+      "compression station"
+    ]
+  },
+  "53": {
+    "description": "Golf Country Club",
+    "keywords": [
+      "golf",
+      "country club",
+      "golf course"
+    ]
+  },
+  "54": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "boat",
+      "vessel",
+      "marine vessel",
+      "watercraft"
+    ]
+  },
+  "55": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "boat small",
+      "dinghy",
+      "rowboat"
+    ]
+  },
+  "56": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "sailboat",
+      "sailing vessel"
+    ]
+  },
+  "57": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "motorboat",
+      "powerboat"
+    ]
+  },
+  "58": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "tug boat",
+      "tugboat"
+    ]
+  },
+  "59": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "barge",
+      "cargo barge"
+    ]
+  },
+  "60": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "ferry",
+      "passenger ferry"
+    ]
+  },
+  "61": {
+    "description": "Boats (all types)",
+    "keywords": [
+      "ship",
+      "cargo ship",
+      "ocean vessel"
+    ]
+  },
+  "63": {
+    "description": "Aircraft - Small",
+    "keywords": [
+      "small aircraft",
+      "light aircraft",
+      "propeller plane",
+      "cessna"
+    ]
+  },
+  "64": {
+    "description": "Aircraft - Medium",
+    "keywords": [
+      "medium aircraft",
+      "regional jet",
+      "turboprop"
+    ]
+  },
+  "65": {
+    "description": "Aircraft - Large",
+    "keywords": [
+      "large aircraft",
+      "commercial aircraft",
+      "widebody",
+      "jumbo jet"
+    ]
+  },
+  "2B": {
+    "description": "Unreinforced Masonry (URM)",
+    "keywords": [
+      "unreinforced masonry",
+      "urm",
+      "unconfined masonry",
+      "plain masonry",
+      "urm walls",
+      "unreinforced brick"
+    ]
+  },
+  "2C": {
+    "description": "Structural Masonry",
+    "keywords": [
+      "structural masonry",
+      "reinforced masonry",
+      "rm",
+      "reinforced brick",
+      "reinforced block",
+      "reinforced concrete masonry"
+    ]
+  },
+  "2C1": {
+    "description": "Reinforced Masonry Shear Wall",
+    "keywords": [
+      "reinforced masonry shear wall",
+      "rm shear wall",
+      "rm without mrf",
+      "reinforced masonry bearing"
+    ]
+  },
+  "3A": {
+    "description": "Cast-in-place RC with Concrete Roof",
+    "keywords": [
+      "cast in place concrete",
+      "cip concrete",
+      "cast-in-place",
+      "rc concrete roof",
+      "in situ concrete"
+    ]
+  },
+  "3A1": {
+    "description": "RC Moment Resisting Frame (RCMRF)",
+    "keywords": [
+      "rc moment resisting frame",
+      "rcmrf",
+      "concrete moment frame",
+      "ductile rc",
+      "concrete mrf",
+      "rc mrf ductile"
+    ]
+  },
+  "3A2": {
+    "description": "RC MRF with Shear Walls",
+    "keywords": [
+      "rc mrf with shear walls",
+      "concrete dual system",
+      "rc shear mrf",
+      "dual system concrete"
+    ]
+  },
+  "3A3": {
+    "description": "RC MRF with URM Infill",
+    "keywords": [
+      "rc mrf urm infill",
+      "non-ductile concrete",
+      "concrete frame masonry infill",
+      "rc urm"
+    ]
+  },
+  "3A4": {
+    "description": "RC Shear Wall",
+    "keywords": [
+      "rc shear wall",
+      "concrete shear wall",
+      "rc sw",
+      "shear wall concrete",
+      "concrete wall"
+    ]
+  },
+  "3A5": {
+    "description": "Waffle / Flat Slab",
+    "keywords": [
+      "waffle slab",
+      "flat slab",
+      "flat plate",
+      "waffle",
+      "two way slab"
+    ]
+  },
+  "3A6": {
+    "description": "Steel + RC Composite Frame",
+    "keywords": [
+      "steel rc composite",
+      "composite frame",
+      "src frame",
+      "composite steel concrete",
+      "src",
+      "steel reinforced concrete"
+    ]
+  },
+  "3A10": {
+    "description": "RC Frame with Wood Upper Floors",
+    "keywords": [
+      "rc frame wood upper",
+      "concrete wood hybrid",
+      "podium wood upper",
+      "concrete podium wood",
+      "rc with wood"
+    ]
+  },
+  "3B": {
+    "description": "Precast RC Roof Deck",
+    "keywords": [
+      "precast concrete",
+      "precast",
+      "pre-cast",
+      "precast panel",
+      "hollow core",
+      "double tee",
+      "prefab concrete",
+      "precast roof deck",
+      "double-t"
+    ]
+  },
+  "3B4": {
+    "description": "Tilt-Up",
+    "keywords": [
+      "tilt-up",
+      "tilt up",
+      "tilt wall",
+      "tilt panel",
+      "tiltup",
+      "precast tilt",
+      "tilt-up concrete"
+    ]
+  },
+  "3B6": {
+    "description": "Lift Slab",
+    "keywords": [
+      "lift slab",
+      "jacking slab",
+      "raised slab construction"
+    ]
+  },
+  "3C": {
+    "description": "RC with Wood/Metal Roof",
+    "keywords": [
+      "rc wood roof",
+      "concrete wood roof",
+      "rc metal roof",
+      "concrete with wood roof",
+      "rc light roof"
+    ]
+  },
+  "4A": {
+    "description": "Steel Frame + Concrete Roof",
+    "keywords": [
+      "steel frame concrete roof",
+      "steel concrete roof",
+      "steel with concrete deck"
+    ]
+  },
+  "4A1": {
+    "description": "Steel MRF",
+    "keywords": [
+      "steel mrf",
+      "steel moment resisting frame",
+      "smrf",
+      "steel special moment frame",
+      "steel distributed mrf"
+    ]
+  },
+  "4A4": {
+    "description": "Concentrically Braced Frame",
+    "keywords": [
+      "concentrically braced frame",
+      "cbf",
+      "concentric brace",
+      "steel cbf",
+      "braced steel frame"
+    ]
+  },
+  "4A5": {
+    "description": "Eccentrically Braced Frame",
+    "keywords": [
+      "eccentrically braced frame",
+      "ebf",
+      "eccentric brace",
+      "steel ebf"
+    ]
+  },
+  "4B": {
+    "description": "Light Metal Frame",
+    "keywords": [
+      "light metal frame",
+      "light metal",
+      "metal building",
+      "pre-engineered metal",
+      "pemb",
+      "metal bldg",
+      "prefab metal",
+      "light steel frame",
+      "pre-engineered steel"
+    ]
+  },
+  "4C": {
+    "description": "Steel Frame with Wood/Metal Roof",
+    "keywords": [
+      "steel frame wood roof",
+      "steel frame metal roof",
+      "steel with wood roof",
+      "steel light roof"
+    ]
+  },
+  "5A": {
+    "description": "Mobile Home Without Tie Downs",
+    "keywords": [
+      "mobile home without tie downs",
+      "unanchored mobile home",
+      "manufactured home no tie down"
+    ]
+  },
+  "5B": {
+    "description": "Mobile Home With Tie Downs",
+    "keywords": [
+      "mobile home with tie downs",
+      "anchored mobile home",
+      "manufactured home tie down",
+      "semi-anchored mobile"
+    ]
   }
 }

@@ -249,5 +249,305 @@
       "campus",
       "higher education"
     ]
+  },
+  "1": {
+    "description": "Single Family Dwelling",
+    "keywords": [
+      "single family dwelling"
+    ]
+  },
+  "2": {
+    "description": "Apartments / Condominiums",
+    "keywords": [
+      "apartments / condominiums"
+    ]
+  },
+  "3": {
+    "description": "Temporary Lodging",
+    "keywords": [
+      "temporary lodging"
+    ]
+  },
+  "4": {
+    "description": "Group Institutional Housing",
+    "keywords": [
+      "group institutional housing"
+    ]
+  },
+  "5": {
+    "description": "Retail Trade",
+    "keywords": [
+      "retail trade"
+    ]
+  },
+  "6": {
+    "description": "Wholesale Trade",
+    "keywords": [
+      "wholesale trade"
+    ]
+  },
+  "7": {
+    "description": "Personal and Repair Services",
+    "keywords": [
+      "personal and repair services"
+    ]
+  },
+  "8": {
+    "description": "Professional/Technical/Business Services",
+    "keywords": [
+      "professional/technical/business services"
+    ]
+  },
+  "9": {
+    "description": "Health Care Services",
+    "keywords": [
+      "health care services"
+    ]
+  },
+  "10": {
+    "description": "Entertainment and Recreation",
+    "keywords": [
+      "entertainment and recreation"
+    ]
+  },
+  "11": {
+    "description": "Parking",
+    "keywords": [
+      "parking"
+    ]
+  },
+  "12": {
+    "description": "Heavy Fabrication and Assembly",
+    "keywords": [
+      "heavy fabrication and assembly"
+    ]
+  },
+  "13": {
+    "description": "Light Fabrication and Assembly",
+    "keywords": [
+      "light fabrication and assembly"
+    ]
+  },
+  "14": {
+    "description": "Food and Drug Processing",
+    "keywords": [
+      "food and drug processing"
+    ]
+  },
+  "15": {
+    "description": "Chemical Processing",
+    "keywords": [
+      "chemical processing"
+    ]
+  },
+  "16": {
+    "description": "Metal and Minerals Processing",
+    "keywords": [
+      "metal and minerals processing"
+    ]
+  },
+  "17": {
+    "description": "High Technology",
+    "keywords": [
+      "high technology"
+    ]
+  },
+  "18": {
+    "description": "Construction",
+    "keywords": [
+      "construction"
+    ]
+  },
+  "19": {
+    "description": "Petroleum",
+    "keywords": [
+      "petroleum"
+    ]
+  },
+  "20": {
+    "description": "Agriculture",
+    "keywords": [
+      "agriculture"
+    ]
+  },
+  "21": {
+    "description": "Mining",
+    "keywords": [
+      "mining"
+    ]
+  },
+  "22": {
+    "description": "Religion and Nonprofit",
+    "keywords": [
+      "religion and nonprofit"
+    ]
+  },
+  "23": {
+    "description": "General Services",
+    "keywords": [
+      "general services"
+    ]
+  },
+  "24": {
+    "description": "Emergency Services",
+    "keywords": [
+      "emergency services"
+    ]
+  },
+  "25": {
+    "description": "Education - Primary/Secondary",
+    "keywords": [
+      "education - primary/secondary"
+    ]
+  },
+  "26": {
+    "description": "Highway",
+    "keywords": [
+      "highway"
+    ]
+  },
+  "27": {
+    "description": "Railroad",
+    "keywords": [
+      "railroad"
+    ]
+  },
+  "28": {
+    "description": "Air Transportation",
+    "keywords": [
+      "air transportation"
+    ]
+  },
+  "29": {
+    "description": "Sea and Inland Waterways",
+    "keywords": [
+      "sea and inland waterways"
+    ]
+  },
+  "30": {
+    "description": "Electrical",
+    "keywords": [
+      "electrical"
+    ]
+  },
+  "31": {
+    "description": "Water",
+    "keywords": [
+      "water"
+    ]
+  },
+  "32": {
+    "description": "Sanitary Sewer",
+    "keywords": [
+      "sanitary sewer"
+    ]
+  },
+  "33": {
+    "description": "Natural Gas",
+    "keywords": [
+      "natural gas"
+    ]
+  },
+  "34": {
+    "description": "Telephone and Telegraph",
+    "keywords": [
+      "telephone and telegraph"
+    ]
+  },
+  "35": {
+    "description": "Communication (Radio and TV)",
+    "keywords": [
+      "communication (radio and tv)"
+    ]
+  },
+  "36": {
+    "description": "Flood Control",
+    "keywords": [
+      "flood control"
+    ]
+  },
+  "37": {
+    "description": "General Commercial",
+    "keywords": [
+      "general commercial"
+    ]
+  },
+  "38": {
+    "description": "General Industrial",
+    "keywords": [
+      "general industrial"
+    ]
+  },
+  "39": {
+    "description": "Miscellaneous",
+    "keywords": [
+      "miscellaneous"
+    ]
+  },
+  "42": {
+    "description": "Multi-Family Dwelling - Homeowners Association",
+    "keywords": [
+      "multi-family dwelling - homeowners association"
+    ]
+  },
+  "43": {
+    "description": "Multi-Family Dwelling - Condo Unit Owner",
+    "keywords": [
+      "multi-family dwelling - condo unit owner"
+    ]
+  },
+  "44": {
+    "description": "Gasoline Service Station",
+    "keywords": [
+      "gasoline service station"
+    ]
+  },
+  "47": {
+    "description": "Restaurants",
+    "keywords": [
+      "restaurants"
+    ]
+  },
+  "48": {
+    "description": "Casinos (use Entertainment code)",
+    "keywords": [
+      "casinos (use entertainment code)"
+    ]
+  },
+  "49": {
+    "description": "Acute Care Services Hospitals",
+    "keywords": [
+      "acute care services hospitals"
+    ]
+  },
+  "50": {
+    "description": "OSHPD Acute Care (California)",
+    "keywords": [
+      "oshpd acute care (california)"
+    ]
+  },
+  "51": {
+    "description": "Hotels - Large",
+    "keywords": [
+      "hotels - large"
+    ]
+  },
+  "52": {
+    "description": "Hotels - Small and Medium",
+    "keywords": [
+      "hotels - small and medium"
+    ]
+  },
+  "53": {
+    "description": "Rental - General Commercial",
+    "keywords": [
+      "rental - general commercial"
+    ]
+  },
+  "54": {
+    "description": "Education - University and Colleges",
+    "keywords": [
+      "education - university and colleges"
+    ]
   }
 }

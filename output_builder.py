@@ -184,26 +184,36 @@ def build_xlsx(
     return buf
 
 
+def generate_location_data(rows: List[Dict[str, Any]], target_format: str = "AIR") -> Tuple[List[str], List[Dict[str, Any]]]:
+    """Return the final headers and a formatted list of dicts for the Location file."""
+    base_cols = AIR_OUTPUT_COLUMNS if target_format == "AIR" else RMS_OUTPUT_COLUMNS
+    final_cols = base_cols
+
+    if target_format == "RMS":
+        _clone_rms_perils(rows)
+        _format_rms_years(rows)
+        
+    formatted_rows = []
+    for row in rows:
+        formatted_rows.append({col: row.get(col, "") for col in final_cols})
+        
+    return final_cols, formatted_rows
+
+
 def build_tsv(
     rows: List[Dict[str, Any]],
     unmapped_cols: List[str],
     target_format: str = "AIR",
 ) -> io.BytesIO:
     """Build a TSV (tab-separated) output in the canonical column order. Returns BytesIO."""
-    base_cols = AIR_OUTPUT_COLUMNS if target_format == "AIR" else RMS_OUTPUT_COLUMNS
-    # Only output the canonical schema columns
-    final_cols = base_cols
-
-    if target_format == "RMS":
-        _clone_rms_perils(rows)
-        _format_rms_years(rows)
+    final_cols, formatted_rows = generate_location_data(rows, target_format)
 
     buf = io.StringIO()
     writer = csv.DictWriter(buf, fieldnames=final_cols, extrasaction="ignore",
                              lineterminator="\n", delimiter="\t")
     writer.writeheader()
-    for row in rows:
-        writer.writerow({col: row.get(col, "") for col in final_cols})
+    for row in formatted_rows:
+        writer.writerow(row)
 
     raw = buf.getvalue().encode("utf-8-sig")  # BOM for Excel compatibility
     return io.BytesIO(raw)

@@ -30,7 +30,10 @@ from models import (
     ReviewResponse, FlagEntry, CorrectRequest, CorrectResponse,
     SessionInfoResponse,
 )
-from output_builder import build_xlsx, build_tsv, build_account_xlsx, build_account_tsv
+from output_builder import (
+    build_xlsx, build_tsv, build_account_xlsx, build_account_tsv,
+    generate_location_data, _get_account_rows
+)
 
 # Agents
 import agents.geocoder as geocoder
@@ -44,6 +47,147 @@ logging.basicConfig(
     format="%(asctime)s [%(name)s] %(levelname)s â€” %(message)s",
 )
 logger = logging.getLogger("main")
+
+# ── LLM Summary Generator ─────────────────────────────────────────────────────
+import google.generativeai as genai
+
+_SUMMARY_MODEL: Optional[genai.GenerativeModel] = None
+
+_SUMMARY_SYSTEM = (
+    "You are a senior insurance data analyst. Given pipeline transformation stats, "
+    "write a concise 2-3 sentence executive summary paragraph. "
+    "Maximum 3 sentences. Be dense with information. "
+    "Mention specific numbers: rows processed, codes mapped, methods used, flags raised. "
+    "Sound professional and confident about CAT modeling / underwriting terminology. "
+    "Do NOT use bullet points, headings, or markdown formatting. Just plain flowing text. "
+    "Do NOT invent numbers, only reference data from the provided context. "
+    "Frame flags constructively (e.g. flagged for expert review). "
+    'Return ONLY a JSON object: {"summary": "Your 2-3 sentence paragraph here."}'
+)
+
+
+def _init_summary_model() -> None:
+    """Initialize the Gemini model for pipeline summary generation."""
+    global _SUMMARY_MODEL
+    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY", "")
+    if not api_key:
+        logger.warning("No API key found (tried GEMINI_API_KEY and GOOGLE_API_KEY), LLM summaries disabled.")
+        return
+    genai.configure(api_key=api_key)
+    _SUMMARY_MODEL = genai.GenerativeModel(
+        "gemini-3.1-flash-lite-preview",
+        system_instruction=_SUMMARY_SYSTEM,
+        generation_config=genai.GenerationConfig(
+            response_mime_type="application/json",
+            temperature=0.7,
+        ),
+    )
+    logger.info("Summary LLM model initialized (gemini-3.1-flash-lite-preview).")
+
+
+def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: str) -> str:
+    """
+    Call Gemini to generate a short paragraph summary from pipeline stats.
+    Returns a plain text string. Falls back to fallback_text on any failure.
+    """
+    if _SUMMARY_MODEL is None:
+        return fallback_text
+
+    step_label = ("Occupancy & Construction Code Mapping"
+                  if step_name == "code_mapping"
+                  else "Value Normalization")
+    prompt = f"Summarize the {step_label} step.\n\nSTATS:\n{json.dumps(stats_context, indent=2, default=str)}\n\nWrite a 2-3 sentence executive summary paragraph."
+
+    try:
+        response = _SUMMARY_MODEL.generate_content(prompt)
+        raw_text = response.text.strip()
+        
+        # Strip potential markdown formatting (```json ... ```)
+        if raw_text.startswith("```json"):
+            raw_text = raw_text.replace("```json", "", 1)
+        if raw_text.startswith("```"):
+            raw_text = raw_text.replace("```", "", 1)
+        if raw_text.endswith("```"):
+            raw_text = raw_text[::-1].replace("```", "", 1)[::-1]
+        raw_text = raw_text.strip()
+
+        logger.info(f"LLM Raw Response: {raw_text}")
+
+        parsed = json.loads(raw_text)
+        text = parsed.get("summary", "").strip()
+        if text:
+            logger.info(f"LLM summary generated for {step_name} ({len(text)} chars).")
+            return text
+        
+        logger.warning(f"LLM returned JSON without 'summary' key: {parsed}")
+        return fallback_text
+    except Exception as e:
+        logger.error(f"LLM summary generation FAILED for {step_name}: {type(e).__name__}: {e}", exc_info=True)
+        return fallback_text
+
+
+
+    if step_name == "code_mapping":
+        prompt = f"""Summarize the Occupancy & Construction Code Mapping step of the SOV pipeline.
+
+TRANSFORMATION CONTEXT:
+{json.dumps(stats_context, indent=2, default=str)}
+
+Write 3-4 sections:
+1. "Overview" (accent=blue) â€” high-level summary of what was accomplished, total rows processed, success rate
+2. "Occupancy Classification" (accent=violet) â€” how occupancy codes were mapped, method breakdown, top mapped codes
+3. "Construction Classification" (accent=emerald) â€” how construction codes were mapped, method breakdown, top mapped codes  
+4. "Data Quality" (accent=amber) â€” only if there are flags; frame constructively
+
+For each method mention the percentage and what it means (e.g., "deterministic rules" = exact keyword match, "Gemini LLM" = AI classification, "TF-IDF" = similarity matching).
+Highlight the most interesting transformations from the sample_mappings."""
+
+    elif step_name == "normalization":
+        prompt = f"""Summarize the Value Normalization step of the SOV pipeline.
+
+TRANSFORMATION CONTEXT:
+{json.dumps(stats_context, indent=2, default=str)}
+
+Write 4-6 sections covering:
+1. "Overview" (accent=blue) â€” high-level: total rows, total fields normalized, flag count
+2. "Year & Building Attributes" (accent=indigo) â€” year built, stories, building count normalization
+3. "Floor Area & Geometry" (accent=teal) â€” area field cleaning, unit conversions
+4. "TIV & Financial Values" (accent=emerald) â€” building/contents/BI value parsing, shorthand expansion ($2.5M â†’ $2,500,000)
+5. "Currency & Compliance" (accent=yellow) â€” currency code resolution
+6. "Secondary Modifiers" (accent=rose) â€” only if modifier data exists; sprinkler, roof, wall, foundation mapping
+
+Highlight specific transformations: ranges resolved, textâ†’integer conversions, shorthand notation expanded.
+Frame the summary around data quality improvement and CAT model readiness."""
+
+    else:
+        return fallback_sections
+
+    try:
+        response = _SUMMARY_MODEL.generate_content(prompt)
+        raw_text = response.text.strip()
+        parsed = json.loads(raw_text)
+        sections = parsed.get("sections", [])
+        if not sections:
+            logger.warning("LLM returned empty sections, using fallback.")
+            return fallback_sections
+
+        result: List[AISummarySection] = []
+        for sec in sections:
+            heading = sec.get("heading", "")
+            bullets = sec.get("bullets", [])
+            accent = sec.get("accent", "blue")
+            if heading and bullets:
+                result.append(AISummarySection(heading=heading, bullets=bullets, accent=accent))
+
+        if not result:
+            return fallback_sections
+
+        logger.info(f"LLM summary generated for {step_name}: {len(result)} sections.")
+        return result
+
+    except Exception as e:
+        logger.warning(f"LLM summary generation failed for {step_name}: {type(e).__name__}: {e}. Using fallback.")
+        return fallback_sections
 
 # Global event queues for SSE
 _event_queues: Dict[str, List[asyncio.Queue]] = {}
@@ -67,6 +211,7 @@ async def lifespan(app: FastAPI):
     logger.info("Starting CAT pipeline â€” loading TF-IDF indexesâ€¦")
     code_mapper.build_tfidf_indexes()
     geocoder.load_reference_data()
+    _init_summary_model()
     session_store.start_ttl_cleanup()
     logger.info("Startup complete.")
     yield
@@ -89,6 +234,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Ontology & Rules API ─────────────────────────────────────────────────────────
+from ontology_router import router as ontology_api_router
+app.include_router(ontology_api_router, prefix="/api")
 
 # â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
@@ -469,11 +618,14 @@ async def geocode_endpoint(upload_id: str):
     
     dispatch_event(upload_id, agent_id, "done", result=result)
 
+    diff_data = _get_session_diff_data(session, "geocode")
+
     return GeocodeResponse(
         upload_id=upload_id, 
         total_rows=len(raw_rows), 
         sample=geo_rows[:10],
         headers=session.get("headers", []),
+        diff_data=diff_data,
         **result
     )
 
@@ -573,11 +725,59 @@ async def map_codes_endpoint(upload_id: str):
     })
     session_store.append_flags(upload_id, new_flags)
     session_store.session_mark_stage(upload_id, "code_mapping")
-    dispatch_event(upload_id, "pipeline", "stage_complete", "code_mapping")
+    # NOTE: stage_complete is NOT dispatched here — this is a merged endpoint.
+    # The HTTP response (with diff_data) is the authoritative completion signal for the frontend.
 
     unique_occ = len([k for k in code_map if k.startswith("occ|")])
     unique_const = len([k for k in code_map if k.startswith("const|")])
-    
+
+    # ── Build AI summary ───────────────────────────────────────────────────
+    total_rows = len(enriched_rows)
+    total_occ_rows = sum(occ_by_method.values())
+    total_const_rows = sum(const_by_method.values())
+
+    # ── Call LLM for narrative summary ─────────────────────────────────────
+    # Build stats context for the LLM
+    occ_code_dist_ctx: Dict[str, int] = {}
+    const_code_dist_ctx: Dict[str, int] = {}
+    sample_mappings = []
+    for k, v in code_map.items():
+        code_val = v.get("code", "?")
+        desc = v.get("description", "")
+        label = f"{code_val} — {desc}" if desc else code_val
+        if k.startswith("occ|"):
+            occ_code_dist_ctx[label] = occ_code_dist_ctx.get(label, 0) + 1
+        elif k.startswith("const|"):
+            const_code_dist_ctx[label] = const_code_dist_ctx.get(label, 0) + 1
+        if len(sample_mappings) < 6:
+            sample_mappings.append({
+                "type": "occupancy" if k.startswith("occ|") else "construction",
+                "original": v.get("original", ""),
+                "mapped_code": code_val,
+                "mapped_desc": desc,
+                "method": v.get("method", ""),
+                "confidence": v.get("confidence", 0),
+            })
+
+    llm_stats_context = {
+        "step": "code_mapping",
+        "target_format": target,
+        "total_rows": total_rows,
+        "unique_occ_pairs": unique_occ,
+        "unique_const_pairs": unique_const,
+        "total_occ_classified": total_occ_rows,
+        "total_const_classified": total_const_rows,
+        "occ_by_method": occ_by_method,
+        "const_by_method": const_by_method,
+        "occ_code_distribution": dict(sorted(occ_code_dist_ctx.items(), key=lambda x: x[1], reverse=True)[:10]),
+        "const_code_distribution": dict(sorted(const_code_dist_ctx.items(), key=lambda x: x[1], reverse=True)[:10]),
+        "flags_count": len(new_flags),
+        "sample_mappings": sample_mappings,
+    }
+
+    dispatch_event(upload_id, agent_id, "log", "Generating AI summary of mapping outcomes…")
+    summary_text = _generate_llm_summary("code_mapping", llm_stats_context, "Occupancy and construction codes successfully mapped.")
+
     result = {
         "unique_occ_pairs": unique_occ,
         "unique_const_pairs": unique_const,
@@ -588,7 +788,9 @@ async def map_codes_endpoint(upload_id: str):
 
     dispatch_event(upload_id, agent_id, "done", result=result)
 
-    return MapCodesResponse(upload_id=upload_id, **result)
+    diff_data = _get_session_diff_data(session, "map-codes")
+
+    return MapCodesResponse(upload_id=upload_id, summary_text=summary_text, diff_data=diff_data, **result)
 
 
 # â”€â”€ Step 5: Normalize â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -623,7 +825,8 @@ async def normalize_endpoint(upload_id: str):
     session_store.update_session(upload_id, {"final_rows": normalized})
     session_store.append_flags(upload_id, new_flags)
     session_store.session_mark_stage(upload_id, "normalization")
-    dispatch_event(upload_id, "pipeline", "stage_complete", "normalization")
+    # NOTE: stage_complete is NOT dispatched here — this is a merged endpoint.
+    # The HTTP response (with diff_data) is the authoritative completion signal for the frontend.
 
     summary = {
         "year_flags": sum(1 for f in new_flags if "year" in f.get("issue", "")),
@@ -632,6 +835,73 @@ async def normalize_endpoint(upload_id: str):
         "value_flags": sum(1 for f in new_flags if "value" in f.get("issue", "")),
         "currency_flags": sum(1 for f in new_flags if "currency" in f.get("issue", "")),
     }
+
+    # ── Build AI Summary ───────────────────────────────────────────────────
+    total_rows = len(normalized)
+
+    def _count_non_null(rows, key):
+        return sum(1 for r in rows if r.get(key) is not None and str(r.get(key, "")).strip() != "")
+
+    def _count_changed(before_rows, after_rows, key):
+        changed = 0
+        for b, a in zip(before_rows, after_rows):
+            bv = str(b.get(key, "") or "").strip()
+            av = str(a.get(key, "") or "").strip()
+            if bv != av and (bv or av):
+                changed += 1
+        return changed
+
+    if target_format == "AIR":
+        year_key, retro_key = "YearBuilt", "YearRetrofitted"
+        stories_key, bldg_key = "NumberOfStories", "RiskCount"
+        area_key = "GrossArea"
+        val_keys = ["BuildingValue", "ContentsValue", "TimeElementValue"]
+        currency_key = "Currency"
+        sprinkler_key = "SprinklerSystem"
+        roof_key, wall_key, found_key, soft_key = "RoofGeometry", "WallSiding", "FoundationType", "SoftStory"
+    else:
+        year_key, retro_key = "YEARBUILT", "YEARUPGRAD"
+        stories_key, bldg_key = "NUMSTORIES", "NUMBLDGS"
+        area_key = "FLOORAREA"
+        val_keys = ["EQCV1VAL", "EQCV2VAL", "EQCV3VAL"]
+        currency_key = "EQCV1LCUR"
+        sprinkler_key = "SPRINKLER"
+        roof_key, wall_key, found_key, soft_key = "ROOFGEOM", "CLADDING", "FOUNDATION", "SOFTSTORY"
+
+    year_filled = _count_non_null(normalized, year_key)
+    year_changed = _count_changed(final_rows_canonical, normalized, year_key)
+    stories_filled = _count_non_null(normalized, stories_key)
+    stories_changed = _count_changed(final_rows_canonical, normalized, stories_key)
+    bldg_filled = _count_non_null(normalized, bldg_key)
+    area_filled = _count_non_null(normalized, area_key)
+    area_changed = _count_changed(final_rows_canonical, normalized, area_key)
+    cur_filled = _count_non_null(normalized, currency_key)
+
+    # ── Call LLM for narrative summary ─────────────────────────────────────────
+    norm_stats_context = {
+        "step": "normalization",
+        "target_format": target_format,
+        "total_rows": total_rows,
+        "total_flags": len(new_flags),
+        "year_stats": {"filled": year_filled, "changed": year_changed, "flags": summary["year_flags"]},
+        "stories_stats": {"filled": stories_filled, "changed": stories_changed, "flags": summary["story_flags"]},
+        "building_count_filled": bldg_filled,
+        "area_stats": {"filled": area_filled, "changed": area_changed, "flags": summary["area_flags"]},
+        "value_stats": {vk: {"filled": _count_non_null(normalized, vk), "changed": _count_changed(final_rows_canonical, normalized, vk)} for vk in val_keys},
+        "currency_stats": {"filled": cur_filled, "flags": summary["currency_flags"]},
+        "modifier_stats": {},
+        "sample_flags": [{"field": f.get("field", ""), "issue": f.get("issue", ""), "original": str(f.get("original_value", ""))} for f in new_flags[:6]],
+    }
+    # Collect modifier stats
+    for label, key in [("sprinkler", sprinkler_key), ("roof", roof_key), ("wall", wall_key),
+                        ("foundation", found_key), ("soft_story", soft_key)]:
+        filled = _count_non_null(normalized, key)
+        changed = _count_changed(final_rows_canonical, normalized, key)
+        if filled or changed:
+            norm_stats_context["modifier_stats"][label] = {"filled": filled, "changed": changed}
+
+    dispatch_event(upload_id, agent_id, "log", "Generating AI summary of normalization outcomes…")
+    summary_text = _generate_llm_summary("normalization", norm_stats_context, "Values successfully normalized.")
 
     sample_rows = normalized[:10]
     headers_out = list(normalized[0].keys()) if normalized else []
@@ -646,7 +916,9 @@ async def normalize_endpoint(upload_id: str):
 
     dispatch_event(upload_id, agent_id, "done", result=result)
 
-    return NormalizeResponse(upload_id=upload_id, **result)
+    diff_data = _get_session_diff_data(session, "normalize")
+
+    return NormalizeResponse(upload_id=upload_id, summary_text=summary_text, diff_data=diff_data, **result)
 
 
 # â”€â”€ Slip Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -852,17 +1124,45 @@ def download_account(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx
     return StreamingResponse(buf, media_type=media_type, headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 
+@app.get("/preview-location/{upload_id}", tags=["Output"])
+def preview_location(upload_id: str):
+    """Return an exact 5-row preview of the generated location file."""
+    session = _get_session_or_404(upload_id)
+    _require_stage(session, "normalization", "/preview-location")
+    
+    final_rows = session.get("final_rows", [])
+    target = session.get("target_format", "AIR")
+    
+    # We copy the first 5 rows because generate_location_data mutates the dicts (e.g. adding RMS fields)
+    sample_rows = [dict(r) for r in final_rows[:5]]
+    headers, formatted_rows = generate_location_data(sample_rows, target)
+    
+    return {"headers": headers, "sample": formatted_rows}
+
+@app.get("/preview-account/{upload_id}", tags=["Output"])
+def preview_account(upload_id: str):
+    """Return an exact preview of the generated account file."""
+    session = _get_session_or_404(upload_id)
+    _require_stage(session, "normalization", "/preview-account")
+    
+    final_rows = session.get("final_rows", [])
+    target = session.get("target_format", "AIR")
+    
+    # Generate the account file rows (it already aggregates the whole dataset)
+    headers, acc_rows = _get_account_rows(final_rows, target)
+    
+    return {"headers": headers, "sample": acc_rows[:5]}
+
+
 # ── Pipeline Diff ──────────────────────────────────────────────────────────────────
 
-@app.get("/session-diff/{upload_id}", tags=["Pipeline"])
-def session_diff(upload_id: str, step: str = Query(..., pattern="^(geocode|map-codes|normalize|normalize-address)$")):
+def _get_session_diff_data(session: dict, step: str) -> dict:
     """
     Return before/after table data for a specific pipeline step, capped at 100 rows.
     Includes all columns that appear in the final Excel output.
     Also returns a `pairs` list: [{before_col, after_col, label}] so the UI can
     render old → new columns adjacently.
     """
-    session = _get_session_or_404(upload_id)
     target = session.get("target_format", "AIR")
 
     column_map = session.get("column_map", {})
@@ -1056,6 +1356,12 @@ def session_diff(upload_id: str, step: str = Query(..., pattern="^(geocode|map-c
         "rows": rows_data[:limit],
         "total": len(rows_data)
     }
+
+@app.get("/session-diff/{upload_id}", tags=["Pipeline"])
+def session_diff(upload_id: str, step: str = Query(..., pattern="^(geocode|map-codes|normalize|normalize-address)$")):
+    session = _get_session_or_404(upload_id)
+    return _get_session_diff_data(session, step)
+
 
 # ── Entry point ───────────────────────────────────────────────────────────
 
