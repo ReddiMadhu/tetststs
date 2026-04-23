@@ -502,6 +502,7 @@ def suggest_columns_endpoint(upload_id: str, target_format: Optional[str] = Quer
         suggestions=suggestions_typed,
         unmapped=result["unmapped"],
         memory_count=result.get("memory_count", 0),
+        sample_values=sample_values,
     )
 
 

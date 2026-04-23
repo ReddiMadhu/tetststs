@@ -30,6 +30,7 @@ class SuggestColumnsResponse(BaseModel):
     suggestions: Dict[str, List[ColumnSuggestion]]
     unmapped: List[str]
     memory_count: int = 0   # number of columns resolved from learned memory
+    sample_values: Dict[str, List[Any]] = {}  # source_col → up to 3 sample values
 
 
 class ConfirmColumnsRequest(BaseModel):
