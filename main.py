@@ -55,14 +55,14 @@ _SUMMARY_MODEL: Optional[genai.GenerativeModel] = None
 
 _SUMMARY_SYSTEM = (
     "You are a senior insurance data analyst. Given pipeline transformation stats, "
-    "write a concise 2-3 sentence executive summary paragraph. "
-    "Maximum 3 sentences. Be dense with information. "
+    "produce a concise executive summary as a list of key points. "
+    "Each point should be ONE short sentence covering a specific insight. "
+    "Aim for 4-6 bullet points. Be dense with information. "
     "Mention specific numbers: rows processed, codes mapped, methods used, flags raised. "
     "Sound professional and confident about CAT modeling / underwriting terminology. "
-    "Do NOT use bullet points, headings, or markdown formatting. Just plain flowing text. "
     "Do NOT invent numbers, only reference data from the provided context. "
     "Frame flags constructively (e.g. flagged for expert review). "
-    'Return ONLY a JSON object: {"summary": "Your 2-3 sentence paragraph here."}'
+    'Return ONLY a JSON object: {"points": ["Point 1 here.", "Point 2 here.", ...]}'
 )
 
 
@@ -87,8 +87,8 @@ def _init_summary_model() -> None:
 
 def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: str) -> str:
     """
-    Call Gemini to generate a short paragraph summary from pipeline stats.
-    Returns a plain text string. Falls back to fallback_text on any failure.
+    Call Gemini to generate a list of key-point summaries from pipeline stats.
+    Returns a JSON string containing the points array, or fallback_text on failure.
     """
     if _SUMMARY_MODEL is None:
         return fallback_text
@@ -96,7 +96,7 @@ def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: st
     step_label = ("Occupancy & Construction Code Mapping"
                   if step_name == "code_mapping"
                   else "Value Normalization")
-    prompt = f"Summarize the {step_label} step.\n\nSTATS:\n{json.dumps(stats_context, indent=2, default=str)}\n\nWrite a 2-3 sentence executive summary paragraph."
+    prompt = f"Summarize the {step_label} step.\n\nSTATS:\n{json.dumps(stats_context, indent=2, default=str)}\n\nWrite 4-6 key insight bullet points."
 
     try:
         response = _SUMMARY_MODEL.generate_content(prompt)
@@ -114,16 +114,26 @@ def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: st
         logger.info(f"LLM Raw Response: {raw_text}")
 
         parsed = json.loads(raw_text)
-        text = parsed.get("summary", "").strip()
-        if text:
-            logger.info(f"LLM summary generated for {step_name} ({len(text)} chars).")
-            return text
         
-        logger.warning(f"LLM returned JSON without 'summary' key: {parsed}")
+        # Support both new 'points' format and legacy 'summary' format
+        points = parsed.get("points", [])
+        if points and isinstance(points, list):
+            logger.info(f"LLM summary generated for {step_name} ({len(points)} points).")
+            return json.dumps({"points": points})
+        
+        # Fallback: if legacy 'summary' string returned, split into points
+        summary = parsed.get("summary", "").strip()
+        if summary:
+            logger.info(f"LLM returned legacy summary for {step_name}, converting to points.")
+            sentences = [s.strip() for s in summary.replace(". ", ".\n").split("\n") if s.strip()]
+            return json.dumps({"points": sentences})
+        
+        logger.warning(f"LLM returned JSON without 'points' or 'summary' key: {parsed}")
         return fallback_text
     except Exception as e:
         logger.error(f"LLM summary generation FAILED for {step_name}: {type(e).__name__}: {e}", exc_info=True)
         return fallback_text
+
 
 
 
