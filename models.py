@@ -144,3 +144,45 @@ class SessionInfoResponse(BaseModel):
     stages_complete: Dict[str, bool]
     flag_count: int
     rules_config: Dict[str, Any]
+
+
+# ── COPE Dictionary — Manual Add & Excel Upload ───────────────────────────────
+
+class DuplicateMatchSchema(BaseModel):
+    existing_code: str
+    existing_description: str
+    existing_keywords: List[str]
+    match_type: Literal["exact_code"]
+    similarity_score: float
+
+
+class AddEntryRequest(BaseModel):
+    code: str
+    description: str
+    keywords: List[str] = []
+    section: Optional[str] = None   # required only for 'exposure' cope_type
+    force: bool = False             # skip duplicate check when True
+
+
+class AddEntryResponse(BaseModel):
+    status: Literal["ok", "duplicates_found"]
+    entry_saved: bool
+    version_id: Optional[str] = None
+    duplicates: List[DuplicateMatchSchema] = []
+
+
+class ExcelUploadResponse(BaseModel):
+    status: Literal["ok", "duplicates_found", "validation_error"]
+    total_entries: int = 0
+    valid_entries: int = 0
+    validation_errors: List[Dict[str, Any]] = []
+    duplicates: Dict[str, Any] = {}
+    internal_duplicates: Dict[str, List[str]] = {}
+    clean_entries: Dict[str, Any] = {}
+    preview_token: Optional[str] = None
+
+
+class CommitEntriesRequest(BaseModel):
+    entries: Dict[str, Dict[str, Any]]
+    format: str = "AIR"
+    source: Literal["excel_upload", "manual"] = "manual"

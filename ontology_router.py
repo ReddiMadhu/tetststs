@@ -9,13 +9,20 @@ import logging
 import os
 import pathlib
 import re
+import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
+import pandas as pd
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 from fastapi.responses import StreamingResponse
 
 from rules import BusinessRulesConfig
+from duplicate_detector import find_duplicates, find_internal_duplicates
+from models import (
+    AddEntryRequest, AddEntryResponse, DuplicateMatchSchema,
+    ExcelUploadResponse, CommitEntriesRequest,
+)
 
 logger = logging.getLogger("ontology_router")
 
@@ -25,6 +32,9 @@ router = APIRouter(tags=["Ontology & Rules"])
 _REF_DIR = pathlib.Path(__file__).parent / "reference"
 _OVERRIDES_DIR = _REF_DIR / "overrides"
 _OVERRIDES_DIR.mkdir(parents=True, exist_ok=True)
+
+# Temporary storage for Excel upload previews (token -> parsed data)
+_excel_preview_store: Dict[str, dict] = {}
 
 # ── File registry (base name → JSON filename) ────────────────────────────────
 _COPE_FILES = {
@@ -371,6 +381,372 @@ def delete_version(cope_type: str, version_id: str):
     target.unlink()
     logger.info(f"Deleted ontology override: {target}")
     return {"status": "ok", "deleted": version_id}
+
+
+# ── Manual Entry Addition ────────────────────────────────────────────────────────
+
+def _save_override_and_merge(cope_type: str, fmt: str, parsed: dict) -> str:
+    """Write entries to an override JSON file and merge into live registry. Returns version_id."""
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    existing_versions = _list_override_files(cope_type, fmt)
+    version_num = len(existing_versions) + 1
+    override_filename = f"{cope_type}_{fmt.lower()}_v{version_num}_{ts}.json"
+    override_path = _OVERRIDES_DIR / override_filename
+    override_path.write_text(json.dumps(parsed, indent=2, ensure_ascii=False), encoding="utf-8")
+    logger.info(f"Saved ontology override: {override_path} ({len(parsed)} entries)")
+
+    # Merge into live in-memory registries
+    try:
+        import agents.cat.code_mapper as code_mapper
+        registry = None
+        if cope_type == "construction" and fmt == "AIR":
+            registry = code_mapper._const_codes
+        elif cope_type == "construction" and fmt == "RMS":
+            registry = code_mapper._rms_const_codes
+        elif cope_type == "occupancy" and fmt == "AIR":
+            registry = code_mapper._occ_codes
+        elif cope_type == "occupancy" and fmt == "RMS":
+            registry = code_mapper._rms_occ_codes
+
+        if registry is not None:
+            for code, meta in parsed.items():
+                if code.startswith("_"):
+                    continue
+                if code in registry:
+                    existing_kw = registry[code].get("keywords", [])
+                    new_kw = meta.get("keywords", [])
+                    registry[code]["keywords"] = list(dict.fromkeys(existing_kw + new_kw))
+                else:
+                    registry[code] = meta
+    except Exception as e:
+        logger.warning(f"Could not merge into live registry: {e}")
+
+    return override_filename
+
+
+_VALID_EXPOSURE_SECTIONS = [
+    "roof_cover", "wall_type", "foundation_type", "soft_story",
+    "rms_roofsys", "rms_cladsys",
+]
+
+
+@router.post("/ontology/entry/{cope_type}", response_model=AddEntryResponse)
+def add_entry(
+    cope_type: str,
+    body: AddEntryRequest,
+    format: str = Query("AIR", pattern="^(AIR|RMS)$"),
+):
+    """Add a single dictionary entry with duplicate detection."""
+    if cope_type not in _COPE_FILES:
+        raise HTTPException(status_code=400, detail=f"Invalid cope_type: {cope_type}")
+
+    code = body.code.strip()
+    if not code:
+        raise HTTPException(status_code=422, detail="Code is required.")
+    if code.startswith("_"):
+        raise HTTPException(status_code=422, detail="Code cannot start with underscore.")
+    if not body.description.strip():
+        raise HTTPException(status_code=422, detail="Description is required.")
+    if cope_type == "exposure" and not body.section:
+        raise HTTPException(status_code=422, detail="Section is required for exposure entries.")
+    if cope_type == "exposure" and body.section not in _VALID_EXPOSURE_SECTIONS:
+        raise HTTPException(status_code=422, detail=f"Invalid section: {body.section}. Must be one of: {_VALID_EXPOSURE_SECTIONS}")
+
+    new_entry = {
+        code: {
+            "description": body.description.strip(),
+            "keywords": [kw.strip() for kw in body.keywords if kw.strip()],
+        }
+    }
+
+    # Duplicate check (unless force=True)
+    if not body.force:
+        existing_data = _load_with_overrides(cope_type, format)
+        dupes = find_duplicates(new_entry, existing_data, cope_type)
+        if dupes:
+            matches = dupes.get(code, [])
+            return AddEntryResponse(
+                status="duplicates_found",
+                entry_saved=False,
+                duplicates=[
+                    DuplicateMatchSchema(**m.model_dump()) for m in matches
+                ],
+            )
+
+    # Save as override
+    version_id = _save_override_and_merge(cope_type, format, new_entry)
+
+    return AddEntryResponse(
+        status="ok",
+        entry_saved=True,
+        version_id=version_id,
+    )
+
+
+# ── Delete Entry ─────────────────────────────────────────────────────────────────
+
+@router.delete("/ontology/entry/{cope_type}/{code}")
+def delete_entry(
+    cope_type: str,
+    code: str,
+    format: str = Query("AIR", pattern="^(AIR|RMS)$"),
+):
+    """Delete a single code entry from the dictionary.
+
+    Removes the code from:
+    1. All override files for this cope_type+format
+    2. The base reference JSON file
+    3. The live in-memory registry (if loaded)
+    """
+    if cope_type not in _COPE_FILES:
+        raise HTTPException(status_code=400, detail=f"Invalid cope_type: {cope_type}")
+
+    removed_from = []
+
+    # 1. Remove from override files
+    prefix = f"{cope_type}_{format.lower()}_"
+    for f in _OVERRIDES_DIR.iterdir():
+        if f.name.startswith(prefix) and f.suffix == ".json":
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+                if code in data:
+                    del data[code]
+                    f.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+                    removed_from.append(f"override:{f.name}")
+            except Exception as e:
+                logger.warning(f"Failed to clean override {f}: {e}")
+
+    # 2. Remove from base reference file
+    files = _COPE_FILES.get(cope_type, {})
+    filename = files.get(format) or files.get("ALL")
+    if filename:
+        base_path = _REF_DIR / filename
+        if base_path.exists():
+            try:
+                base_data = json.loads(base_path.read_text(encoding="utf-8"))
+                if code in base_data:
+                    del base_data[code]
+                    base_path.write_text(json.dumps(base_data, indent=2, ensure_ascii=False), encoding="utf-8")
+                    removed_from.append(f"base:{filename}")
+            except Exception as e:
+                logger.warning(f"Failed to clean base file {base_path}: {e}")
+
+    # 3. Remove from live in-memory registry
+    try:
+        import agents.cat.code_mapper as code_mapper
+        registry = None
+        if cope_type == "construction" and format == "AIR":
+            registry = code_mapper._const_codes
+        elif cope_type == "construction" and format == "RMS":
+            registry = code_mapper._rms_const_codes
+        elif cope_type == "occupancy" and format == "AIR":
+            registry = code_mapper._occ_codes
+        elif cope_type == "occupancy" and format == "RMS":
+            registry = code_mapper._rms_occ_codes
+
+        if registry is not None and code in registry:
+            del registry[code]
+            removed_from.append("live_registry")
+    except Exception as e:
+        logger.warning(f"Could not remove from live registry: {e}")
+
+    if not removed_from:
+        raise HTTPException(status_code=404, detail=f"Code '{code}' not found in {cope_type}/{format}.")
+
+    logger.info(f"Deleted code '{code}' from {cope_type}/{format}: {removed_from}")
+    return {
+        "status": "ok",
+        "deleted_code": code,
+        "removed_from": removed_from,
+    }
+
+
+# ── Excel Upload with Duplicate Handling ─────────────────────────────────────────
+
+@router.post("/ontology/upload-excel/{cope_type}", response_model=ExcelUploadResponse)
+async def upload_excel(
+    cope_type: str,
+    format: str = Query("AIR", pattern="^(AIR|RMS)$"),
+    file: UploadFile = File(...),
+):
+    """Upload an Excel/CSV file, validate entries, detect duplicates, and return a preview."""
+    if cope_type not in _COPE_FILES:
+        raise HTTPException(status_code=400, detail=f"Invalid cope_type: {cope_type}")
+
+    content = await file.read()
+    fname = (file.filename or "").lower()
+
+    # Parse file into DataFrame
+    try:
+        if fname.endswith((".xlsx", ".xls")):
+            df = pd.read_excel(io.BytesIO(content), dtype=str, keep_default_na=False, sheet_name=0)
+        elif fname.endswith(".csv"):
+            try:
+                df = pd.read_csv(io.BytesIO(content), dtype=str, keep_default_na=False)
+            except UnicodeDecodeError:
+                df = pd.read_csv(io.BytesIO(content), dtype=str, keep_default_na=False, encoding="latin-1")
+        elif fname.endswith(".json"):
+            parsed_json = json.loads(content.decode("utf-8"))
+            # Convert JSON dict to DataFrame
+            rows = []
+            for c, meta in parsed_json.items():
+                if c.startswith("_"):
+                    continue
+                rows.append({
+                    "Code": c,
+                    "Description": meta.get("description", "") if isinstance(meta, dict) else str(meta),
+                    "Keywords": "; ".join(meta.get("keywords", [])) if isinstance(meta, dict) else "",
+                })
+            df = pd.DataFrame(rows)
+        else:
+            raise HTTPException(status_code=400, detail="Unsupported file type. Upload XLSX, CSV, or JSON.")
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"File parsing error: {exc}")
+
+    if df.empty:
+        raise HTTPException(status_code=400, detail="File contains no data rows.")
+
+    # Normalize column names
+    df.columns = [str(c).strip() for c in df.columns]
+
+    # Validate required columns
+    has_code = "Code" in df.columns
+    has_desc = "Description" in df.columns
+    if not has_code or not has_desc:
+        missing = []
+        if not has_code:
+            missing.append("Code")
+        if not has_desc:
+            missing.append("Description")
+        raise HTTPException(
+            status_code=400,
+            detail=f"Missing required columns: {', '.join(missing)}. Expected columns: Code, Description, Keywords",
+        )
+
+    # Parse and validate each row
+    parsed: Dict[str, dict] = {}
+    validation_errors: List[dict] = []
+    is_exposure = cope_type == "exposure"
+
+    for idx, row in df.iterrows():
+        row_num = idx + 2  # 1-indexed + header row
+        code = str(row.get("Code", "")).strip()
+        desc = str(row.get("Description", "")).strip()
+        keywords_raw = str(row.get("Keywords", "")).strip()
+        section = str(row.get("Section", "")).strip() if is_exposure else None
+
+        # Skip completely empty rows
+        if not code and not desc:
+            continue
+
+        # Validate
+        if not code:
+            validation_errors.append({"row": row_num, "field": "Code", "error": "Code is required"})
+            continue
+        if code.startswith("_"):
+            validation_errors.append({"row": row_num, "field": "Code", "error": "Code cannot start with underscore"})
+            continue
+        if not desc:
+            validation_errors.append({"row": row_num, "field": "Description", "error": "Description is required"})
+            continue
+        if is_exposure and not section:
+            validation_errors.append({"row": row_num, "field": "Section", "error": "Section is required for exposure"})
+            continue
+        if is_exposure and section not in _VALID_EXPOSURE_SECTIONS:
+            validation_errors.append({"row": row_num, "field": "Section", "error": f"Invalid section: {section}"})
+            continue
+
+        keywords = [kw.strip() for kw in re.split(r"[;,]", keywords_raw) if kw.strip()]
+        entry = {"description": desc, "keywords": keywords}
+        if is_exposure and section:
+            entry["section"] = section
+        parsed[code] = entry
+
+    if not parsed and validation_errors:
+        return ExcelUploadResponse(
+            status="validation_error",
+            total_entries=len(df),
+            valid_entries=0,
+            validation_errors=validation_errors,
+        )
+
+    # Detect internal duplicates
+    internal_dupes = find_internal_duplicates(parsed)
+
+    # Detect duplicates against existing data
+    existing_data = _load_with_overrides(cope_type, format)
+    external_dupes = find_duplicates(parsed, existing_data, cope_type)
+
+    # Separate clean entries from duplicates
+    duplicate_codes = set(external_dupes.keys())
+    clean_entries = {k: v for k, v in parsed.items() if k not in duplicate_codes}
+
+    # Build duplicate detail for response
+    duplicates_detail = {}
+    for code, matches in external_dupes.items():
+        duplicates_detail[code] = {
+            "new_entry": parsed[code],
+            "matches": [m.model_dump() for m in matches],
+        }
+
+    # Store for later commit
+    preview_token = str(uuid.uuid4())[:12]
+    _excel_preview_store[preview_token] = {
+        "cope_type": cope_type,
+        "format": format,
+        "clean_entries": clean_entries,
+        "all_parsed": parsed,
+        "created_at": datetime.now().isoformat(),
+    }
+
+    has_dupes = bool(external_dupes) or bool(internal_dupes)
+
+    return ExcelUploadResponse(
+        status="duplicates_found" if has_dupes else "ok",
+        total_entries=len(df),
+        valid_entries=len(parsed),
+        validation_errors=validation_errors,
+        duplicates=duplicates_detail,
+        internal_duplicates=internal_dupes,
+        clean_entries=clean_entries,
+        preview_token=preview_token,
+    )
+
+
+# ── Commit Resolved Entries ──────────────────────────────────────────────────────
+
+@router.post("/ontology/commit/{cope_type}")
+def commit_entries(
+    cope_type: str,
+    body: CommitEntriesRequest,
+):
+    """Commit a set of resolved entries (from manual add or Excel upload review)."""
+    if cope_type not in _COPE_FILES:
+        raise HTTPException(status_code=400, detail=f"Invalid cope_type: {cope_type}")
+
+    fmt = body.format
+    entries = body.entries
+
+    if not entries:
+        raise HTTPException(status_code=422, detail="No entries to commit.")
+
+    # Validate entries
+    for code, meta in entries.items():
+        if not code.strip():
+            raise HTTPException(status_code=422, detail="Entry has empty code.")
+        if not meta.get("description", "").strip():
+            raise HTTPException(status_code=422, detail=f"Entry '{code}' has no description.")
+
+    version_id = _save_override_and_merge(cope_type, fmt, entries)
+
+    return {
+        "status": "ok",
+        "version_id": version_id,
+        "entries_committed": len(entries),
+        "source": body.source,
+    }
 
 
 # ── Rules Config ─────────────────────────────────────────────────────────────────
