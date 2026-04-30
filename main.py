@@ -48,10 +48,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger("main")
 
-# ── LLM Summary Generator ─────────────────────────────────────────────────────
-import google.generativeai as genai
+# ── LLM Summary Generator (LangChain ChatOpenAI) ──────────────────────────────
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
 
-_SUMMARY_MODEL: Optional[genai.GenerativeModel] = None
+_SUMMARY_LLM: Optional[ChatOpenAI] = None
 
 _SUMMARY_SYSTEM = (
     "You are a senior insurance data analyst. Given pipeline transformation stats, "
@@ -67,41 +68,53 @@ _SUMMARY_SYSTEM = (
 
 
 def _init_summary_model() -> None:
-    """Initialize the Gemini model for pipeline summary generation."""
-    global _SUMMARY_MODEL
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY", "")
+    """Initialize the ChatOpenAI model for pipeline summary generation."""
+    global _SUMMARY_LLM
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    base_url = os.getenv("OPENAI_BASE_URL", None)
+    model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+
     if not api_key:
-        logger.warning("No API key found (tried GEMINI_API_KEY and GOOGLE_API_KEY), LLM summaries disabled.")
+        logger.warning("No OPENAI_API_KEY found, LLM summaries disabled.")
         return
-    genai.configure(api_key=api_key)
-    _SUMMARY_MODEL = genai.GenerativeModel(
-        "gemini-3.1-flash-lite-preview",
-        system_instruction=_SUMMARY_SYSTEM,
-        generation_config=genai.GenerationConfig(
-            response_mime_type="application/json",
-            temperature=0.7,
-        ),
-    )
-    logger.info("Summary LLM model initialized (gemini-3.1-flash-lite-preview).")
+
+    kwargs = {
+        "model": model,
+        "api_key": api_key,
+        "temperature": 0.7,
+    }
+    if base_url:
+        kwargs["base_url"] = base_url
+
+    _SUMMARY_LLM = ChatOpenAI(**kwargs)
+    logger.info(f"Summary LLM initialized (ChatOpenAI model={model}, base_url={base_url or 'default'}).")
 
 
 def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: str) -> str:
     """
-    Call Gemini to generate a list of key-point summaries from pipeline stats.
+    Call ChatOpenAI to generate a list of key-point summaries from pipeline stats.
     Returns a JSON string containing the points array, or fallback_text on failure.
     """
-    if _SUMMARY_MODEL is None:
+    if _SUMMARY_LLM is None:
         return fallback_text
 
     step_label = ("Occupancy & Construction Code Mapping"
                   if step_name == "code_mapping"
                   else "Value Normalization")
-    prompt = f"Summarize the {step_label} step.\n\nSTATS:\n{json.dumps(stats_context, indent=2, default=str)}\n\nWrite 4-6 key insight bullet points."
+    user_prompt = (
+        f"Summarize the {step_label} step.\n\n"
+        f"STATS:\n{json.dumps(stats_context, indent=2, default=str)}\n\n"
+        f"Write 4-6 key insight bullet points."
+    )
 
     try:
-        response = _SUMMARY_MODEL.generate_content(prompt)
-        raw_text = response.text.strip()
-        
+        messages = [
+            SystemMessage(content=_SUMMARY_SYSTEM),
+            HumanMessage(content=user_prompt),
+        ]
+        response = _SUMMARY_LLM.invoke(messages)
+        raw_text = response.content.strip()
+
         # Strip potential markdown formatting (```json ... ```)
         if raw_text.startswith("```json"):
             raw_text = raw_text.replace("```json", "", 1)
@@ -114,90 +127,24 @@ def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: st
         logger.info(f"LLM Raw Response: {raw_text}")
 
         parsed = json.loads(raw_text)
-        
-        # Support both new 'points' format and legacy 'summary' format
+
+        # Support both 'points' array and legacy 'summary' string
         points = parsed.get("points", [])
         if points and isinstance(points, list):
             logger.info(f"LLM summary generated for {step_name} ({len(points)} points).")
             return json.dumps({"points": points})
-        
-        # Fallback: if legacy 'summary' string returned, split into points
+
         summary = parsed.get("summary", "").strip()
         if summary:
             logger.info(f"LLM returned legacy summary for {step_name}, converting to points.")
             sentences = [s.strip() for s in summary.replace(". ", ".\n").split("\n") if s.strip()]
             return json.dumps({"points": sentences})
-        
+
         logger.warning(f"LLM returned JSON without 'points' or 'summary' key: {parsed}")
         return fallback_text
     except Exception as e:
         logger.error(f"LLM summary generation FAILED for {step_name}: {type(e).__name__}: {e}", exc_info=True)
         return fallback_text
-
-
-
-
-    if step_name == "code_mapping":
-        prompt = f"""Summarize the Occupancy & Construction Code Mapping step of the SOV pipeline.
-
-TRANSFORMATION CONTEXT:
-{json.dumps(stats_context, indent=2, default=str)}
-
-Write 3-4 sections:
-1. "Overview" (accent=blue) â€” high-level summary of what was accomplished, total rows processed, success rate
-2. "Occupancy Classification" (accent=violet) â€” how occupancy codes were mapped, method breakdown, top mapped codes
-3. "Construction Classification" (accent=emerald) â€” how construction codes were mapped, method breakdown, top mapped codes  
-4. "Data Quality" (accent=amber) â€” only if there are flags; frame constructively
-
-For each method mention the percentage and what it means (e.g., "deterministic rules" = exact keyword match, "Gemini LLM" = AI classification, "TF-IDF" = similarity matching).
-Highlight the most interesting transformations from the sample_mappings."""
-
-    elif step_name == "normalization":
-        prompt = f"""Summarize the Value Normalization step of the SOV pipeline.
-
-TRANSFORMATION CONTEXT:
-{json.dumps(stats_context, indent=2, default=str)}
-
-Write 4-6 sections covering:
-1. "Overview" (accent=blue) â€” high-level: total rows, total fields normalized, flag count
-2. "Year & Building Attributes" (accent=indigo) â€” year built, stories, building count normalization
-3. "Floor Area & Geometry" (accent=teal) â€” area field cleaning, unit conversions
-4. "TIV & Financial Values" (accent=emerald) â€” building/contents/BI value parsing, shorthand expansion ($2.5M â†’ $2,500,000)
-5. "Currency & Compliance" (accent=yellow) â€” currency code resolution
-6. "Secondary Modifiers" (accent=rose) â€” only if modifier data exists; sprinkler, roof, wall, foundation mapping
-
-Highlight specific transformations: ranges resolved, textâ†’integer conversions, shorthand notation expanded.
-Frame the summary around data quality improvement and CAT model readiness."""
-
-    else:
-        return fallback_sections
-
-    try:
-        response = _SUMMARY_MODEL.generate_content(prompt)
-        raw_text = response.text.strip()
-        parsed = json.loads(raw_text)
-        sections = parsed.get("sections", [])
-        if not sections:
-            logger.warning("LLM returned empty sections, using fallback.")
-            return fallback_sections
-
-        result: List[AISummarySection] = []
-        for sec in sections:
-            heading = sec.get("heading", "")
-            bullets = sec.get("bullets", [])
-            accent = sec.get("accent", "blue")
-            if heading and bullets:
-                result.append(AISummarySection(heading=heading, bullets=bullets, accent=accent))
-
-        if not result:
-            return fallback_sections
-
-        logger.info(f"LLM summary generated for {step_name}: {len(result)} sections.")
-        return result
-
-    except Exception as e:
-        logger.warning(f"LLM summary generation failed for {step_name}: {type(e).__name__}: {e}. Using fallback.")
-        return fallback_sections
 
 # Global event queues for SSE
 _event_queues: Dict[str, List[asyncio.Queue]] = {}
