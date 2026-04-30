@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 from fastapi.responses import StreamingResponse
+from pydantic import BaseModel as _BaseModel
 
 from rules import BusinessRulesConfig
 from duplicate_detector import find_duplicates, find_internal_duplicates
@@ -558,6 +559,109 @@ def delete_entry(
         "status": "ok",
         "deleted_code": code,
         "removed_from": removed_from,
+    }
+
+
+# ── Edit Entry ───────────────────────────────────────────────────────────────────
+
+class _EditEntryBody(_BaseModel):
+    description: str
+    keywords: List[str] = []
+
+@router.put("/ontology/entry/{cope_type}/{code}")
+def edit_entry(
+    cope_type: str,
+    code: str,
+    body: _EditEntryBody,
+    format: str = Query("AIR", pattern="^(AIR|RMS)$"),
+):
+    """Update an existing dictionary entry's description and keywords in-place.
+
+    Writes through to:
+    1. Base reference JSON file
+    2. All override files containing this code
+    3. Live in-memory registry (if loaded)
+    """
+    if cope_type not in _COPE_FILES:
+        raise HTTPException(status_code=400, detail=f"Invalid cope_type: {cope_type}")
+    if not body.description.strip():
+        raise HTTPException(status_code=422, detail="Description is required.")
+
+    updated_in = []
+    new_meta = {
+        "description": body.description.strip(),
+        "keywords": [kw.strip() for kw in body.keywords if kw.strip()],
+    }
+
+    # 1. Update base reference file
+    files = _COPE_FILES.get(cope_type, {})
+    filename = files.get(format) or files.get("ALL")
+    if filename:
+        base_path = _REF_DIR / filename
+        if base_path.exists():
+            try:
+                base_data = json.loads(base_path.read_text(encoding="utf-8"))
+                if code in base_data:
+                    if isinstance(base_data[code], dict):
+                        base_data[code]["description"] = new_meta["description"]
+                        base_data[code]["keywords"] = new_meta["keywords"]
+                    else:
+                        base_data[code] = new_meta
+                    base_path.write_text(json.dumps(base_data, indent=2, ensure_ascii=False), encoding="utf-8")
+                    updated_in.append(f"base:{filename}")
+            except Exception as e:
+                logger.warning(f"Failed to update base file {base_path}: {e}")
+
+    # 2. Update override files
+    prefix = f"{cope_type}_{format.lower()}_"
+    for f in _OVERRIDES_DIR.iterdir():
+        if f.name.startswith(prefix) and f.suffix == ".json":
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+                if code in data:
+                    if isinstance(data[code], dict):
+                        data[code]["description"] = new_meta["description"]
+                        data[code]["keywords"] = new_meta["keywords"]
+                    else:
+                        data[code] = new_meta
+                    f.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+                    updated_in.append(f"override:{f.name}")
+            except Exception as e:
+                logger.warning(f"Failed to update override {f}: {e}")
+
+    # 3. Update live in-memory registry
+    try:
+        import agents.cat.code_mapper as code_mapper
+        registry = None
+        if cope_type == "construction" and format == "AIR":
+            registry = code_mapper._const_codes
+        elif cope_type == "construction" and format == "RMS":
+            registry = code_mapper._rms_const_codes
+        elif cope_type == "occupancy" and format == "AIR":
+            registry = code_mapper._occ_codes
+        elif cope_type == "occupancy" and format == "RMS":
+            registry = code_mapper._rms_occ_codes
+
+        if registry is not None and code in registry:
+            if isinstance(registry[code], dict):
+                registry[code]["description"] = new_meta["description"]
+                registry[code]["keywords"] = new_meta["keywords"]
+            else:
+                registry[code] = new_meta
+            updated_in.append("live_registry")
+    except Exception as e:
+        logger.warning(f"Could not update live registry: {e}")
+
+    if not updated_in:
+        # Code not found anywhere — create as override
+        version_id = _save_override_and_merge(cope_type, format, {code: new_meta})
+        updated_in.append(f"new_override:{version_id}")
+
+    logger.info(f"Edited code '{code}' in {cope_type}/{format}: {updated_in}")
+    return {
+        "status": "ok",
+        "code": code,
+        "updated_in": updated_in,
     }
 
 
