@@ -196,6 +196,10 @@ app.add_middleware(
 from ontology_router import router as ontology_api_router
 app.include_router(ontology_api_router, prefix="/api")
 
+# ── EP Curve Generation API ──────────────────────────────────────────────────────
+from ep_curve_router import router as ep_curve_api_router
+app.include_router(ep_curve_api_router, prefix="/api")
+
 # â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _get_session_or_404(upload_id: str) -> dict:

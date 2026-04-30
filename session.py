@@ -29,8 +29,17 @@ def create_session(data: dict) -> str:
                 "geocoding": False,
                 "code_mapping": False,
                 "normalization": False,
+                "hazard_assessment": False,
+                "ep_curve": False,
             },
             "flags": [],
+            # EP Curve Generation fields
+            "ep_policy_rows": [],
+            "ep_policy_headers": [],
+            "ep_policy_file_name": None,
+            "ep_frequency_config": {},
+            "ep_peril_config": {},
+            "ep_curve_result": {},
             **data,
         }
     return upload_id
