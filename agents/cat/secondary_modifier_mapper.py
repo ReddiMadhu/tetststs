@@ -1,4 +1,4 @@
-﻿"""
+"""
 secondary_modifier_mapper.py
 ----------------------------
 Lightweight standalone mapper for AIR and RMS secondary modifier fields.
@@ -205,9 +205,10 @@ def _llm_classify(
 ) -> Optional[int]:
     """
     Minimal LLM call â€” returns a single integer code or None on failure.
-    Uses plain text output (not JSON) to minimise latency and hallucination.
+    Uses plain text output to minimise latency and hallucination.
     """
-    code_list = "\n".join(f"  {k}: {v}" for k, v in codes.items())
+    from langchain_core.messages import HumanMessage
+    code_list   = "\n".join(f"  {k}: {v}" for k, v in codes.items())
     field_label = field.replace("_", " ")
     prompt = (
         f"You are an expert at classifying building characteristics.\n"
@@ -278,16 +279,23 @@ class SecondaryModifierMapper:
             if llm_client:
                 self._llm_client = llm_client
             else:
-                api_key = os.getenv("GEMINI_API_KEY", "")
-                if api_key:
+                azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "")
+                api_key        = os.getenv("AZURE_OPENAI_API_KEY", "")
+                if azure_endpoint and api_key:
                     try:
-                        import google.genai as genai
-                        self._llm_client = genai.Client(api_key=api_key)
-                        logger.info("SecondaryModifierMapper: LLM stage active.")
+                        from langchain_openai import AzureChatOpenAI
+                        self._llm_client = AzureChatOpenAI(
+                            azure_endpoint=azure_endpoint,
+                            api_key=api_key,
+                            azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini"),
+                            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
+                            temperature=0,
+                        )
+                        logger.info("SecondaryModifierMapper: Azure ChatOpenAI LLM stage active.")
                     except ImportError:
-                        logger.warning("google-genai not installed. LLM stage disabled.")
+                        logger.warning("langchain-openai not installed. LLM stage disabled.")
                 else:
-                    logger.debug("GEMINI_API_KEY not set. LLM stage disabled.")
+                    logger.debug("AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY not set. LLM stage disabled.")
 
     # â”€â”€ AIR per-field convenience methods â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 

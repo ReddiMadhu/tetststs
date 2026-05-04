@@ -1,4 +1,4 @@
-﻿"""
+"""
 column_mapper.py â€” Fuzzy + Gemini LLM column mapping using a LangGraph pipeline.
 
 Graph: fuzzy_matching â†’ extract_llm_candidates â†’ llm_matching â†’ merge_results
@@ -13,7 +13,8 @@ import os
 import re
 from typing import Any, Dict, List, Optional, TypedDict
 
-import google.generativeai as genai
+from langchain_openai import AzureChatOpenAI
+from langchain_core.messages import HumanMessage
 from langgraph.graph import END, StateGraph
 from rapidfuzz import fuzz, process
 
@@ -22,11 +23,7 @@ import agents.cat.mapping_memory as mapping_memory
 logger = logging.getLogger("column_mapper")
 
 # â”€â”€ Gemini setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-genai.configure(api_key=os.getenv("GEMINI_API_KEY", ""))
-_gemini_model = genai.GenerativeModel(
-    "gemini-3.1-flash-lite-preview",
-    generation_config={"response_mime_type": "application/json"},
-)
+
 
 # â”€â”€ AIR canonical fields + aliases â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 AIR_CANONICAL_FIELDS: Dict[str, List[str]] = {
@@ -681,10 +678,33 @@ def _node_extract_llm_candidates(state: ColumnMappingState) -> ColumnMappingStat
     return {**state, "llm_candidates": candidates}
 
 
+def _get_llm_model() -> Optional[AzureChatOpenAI]:
+    """Lazy-init Azure ChatOpenAI for column mapping (JSON mode)."""
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "")
+    api_key        = os.getenv("AZURE_OPENAI_API_KEY", "")
+    deployment     = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
+    api_version    = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01")
+    if not azure_endpoint or not api_key:
+        return None
+    return AzureChatOpenAI(
+        azure_endpoint=azure_endpoint,
+        api_key=api_key,
+        azure_deployment=deployment,
+        api_version=api_version,
+        temperature=0.3,
+        model_kwargs={"response_format": {"type": "json_object"}},
+    )
+
+
 def _node_llm_matching(state: ColumnMappingState) -> ColumnMappingState:
-    """Batch-call Gemini for all LLM candidate columns in one request."""
+    """Batch-call Azure ChatOpenAI for all LLM candidate columns in one request."""
     candidates = state["llm_candidates"]
     if not candidates:
+        return {**state, "llm_results": {}}
+
+    llm = _get_llm_model()
+    if not llm:
+        logger.warning("Azure ChatOpenAI not configured. Skipping LLM column matching.")
         return {**state, "llm_results": {}}
 
     registry = _get_canonical_registry(state["target_format"])
@@ -722,8 +742,8 @@ Rules:
 
     llm_results: Dict[str, Dict] = {}
     try:
-        response = _gemini_model.generate_content(prompt)
-        parsed = json.loads(response.text)
+        response = llm.invoke([HumanMessage(content=prompt)])
+        parsed = json.loads(response.content)
         for i, col in enumerate(candidates):
             entry = parsed.get(str(i + 1), {})
             llm_results[col] = {

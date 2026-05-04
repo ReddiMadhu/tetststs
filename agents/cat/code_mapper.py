@@ -29,7 +29,8 @@ import re
 import time
 from typing import Any, Dict, List, Literal, Optional, Tuple, TypedDict
 
-import google.generativeai as genai
+from langchain_openai import AzureChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import END, StateGraph
 from pydantic import BaseModel, Field, ValidationError
 from sklearn.metrics.pairwise import cosine_similarity
@@ -39,7 +40,7 @@ from rules import BusinessRulesConfig
 
 logger = logging.getLogger("code_mapper")
 
-# â”€â”€ Gemini rate limiter (15 calls / 60 s sliding window) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── LLM rate limiter (15 calls / 60 s sliding window) ──────────────────────────────────
 _RATE_LIMIT_CALLS = 15
 _RATE_LIMIT_WINDOW = 60.0   # seconds
 _gemini_call_times: collections.deque = collections.deque()
@@ -70,12 +71,12 @@ def _rate_limit_gemini() -> None:
     _gemini_call_times.append(time.monotonic())
 
 
-# â”€â”€ Paths â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Paths ─────────────────────────────────────────────────────────────────────────────
 _BASE = pathlib.Path(__file__).parent  # agents/cat/
 _REF_DIR = _BASE.parent.parent / "reference"  # backend/reference/
 _TFIDF_DIR = _BASE / "tfidf_cache"  # agents/cat/tfidf_cache/
 
-# â”€â”€ Module-level singletons (populated at startup) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Module-level singletons (populated at startup) ────────────────────────────────
 _occ_codes: Dict[str, Dict] = {}
 _const_codes: Dict[str, Dict] = {}
 _rms_occ_codes: Dict[str, Dict] = {}
@@ -91,10 +92,10 @@ _const_raw_lookup: Dict[str, Dict] = {}     # normalized_raw_str â†’ {bldgc
 
 _tfidf_indexes: Dict[str, Dict] = {}        # key: "air_occ", "air_const", "rms_occ", "rms_const"
 
-# â”€â”€ Conflict Resolver singleton â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Conflict Resolver singleton ───────────────────────────────────────────────────
 _conflict_resolver = ConflictResolver()
 
-# â”€â”€ ATC / RMS Occupancy scheme detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── ATC / RMS Occupancy scheme detection ──────────────────────────────────────────
 # In the actual data (sample rows 2-115):
 #   RMS Occ Scheme column = "ATC"  (the scheme label)
 #   RMS Occ Code column   = 1-54   (the RMS/ATC numeric class number)
@@ -114,14 +115,14 @@ _ATC_SCHEME_NAMES_OCC_ONLY = {
     "RMS", "RMS_OCC", "RMS_OCC_CODE", "RMSATC",
 }
 
-# â”€â”€ ISO auto-detect label set â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── ISO auto-detect label set ─────────────────────────────────────────────────────
 _ISO_EXACT_LABELS = {
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
     "F", "JM", "NC", "MNC", "MFR", "FR", "HTJM", "SNC", "SMNC",
 }
 _ISO_SCHEME_NAMES = {"ISO", "ISO_CLASS", "FIRE_CLASS", "ISF", "ISO_FIRE_CLASS"}
 
-# â”€â”€ Gemini Structured Output Schemas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Gemini Structured Output Schemas ──────────────────────────────────────────────
 
 # Dynamic enum types built at startup from loaded code registries
 # (defined here typed broadly; exact Literal built in build_tfidf_indexes)
@@ -162,8 +163,8 @@ class _LLMBatchResult(BaseModel):
     items: List[_LLMCodeResult]
 
 
-# â”€â”€ Gemini model (configured at startup after codes are loaded) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-_gemini_model: Optional[genai.GenerativeModel] = None
+# ── Azure ChatOpenAI model (configured at startup after codes are loaded) ──────────
+_llm_model: Optional[AzureChatOpenAI] = None
 
 _LLM_SYSTEM_INSTRUCTION = """You are a licensed insurance structural risk analyst classifying property construction data.
 
@@ -208,25 +209,33 @@ IMPORTANT CONSTRAINTS:
 """
 
 
-def _build_gemini_model(valid_codes: List[str]) -> None:
-    """Build the Gemini model with current valid codes. Called after codes are loaded."""
-    global _gemini_model
+def _build_llm_model(valid_codes: List[str]) -> None:
+    """Initialize Azure ChatOpenAI for construction/occupancy classification. Called at startup."""
+    global _llm_model
 
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY", ""))
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "")
+    api_key        = os.getenv("AZURE_OPENAI_API_KEY", "")
+    deployment     = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
+    api_version    = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01")
 
-    # Note: Gemini API's response_schema enforces valid JSON structure.
-    # The code enum enforcement is done via Pydantic post-validation.
-    # Temperature=0 ensures deterministic output for classification tasks.
-    _gemini_model = genai.GenerativeModel(
-        "gemini-3.1-flash-lite-preview",
-        system_instruction=_LLM_SYSTEM_INSTRUCTION,
-        generation_config=genai.GenerationConfig(
-            response_mime_type="application/json",
-            temperature=0.0,
-            top_p=0.1,
-        ),
+    if not azure_endpoint or not api_key:
+        logger.warning(
+            "AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY not set. "
+            "LLM classification stage disabled — TF-IDF will be used as fallback."
+        )
+        return
+
+    # JSON mode enforces structured output; Pydantic validates it as a second safety net.
+    # Temperature=0 ensures deterministic classification results.
+    _llm_model = AzureChatOpenAI(
+        azure_endpoint=azure_endpoint,
+        api_key=api_key,
+        azure_deployment=deployment,
+        api_version=api_version,
+        temperature=0.0,
+        model_kwargs={"response_format": {"type": "json_object"}},
     )
-    logger.info("Gemini model initialized with temperature=0, structured JSON mode.")
+    logger.info(f"Azure ChatOpenAI initialized for code_mapper (deployment={deployment}, temperature=0).")
 
 
 # ── Startup loader ────────────────────────────────────────────────────────────────
@@ -406,9 +415,9 @@ def build_tfidf_indexes() -> None:
         else:
             logger.warning(f"TF-IDF pkl not found: {p}. Run build_references.py first.")
 
-    # Initialize Gemini model with all valid codes
+    # Initialize Azure ChatOpenAI model with all valid codes
     all_codes = list(_const_codes.keys()) + list(_occ_codes.keys())
-    _build_gemini_model(all_codes)
+    _build_llm_model(all_codes)
 
     logger.info(
         f"Code mapper ready: {len(_occ_codes)} AIR occ, {len(_const_codes)} AIR const, "
@@ -618,7 +627,7 @@ def _score_code_candidate(text: str, code: str, meta: Dict) -> float:
 
     for kw in keywords:
         if kw == text:
-            score += 1.0       # Exact full match â€” highest priority
+            score += 1.0       # Exact full match — highest priority
         elif kw in text:
             # Weight by specificity: longer keyword phrases score higher
             score += 0.7 + (len(kw.split()) - 1) * 0.05
@@ -671,7 +680,7 @@ def _deterministic_classify(
     if was_expanded:
         confidence = max(0.0, confidence - 0.10)
 
-    # If top 2 scores are very close â†’ ambiguity â†’ lower confidence
+    # If top 2 scores are very close — ambiguity — lower confidence
     if len(scored) > 1:
         gap = scored[0][1] - scored[1][1]
         if gap < 0.2:
@@ -692,7 +701,7 @@ def _deterministic_classify(
 
 # â”€â”€ LLM helper: retry-with-fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-def _call_gemini_with_retry(
+def _call_llm_with_retry(
     prompt: str,
     valid_codes: List[str],
     max_retries: int = 2,
@@ -701,15 +710,22 @@ def _call_gemini_with_retry(
     Call Gemini with schema-constrained output and Pydantic validation.
     Returns parsed _LLMBatchResult or None on failure (fall through to TF-IDF).
     """
-    if _gemini_model is None:
-        logger.warning("Gemini model not initialized.")
+    from langchain_core.messages import SystemMessage, HumanMessage
+
+    if _llm_model is None:
+        logger.warning("Azure ChatOpenAI not initialised - LLM stage skipped, TF-IDF fallback active.")
         return None
+
+    messages = [
+        SystemMessage(content=_LLM_SYSTEM_INSTRUCTION),
+        HumanMessage(content=prompt),
+    ]
 
     for attempt in range(max_retries + 1):
         try:
             _rate_limit_gemini()   # enforce â‰¤15 calls/min before each attempt
-            response = _gemini_model.generate_content(prompt)
-            raw_text = response.text.strip()
+            response  = _llm_model.invoke(messages)
+            raw_text  = response.content.strip()
 
             # Pydantic parse + validate
             parsed = _LLMBatchResult.model_validate_json(raw_text)
@@ -1283,7 +1299,7 @@ RULES:
     pending_tfidf: List[int] = []
     error_log = list(state.get("error_log", []))
 
-    parsed = _call_gemini_with_retry(prompt, valid_codes)
+    parsed = _call_llm_with_retry(prompt, valid_codes)
 
     if parsed:
         print("\n" + "="*50)

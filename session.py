@@ -129,7 +129,9 @@ def list_sessions() -> list:
 # ── TTL Cleanup ───────────────────────────────────────────────────────────────
 
 def start_ttl_cleanup(ttl_seconds: int = SESSION_TTL_SECONDS, interval_seconds: int = 300) -> None:
-    """Start a background daemon thread that evicts expired sessions every `interval` seconds."""
+    """Start a background daemon thread that evicts expired sessions every `interval` seconds.
+    Also cleans up DuckDB stage tables and Azure Blob data for expired sessions.
+    """
     def _cleanup_loop():
         while True:
             time.sleep(interval_seconds)
@@ -141,11 +143,20 @@ def start_ttl_cleanup(ttl_seconds: int = SESSION_TTL_SECONDS, interval_seconds: 
                 ]
                 for sid in expired_ids:
                     del _store[sid]
+
             if expired_ids:
-                import logging
-                logging.getLogger("session").info(
-                    f"TTL cleanup: evicted {len(expired_ids)} expired session(s)"
+                import logging as _logging
+                _logger = _logging.getLogger("session")
+                _logger.info(
+                    f"TTL cleanup: evicting {len(expired_ids)} expired session(s)."
                 )
+                # Clean DuckDB stage tables and Azure Blob objects
+                try:
+                    from storage.data_store import delete_session_data
+                    for sid in expired_ids:
+                        delete_session_data(sid)
+                except Exception as exc:
+                    _logger.warning(f"TTL cleanup: data_store cleanup failed: {exc}")
 
     t = threading.Thread(target=_cleanup_loop, daemon=True, name="session-ttl-cleanup")
     t.start()
