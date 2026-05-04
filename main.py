@@ -48,11 +48,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger("main")
 
-# ── LLM Summary Generator (LangChain ChatOpenAI) ──────────────────────────────
-from langchain_openai import ChatOpenAI
+# ── LLM Summary Generator (LangChain AzureChatOpenAI) ──────────────────────────
+from langchain_openai import AzureChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
-_SUMMARY_LLM: Optional[ChatOpenAI] = None
+_SUMMARY_LLM: Optional[AzureChatOpenAI] = None
 
 _SUMMARY_SYSTEM = (
     "You are a senior insurance data analyst. Given pipeline transformation stats, "
@@ -68,26 +68,27 @@ _SUMMARY_SYSTEM = (
 
 
 def _init_summary_model() -> None:
-    """Initialize the ChatOpenAI model for pipeline summary generation."""
+    """Initialize the Azure ChatOpenAI model for pipeline summary generation."""
     global _SUMMARY_LLM
-    api_key = os.getenv("OPENAI_API_KEY", "")
-    base_url = os.getenv("OPENAI_BASE_URL", None)
-    model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "")
+    api_key        = os.getenv("AZURE_OPENAI_API_KEY", "")
+    deployment     = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
+    api_version    = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01")
 
-    if not api_key:
-        logger.warning("No OPENAI_API_KEY found, LLM summaries disabled.")
+    if not azure_endpoint or not api_key:
+        logger.warning("Azure ChatOpenAI not configured for summaries (missing endpoint or key).")
         return
 
-    kwargs = {
-        "model": model,
-        "api_key": api_key,
-        "temperature": 0.7,
-    }
-    if base_url:
-        kwargs["base_url"] = base_url
-
-    _SUMMARY_LLM = ChatOpenAI(**kwargs)
-    logger.info(f"Summary LLM initialized (ChatOpenAI model={model}, base_url={base_url or 'default'}).")
+    _SUMMARY_LLM = AzureChatOpenAI(
+        azure_endpoint=azure_endpoint,
+        api_key=api_key,
+        azure_deployment=deployment,
+        api_version=api_version,
+        temperature=0.7,
+        # JSON mode not strictly required for this specific prompt, but good for safety
+        model_kwargs={"response_format": {"type": "json_object"}},
+    )
+    logger.info(f"Summary LLM initialized (Azure deployment={deployment}).")
 
 
 def _generate_llm_summary(step_name: str, stats_context: dict, fallback_text: str) -> str:
