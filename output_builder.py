@@ -271,10 +271,13 @@ def _get_account_rows(rows: List[Dict[str, Any]], target_format: str) -> Tuple[L
 
 
 def build_account_xlsx(rows: List[Dict[str, Any]], target_format: str = "AIR") -> io.BytesIO:
-    """Build the Account output as an XLSX file."""
+    """Build the Account/Contract output as an XLSX file.
+    RMS format uses the name 'Contract File'; AIR uses 'Account File'.
+    """
     headers, acc_rows = _get_account_rows(rows, target_format)
     wb = Workbook(write_only=True)
-    ws = wb.create_sheet("Account")
+    sheet_name = "Contract" if target_format == "RMS" else "Account"
+    ws = wb.create_sheet(sheet_name)
 
     # Styled header row
     header_cells = []

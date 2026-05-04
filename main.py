@@ -1074,13 +1074,14 @@ def download_account(upload_id: str, format: str = Query("xlsx", pattern="^(xlsx
     target = session.get("target_format", "AIR")
     short_id = upload_id[:8]
 
+    file_prefix = "contract_output" if target == "RMS" else "account_output"
     if format == "txt":
         buf = build_account_tsv(final_rows, target)
-        filename = f"account_output_{short_id}.txt"
+        filename = f"{file_prefix}_{short_id}.txt"
         media_type = "text/tab-separated-values"
     else:
         buf = build_account_xlsx(final_rows, target)
-        filename = f"account_output_{short_id}.xlsx"
+        filename = f"{file_prefix}_{short_id}.xlsx"
         media_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
     logger.info(f"Session {upload_id}: account download requested ({format}), {len(final_rows)} source rows")
